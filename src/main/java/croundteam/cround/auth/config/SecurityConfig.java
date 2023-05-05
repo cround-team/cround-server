@@ -1,7 +1,7 @@
 package croundteam.cround.auth.config;
 
-import croundteam.cround.auth.exception.JwtAccessDeniedHandler;
-import croundteam.cround.auth.exception.JwtAuthenticationEntryPoint;
+import croundteam.cround.auth.application.oauth.CustomOAuth2UserService;
+import croundteam.cround.auth.application.oauth.OAuthSuccessHandler;
 import croundteam.cround.auth.filter.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +10,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -20,14 +18,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuthSuccessHandler oAuthSuccessHandler;
+
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncode() {
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -42,15 +38,29 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
-                .exceptionHandling()
-                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
-                .accessDeniedHandler(new JwtAccessDeniedHandler());
-
-        http
                 .authorizeRequests()
-                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/favicon.ico", "/error").permitAll()
+                .antMatchers("/login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members", "/api/members/login/token").permitAll()
                 .anyRequest().authenticated();
+
+        http
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService)
+                .and()
+                .successHandler(oAuthSuccessHandler);
+
+        http
+                .logout()
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/");
+
+//        http
+//                .exceptionHandling()
+//                .authenticationEntryPoint(new JwtAuthenticationEntryPoint());
+//                .accessDeniedHandler(new JwtAccessDeniedHandler());
 
         http
                 .addFilterBefore((tokenAuthenticationFilter()), UsernamePasswordAuthenticationFilter.class);
