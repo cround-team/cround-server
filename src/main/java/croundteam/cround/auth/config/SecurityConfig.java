@@ -1,6 +1,6 @@
 package croundteam.cround.auth.config;
 
-import croundteam.cround.auth.TokenAuthenticationFilter;
+import croundteam.cround.auth.presentation.TokenAuthenticationFilter;
 import croundteam.cround.auth.support.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
