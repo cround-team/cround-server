@@ -1,0 +1,22 @@
+package croundteam.cround.member.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
+import static croundteam.cround.common.dto.ValidatorMessage.EMPTY_MESSAGE;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class MemberLoginRequest {
+    @NotBlank(message = EMPTY_MESSAGE)
+    @Email
+    private String email;
+
+    @NotBlank(message = EMPTY_MESSAGE)
+    private String password;
+}
