@@ -3,6 +3,7 @@ package croundteam.cround.auth.support;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ public class TokenProvider {
     public static final String BEARER = "Bearer ";
     public static final String AUTHORIZATION = "Authorization";
 
+    @Value("${jwt.secret}")
     private String secretKey;
     private Key key;
 
