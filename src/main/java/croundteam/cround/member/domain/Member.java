@@ -1,8 +1,15 @@
 package croundteam.cround.member.domain;
 
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id
@@ -22,26 +29,15 @@ public class Member {
     @Column(nullable = false)
     private Role role;
 
-    protected Member() {
+    @Builder
+    public Member(String userName, String email, String password) {
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.role = Role.USER;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getRole() {
-        return role.getDesc();
+    public String getRoleName() {
+        return role.getName();
     }
 }

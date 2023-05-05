@@ -3,6 +3,7 @@ package croundteam.cround.auth.config;
 import croundteam.cround.auth.exception.JwtAccessDeniedHandler;
 import croundteam.cround.auth.exception.JwtAuthenticationEntryPoint;
 import croundteam.cround.auth.presentation.TokenAuthenticationFilter;
+import croundteam.cround.auth.support.BCryptEncoder;
 import croundteam.cround.auth.support.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -18,11 +21,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final TokenProvider tokenProvider;
-
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
         return new TokenAuthenticationFilter();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncode() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -44,6 +50,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()
+                .antMatchers("/api/members").permitAll()
                 .anyRequest().authenticated();
 
         http
