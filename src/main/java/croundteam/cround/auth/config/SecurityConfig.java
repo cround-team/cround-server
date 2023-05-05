@@ -2,12 +2,11 @@ package croundteam.cround.auth.config;
 
 import croundteam.cround.auth.exception.JwtAccessDeniedHandler;
 import croundteam.cround.auth.exception.JwtAuthenticationEntryPoint;
-import croundteam.cround.auth.presentation.TokenAuthenticationFilter;
-import croundteam.cround.auth.support.BCryptEncoder;
-import croundteam.cround.auth.support.TokenProvider;
+import croundteam.cround.auth.filter.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -50,7 +49,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()
-                .antMatchers("/api/members").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/members").permitAll()
                 .anyRequest().authenticated();
 
         http

@@ -3,6 +3,7 @@ package croundteam.cround.member.service;
 import croundteam.cround.auth.support.BCryptEncoder;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.DuplicateEmailException;
+import croundteam.cround.common.exception.member.PasswordMisMatchException;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.dto.MemberSaveRequest;
 import croundteam.cround.member.repository.MemberRepository;
@@ -22,15 +23,22 @@ public class MemberService {
     @Transactional
     public Long saveMember(final MemberSaveRequest memberSaveRequest) {
         validateDuplicateEmail(memberSaveRequest);
+        validateIsSamePassword(memberSaveRequest);
 
         Member member = Member.builder()
-                .userName(memberSaveRequest.getUserName())
+                .userName(memberSaveRequest.getUsername())
                 .email(memberSaveRequest.getEmail())
                 .password(BCryptEncoder.encrypt(memberSaveRequest.getPassword()))
                 .build();
         Member saveMember = memberRepository.save(member);
 
         return saveMember.getId();
+    }
+
+    private void validateIsSamePassword(MemberSaveRequest memberSaveRequest) {
+        if(!memberSaveRequest.getPassword().equals(memberSaveRequest.getConfirmPassword())) {
+            throw new PasswordMisMatchException(ErrorCode.PASSWORD_MISMATCH);
+        }
     }
 
     private void validateDuplicateEmail(MemberSaveRequest memberSaveRequest) {

@@ -1,4 +1,4 @@
-package croundteam.cround.auth.presentation;
+package croundteam.cround.auth.filter;
 
 import croundteam.cround.auth.application.CustomUserDetailsService;
 import croundteam.cround.auth.support.TokenProvider;

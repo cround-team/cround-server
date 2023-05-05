@@ -15,7 +15,7 @@ import static croundteam.cround.common.dto.ValidatorMessage.EMPTY_MESSAGE;
 public class MemberSaveRequest {
 
     @NotBlank(message = EMPTY_MESSAGE)
-    private String userName;
+    private String username;
 
     @NotBlank(message = EMPTY_MESSAGE)
     @Email
@@ -24,9 +24,13 @@ public class MemberSaveRequest {
     @NotBlank(message = EMPTY_MESSAGE)
     private String password;
 
-    public MemberSaveRequest(String userName, String email, String password) {
-        this.userName = userName;
+    @NotBlank(message = EMPTY_MESSAGE)
+    private String confirmPassword;
+
+    public MemberSaveRequest(String username, String email, String password, String confirmPassword) {
+        this.username = username;
         this.email = email;
         this.password = password;
+        this.confirmPassword = confirmPassword;
     }
 }
