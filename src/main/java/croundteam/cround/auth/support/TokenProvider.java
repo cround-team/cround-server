@@ -1,5 +1,6 @@
 package croundteam.cround.auth.support;
 
+import croundteam.cround.common.dto.TokenResponse;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Base64;
+import java.util.Date;
 
 @Slf4j
 @Component
@@ -16,6 +18,12 @@ public class TokenProvider {
 
     public static final String BEARER = "Bearer ";
     public static final String AUTHORIZATION = "Authorization";
+
+    public static final String ACCESS = "ACCESS";
+    public static final String REFRESH = "REFRESH";
+
+    public static final long ACCESS_TOKEN_EXPIRE = 2 * 60 * 60 * 1000L;      //    2 Hour
+    public static final long REFRESH_TOKEN_EXPIRE = 7 * 24 * 60 * 60 * 1000L; // 168 Hour
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -25,6 +33,23 @@ public class TokenProvider {
     public void init() {
         byte[] bytes = Base64.getDecoder().decode(secretKey);
         key = Keys.hmacShaKeyFor(bytes);
+    }
+
+    public TokenResponse generateToken(String email) {
+        return new TokenResponse(createToken(email, ACCESS), createToken(email, REFRESH));
+    }
+
+    public String createToken(String email, String type) {
+        Date date = new Date();
+
+        long time = type.equals(ACCESS) ? ACCESS_TOKEN_EXPIRE : REFRESH_TOKEN_EXPIRE;
+
+        return BEARER + Jwts.builder()
+                .setSubject(email)
+                .setExpiration(new Date(date.getTime() + time))
+                .setIssuedAt(date)
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
     }
 
     public boolean validateToken(String jwtToken) {

@@ -1,5 +1,6 @@
 package croundteam.cround.auth.support;
 
+import croundteam.cround.member.domain.Member;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -11,7 +12,7 @@ public class BCryptEncoder {
         return passwordEncoder.encode(origin);
     }
 
-    public static boolean isSamePassword(String password) {
-        return passwordEncoder.matches("memberLoginRequest.getPassword()", password);
+    public static boolean isSamePassword(Member saveMember, String password) {
+        return passwordEncoder.matches(password, saveMember.getPassword());
     }
 }

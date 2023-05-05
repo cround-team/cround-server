@@ -49,7 +49,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/members").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/members", "/api/members/login/token").permitAll()
                 .anyRequest().authenticated();
 
         http

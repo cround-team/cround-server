@@ -11,7 +11,6 @@ import static croundteam.cround.common.dto.ValidatorMessage.EMPTY_MESSAGE;
 
 @Getter
 @NoArgsConstructor
-@ToString
 public class MemberSaveRequest {
 
     @NotBlank(message = EMPTY_MESSAGE)
