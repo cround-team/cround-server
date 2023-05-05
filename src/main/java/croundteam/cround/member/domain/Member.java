@@ -18,6 +18,10 @@ public class Member {
     @Column(length = 128)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
     protected Member() {
     }
 
@@ -35,5 +39,9 @@ public class Member {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getRole() {
+        return role.getDesc();
     }
 }
