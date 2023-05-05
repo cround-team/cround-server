@@ -1,5 +1,6 @@
 package croundteam.cround.auth.config;
 
+import croundteam.cround.auth.exception.JwtAccessDeniedHandler;
 import croundteam.cround.auth.exception.JwtAuthenticationEntryPoint;
 import croundteam.cround.auth.presentation.TokenAuthenticationFilter;
 import croundteam.cround.auth.support.TokenProvider;
@@ -36,7 +37,9 @@ public class SecurityConfig {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http
-                .exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint());
+                .exceptionHandling()
+                .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
+                .accessDeniedHandler(new JwtAccessDeniedHandler());
 
         http
                 .authorizeRequests()
