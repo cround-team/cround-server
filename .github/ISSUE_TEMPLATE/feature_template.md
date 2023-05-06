@@ -1,8 +1,8 @@
 ---
-name: ISSUE_TEMPLATE
-about: Suggest an idea for this project
-title: "[FEAT] "
-labels: "\U0001F9B8‍♂ BE"
+name: FEATURE_TEMPLATE
+about: Feature Template
+title: "[FEAT] Title"
+labels: "\U0001F9B8‍♂ BE, \U0001F31F feature"
 assignees: ahn-sj
 
 ---
