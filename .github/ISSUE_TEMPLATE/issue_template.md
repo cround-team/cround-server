@@ -1,7 +1,7 @@
 ---
 name: ISSUE_TEMPLATE
 about: Suggest an idea for this project
-title: "[FEAT/FIX] Title"
+title: "[FEAT] "
 labels: "\U0001F9B8‍♂ BE"
 assignees: ahn-sj
 
