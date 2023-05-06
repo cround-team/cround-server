@@ -29,7 +29,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2User oAuth2User = oAuth2UserService.loadUser(oAuth2UserRequest);
 
         /**
-         * 회원가입을 한 사용자인지 확인한 다음 회원가입하지 않은 사용자라면 db의 정보를 저장
+         * TODO: 회원가입을 한 사용자인지 확인한 다음 회원가입하지 않은 사용자라면 db의 정보를 SAVE 맞다면 Update를 수행
+         * OAuthAttributes.toEntity를 활용해서 Entity 객체를 가져온 다음 Builder 로 처리
+         * toEntity 가 구현될 때 Member 에 AuthProvider 를 추가하여 소셜로그인 사용자와 일반로그인 사용자를 분리한다.
          */
         String registrationId = oAuth2UserRequest
                 .getClientRegistration()
@@ -46,7 +48,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         log.info(">> OAuth2 Attributes (Map) = {}", oAuth2Attributes.getAttributes());
 
         return new DefaultOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(Role.USER.getKey())),
+                Collections.singleton(new SimpleGrantedAuthority(Role.USER.getCode())),
                 memberAttribute,
                 "email"
         );

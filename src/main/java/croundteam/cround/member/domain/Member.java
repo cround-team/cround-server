@@ -17,7 +17,7 @@ public class Member {
     private Long id;
 
     @Column(nullable = false, length = 20)
-    private String userName;
+    private String username;
 
     @Column(nullable = false, length = 50, unique = true)
     private String email;
@@ -30,8 +30,8 @@ public class Member {
     private Role role;
 
     @Builder
-    public Member(String userName, String email, String password) {
-        this.userName = userName;
+    public Member(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.role = Role.USER;

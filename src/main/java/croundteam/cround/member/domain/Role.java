@@ -10,6 +10,6 @@ public enum Role {
     USER("ROLE_USER", "회원"),
     ADMIN("ROLE_ADMIN", "관리자");
 
-    private String key;
+    private String code;
     private String name;
 }

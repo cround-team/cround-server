@@ -26,7 +26,7 @@ public class MemberService {
         validateIsSamePassword(memberSaveRequest);
 
         Member member = Member.builder()
-                .userName(memberSaveRequest.getUsername())
+                .username(memberSaveRequest.getUsername())
                 .email(memberSaveRequest.getEmail())
                 .password(BCryptEncoder.encrypt(memberSaveRequest.getPassword()))
                 .build();

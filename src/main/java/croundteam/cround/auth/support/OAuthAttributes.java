@@ -1,5 +1,6 @@
 package croundteam.cround.auth.support;
 
+import croundteam.cround.member.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -70,6 +71,14 @@ public class OAuthAttributes {
         memberAttribute.put("picture", picture);
 
         return memberAttribute;
+    }
+
+    public Member toEntity() {
+        return Member.builder()
+                .username(name)
+                .email(email)
+                .password(null)
+                .build();
     }
 }
 
