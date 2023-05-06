@@ -1,14 +1,31 @@
 package croundteam.cround.creator.domain.platform;
 
-import lombok.AllArgsConstructor;
+import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.exception.tag.InvalidPlatformNameException;
+import lombok.Getter;
 
-@AllArgsConstructor
+import javax.persistence.Column;
+
+@Getter
 public enum PlatformName {
     YOUTUBE("유튜브"),
     INSTAGRAM("인스타그램"),
     TIKTOK("틱톡"),
-    BLOG("블로그"),
     PODCAST("팟캐스트");
 
-    private String title;
+    @Column(name = "platform_name")
+    private String name;
+
+    PlatformName(String name) {
+        this.name = name;
+    }
+
+    public static PlatformName from(String platformName) {
+        try {
+            String type = platformName.trim().toUpperCase();
+            return PlatformName.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidPlatformNameException(ErrorCode.INVALID_PLATFORM_NAME);
+        }
+    }
 }
