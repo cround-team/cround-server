@@ -15,7 +15,11 @@ public class PlatformUrl {
     @Column(name = "platform_url")
     private String url;
 
-    public PlatformUrl(String url) {
+    private PlatformUrl(String url) {
         this.url = url;
+    }
+
+    public static PlatformUrl from(String url) {
+        return new PlatformUrl(url);
     }
 }
