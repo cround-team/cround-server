@@ -4,6 +4,7 @@ import croundteam.cround.common.domain.BaseTimeEntity;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.ProfileImageEmptyException;
 import croundteam.cround.common.exception.member.ProfileImageEqualsException;
+import croundteam.cround.member.domain.follow.Followings;
 import croundteam.cround.member.domain.interest.Interest;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,12 +32,13 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false, length = 20)
     private String username;
 
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String nickname;
 
-    @Column(length = 128)
+    @Column(nullable = false, length = 128)
     private String password;
 
+    @Column(nullable = false)
     private String profileImage;
 
     @Enumerated(EnumType.STRING)
@@ -45,6 +47,9 @@ public class Member extends BaseTimeEntity {
 
     @Embedded
     private Interest interest;
+
+    @Embedded
+    private Followings followings;
 
     @Builder
     public Member(String username, String email, String password) {

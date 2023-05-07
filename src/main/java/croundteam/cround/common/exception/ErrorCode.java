@@ -13,6 +13,7 @@ public enum ErrorCode {
     INVALID_PLATFORM_NAME(HttpStatus.BAD_REQUEST, "존재하지 않는 플랫폼 유형입니다."),
     PROFILE_IMAGE_MATCH(HttpStatus.BAD_REQUEST, "설정된 프로필 이미지와 달라야 합니다."),
     PROFILE_IMAGE_EMPTY(HttpStatus.BAD_REQUEST, "입력된 프로필 이미지가 없습니다."),
+    INVALID_SOURCE_TARGET_FOLLOW(HttpStatus.BAD_REQUEST, "자기 자신을 팔로우 할 수 없습니다."),
 
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다.");
 
