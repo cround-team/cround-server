@@ -1,5 +1,6 @@
 package croundteam.cround.member.domain;
 
+import croundteam.cround.common.domain.BaseTimeEntity;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Table(uniqueConstraints = @UniqueConstraint(
         name = "member_email_unique",
         columnNames="email"))
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
