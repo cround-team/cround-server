@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "username": "크라운드",
-  "email": "croundcround.com",
+  "email": "cround@cround.com",
   "password": "cround",
   "confirmPassword": "cround"
 }
