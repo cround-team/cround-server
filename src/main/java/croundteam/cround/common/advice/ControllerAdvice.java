@@ -24,5 +24,11 @@ public class ControllerAdvice {
         return ResponseEntity.status(errorCode.getStatus()).body(new ErrorResponse(errorCode.getMessage()));
     }
 
-
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+        /**
+         * Slack or Discord 로 Notification 추가
+         */
+        return ResponseEntity.internalServerError().body(new ErrorResponse("알 수 없는 문제가 발생했습니다. 서버 관리자에게 문의주세요."));
+    }
 }

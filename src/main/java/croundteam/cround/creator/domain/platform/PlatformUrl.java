@@ -1,11 +1,16 @@
 package croundteam.cround.creator.domain.platform;
 
+import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.exception.member.InvalidUrlFormatException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 @Embeddable
 @Getter
@@ -16,7 +21,16 @@ public class PlatformUrl {
     private String url;
 
     private PlatformUrl(String url) {
+        validateUrl(url);
         this.url = url;
+    }
+
+    private void validateUrl(String url) {
+        try {
+            new URL(url).toURI();
+        } catch (MalformedURLException | URISyntaxException ex) {
+            throw new InvalidUrlFormatException(ErrorCode.INVALID_URI_FORMAT);
+        }
     }
 
     public static PlatformUrl from(String url) {

@@ -39,11 +39,7 @@ class CreatorTest {
                 .email("cround@cround.com")
                 .build();
 
-        Platform platform = new Platform(
-                PlatformUrl.from("cround.com"),
-                PlatformType.from("Instagram"),
-                PlatformActivityName.from("Crounder")
-        );
+        Platform platform = Platform.of("cround.com", "instagram", "crounder");
 
         List<Tag> tagList = Arrays.asList(new Tag("크라운드 대표"), new Tag("크라운드 직원"));
         Tags tags = new Tags(tagList);
