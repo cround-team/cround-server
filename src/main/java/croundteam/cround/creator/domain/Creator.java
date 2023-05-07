@@ -1,5 +1,6 @@
 package croundteam.cround.creator.domain;
 
+import croundteam.cround.common.domain.BaseTimeEntity;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.member.domain.Member;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
         name = "creator_member_unique",
         columnNames="member_id"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Creator {
+public class Creator extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
