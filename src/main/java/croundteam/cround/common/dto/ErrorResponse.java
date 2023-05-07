@@ -1,19 +1,19 @@
 package croundteam.cround.common.dto;
 
-public class ErrorResponse {
-    private String data;
+public class ErrorResponse<T> {
+    private T data;
     private String message;
 
     public ErrorResponse(String message) {
         this(null, message);
     }
 
-    public ErrorResponse(String data, String message) {
+    public ErrorResponse(T data, String message) {
         this.data = data;
         this.message = message;
     }
 
-    public String getData() {
+    public T getData() {
         return data;
     }
 
