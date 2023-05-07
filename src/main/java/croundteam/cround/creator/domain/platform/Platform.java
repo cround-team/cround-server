@@ -1,6 +1,7 @@
 package croundteam.cround.creator.domain.platform;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
