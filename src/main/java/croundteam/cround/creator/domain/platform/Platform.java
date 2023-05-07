@@ -17,8 +17,12 @@ public class Platform {
     @Embedded
     private PlatformType platformType;
 
-    public Platform(PlatformUrl platformUrl, PlatformType platformType) {
+    @Embedded
+    private PlatformActivityName platformActivityName;
+
+    public Platform(PlatformUrl platformUrl, PlatformType platformType, PlatformActivityName platformActivityName) {
         this.platformUrl = platformUrl;
         this.platformType = platformType;
+        this.platformActivityName = platformActivityName;
     }
 }

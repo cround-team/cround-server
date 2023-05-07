@@ -1,6 +1,7 @@
 package croundteam.cround.creator.domain;
 
 import croundteam.cround.creator.domain.platform.Platform;
+import croundteam.cround.creator.domain.platform.PlatformActivityName;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.domain.platform.PlatformUrl;
 import croundteam.cround.creator.repository.CreatorRepository;
@@ -37,7 +38,13 @@ class CreatorTest {
                 .password("password")
                 .email("cround@cround.com")
                 .build();
-        Platform platform = new Platform(new PlatformUrl("cround.com"), new PlatformType("Instagram"));
+
+        Platform platform = new Platform(
+                PlatformUrl.from("cround.com"),
+                PlatformType.from("Instagram"),
+                PlatformActivityName.from("Crounder")
+        );
+
         List<Tag> tagList = Arrays.asList(new Tag("크라운드 대표"), new Tag("크라운드 직원"));
         Tags tags = new Tags(tagList);
 
