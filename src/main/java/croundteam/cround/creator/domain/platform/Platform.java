@@ -1,7 +1,6 @@
 package croundteam.cround.creator.domain.platform;
 
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
@@ -20,9 +19,17 @@ public class Platform {
     @Embedded
     private PlatformActivityName platformActivityName;
 
-    public Platform(PlatformUrl platformUrl, PlatformType platformType, PlatformActivityName platformActivityName) {
+    private Platform(PlatformUrl platformUrl, PlatformType platformType, PlatformActivityName platformActivityName) {
         this.platformUrl = platformUrl;
         this.platformType = platformType;
         this.platformActivityName = platformActivityName;
+    }
+
+    public static Platform of(String platformUrl, String platformType, String platformActivityName) {
+        return new Platform(
+                PlatformUrl.from(platformUrl),
+                PlatformType.from(platformType),
+                PlatformActivityName.from(platformActivityName)
+        );
     }
 }

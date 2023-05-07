@@ -26,7 +26,6 @@ public class PlatformType {
         return new PlatformType(platformName);
     }
 
-
     public String getPlatformName() {
         return platformName.getName();
     }
