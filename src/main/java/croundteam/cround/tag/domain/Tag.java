@@ -23,7 +23,7 @@ public class Tag extends BaseTimeEntity {
         this.tagName = tagName;
     }
 
-    public static Tag of(String tagName) {
-        return new Tag(TagName.from(tagName));
+    public static Tag of(String name) {
+        return new Tag(TagName.from(name));
     }
 }
