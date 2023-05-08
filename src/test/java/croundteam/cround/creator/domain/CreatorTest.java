@@ -36,8 +36,7 @@ class CreatorTest {
                 .build();
 
         Platform platform = Platform.of("cround.com", "instagram", "crounder");
-        List<Tag> tagList = Tags.toListByNames("크라운드 대표", "크라운드 직원");
-        Tags tags = Tags.from(tagList);
+        Tags tags = Tags.toTagsByNames("크라운드 대표", "크라운드 직원");
 
         // when
         Creator creator = new Creator(member, platform, tags);
