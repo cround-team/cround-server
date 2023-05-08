@@ -19,11 +19,11 @@ public class Tag extends BaseTimeEntity {
     @Embedded
     private TagName tagName;
 
-    public Tag(String tagName) {
-        this(TagName.from(tagName));
+    private Tag(TagName tagName) {
+        this.tagName = tagName;
     }
 
-    public Tag(TagName tagName) {
-        this.tagName = tagName;
+    public static Tag of(String tagName) {
+        return new Tag(TagName.from(tagName));
     }
 }
