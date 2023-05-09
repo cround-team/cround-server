@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### 로그인
-POST localhost:8081/api/members/login/token
+POST localhost:8080/api/members/login/token
 Content-Type: application/json
 
 {
