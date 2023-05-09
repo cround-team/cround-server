@@ -3,6 +3,7 @@ package croundteam.cround.creator.domain;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.domain.follow.Followers;
 import croundteam.cround.tag.domain.Tag;
 import croundteam.cround.tag.domain.Tags;
 import org.junit.jupiter.api.DisplayName;

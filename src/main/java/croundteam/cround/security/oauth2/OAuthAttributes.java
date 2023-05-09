@@ -1,4 +1,4 @@
-package croundteam.cround.auth.support;
+package croundteam.cround.security.oauth2;
 
 import croundteam.cround.member.domain.Member;
 import lombok.Builder;

@@ -1,8 +1,8 @@
-package croundteam.cround.auth.config;
+package croundteam.cround.config;
 
-import croundteam.cround.auth.application.oauth.CustomOAuth2UserService;
-import croundteam.cround.auth.application.oauth.OAuthSuccessHandler;
-import croundteam.cround.auth.filter.TokenAuthenticationFilter;
+import croundteam.cround.security.oauth2.CustomOAuth2UserService;
+import croundteam.cround.security.oauth2.OAuthSuccessHandler;
+import croundteam.cround.security.token.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +40,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/favicon.ico", "/error").permitAll()
-                .antMatchers("/login").permitAll()
+                .antMatchers("/login", "/cround/health").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members", "/api/members/login/token").permitAll()
                 .anyRequest().authenticated();
 

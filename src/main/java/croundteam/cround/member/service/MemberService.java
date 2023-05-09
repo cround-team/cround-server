@@ -1,6 +1,6 @@
 package croundteam.cround.member.service;
 
-import croundteam.cround.auth.support.BCryptEncoder;
+import croundteam.cround.security.BCryptEncoder;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.DuplicateEmailException;
 import croundteam.cround.common.exception.member.PasswordMisMatchException;

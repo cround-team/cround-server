@@ -1,9 +1,9 @@
-package croundteam.cround.auth.service;
+package croundteam.cround.member.service;
 
-import croundteam.cround.auth.domain.RefreshToken;
-import croundteam.cround.auth.repository.RefreshTokenRepository;
-import croundteam.cround.auth.support.BCryptEncoder;
-import croundteam.cround.auth.support.TokenProvider;
+import croundteam.cround.security.token.RefreshToken;
+import croundteam.cround.security.token.RefreshTokenRepository;
+import croundteam.cround.security.BCryptEncoder;
+import croundteam.cround.security.token.TokenProvider;
 import croundteam.cround.common.dto.TokenResponse;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.NotExistMemberException;

@@ -1,4 +1,4 @@
-package croundteam.cround.auth.application;
+package croundteam.cround.security;
 
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.repository.MemberRepository;
