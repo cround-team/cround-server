@@ -1,4 +1,4 @@
-package croundteam.cround.auth.config;
+package croundteam.cround.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;

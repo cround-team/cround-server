@@ -1,7 +1,6 @@
-package croundteam.cround.auth.filter;
+package croundteam.cround.security.token;
 
-import croundteam.cround.auth.application.CustomUserDetailsService;
-import croundteam.cround.auth.support.TokenProvider;
+import croundteam.cround.security.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static croundteam.cround.auth.support.TokenProvider.AUTHORIZATION;
-import static croundteam.cround.auth.support.TokenProvider.BEARER;
+import static croundteam.cround.security.token.TokenProvider.AUTHORIZATION;
+import static croundteam.cround.security.token.TokenProvider.BEARER;
 
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 

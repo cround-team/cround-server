@@ -1,4 +1,4 @@
-package croundteam.cround.auth.domain;
+package croundteam.cround.security.token;
 
 import lombok.AccessLevel;
 import lombok.Getter;

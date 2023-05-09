@@ -1,6 +1,6 @@
-package croundteam.cround.auth.repository;
+package croundteam.cround.security.token;
 
-import croundteam.cround.auth.domain.RefreshToken;
+import croundteam.cround.security.token.RefreshToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {

@@ -1,4 +1,4 @@
-package croundteam.cround.auth.support;
+package croundteam.cround.security;
 
 import croundteam.cround.member.domain.Member;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

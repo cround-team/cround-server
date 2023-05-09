@@ -1,8 +1,7 @@
-package croundteam.cround.auth.application.oauth;
+package croundteam.cround.security.oauth2;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import croundteam.cround.auth.support.TokenProvider;
+import croundteam.cround.security.token.TokenProvider;
 import croundteam.cround.common.dto.TokenResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

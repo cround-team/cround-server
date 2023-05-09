@@ -1,11 +1,9 @@
-package croundteam.cround.auth.presentation;
+package croundteam.cround.member.controller;
 
-import croundteam.cround.auth.domain.AuthProvider;
-import croundteam.cround.auth.service.AuthService;
+import croundteam.cround.member.service.AuthService;
 import croundteam.cround.common.dto.TokenResponse;
 import croundteam.cround.member.dto.MemberLoginRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

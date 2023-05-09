@@ -1,6 +1,5 @@
-package croundteam.cround.auth.application.oauth;
+package croundteam.cround.security.oauth2;
 
-import croundteam.cround.auth.support.OAuthAttributes;
 import croundteam.cround.member.domain.Role;
 import croundteam.cround.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;

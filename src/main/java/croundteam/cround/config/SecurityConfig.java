@@ -1,8 +1,8 @@
-package croundteam.cround.auth.config;
+package croundteam.cround.config;
 
-import croundteam.cround.auth.application.oauth.CustomOAuth2UserService;
-import croundteam.cround.auth.application.oauth.OAuthSuccessHandler;
-import croundteam.cround.auth.filter.TokenAuthenticationFilter;
+import croundteam.cround.security.oauth2.CustomOAuth2UserService;
+import croundteam.cround.security.oauth2.OAuthSuccessHandler;
+import croundteam.cround.security.token.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
