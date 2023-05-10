@@ -35,7 +35,7 @@ public class Member extends BaseTimeEntity {
     @Column(length = 20)
     private String nickname;
 
-    @Column(nullable = false, length = 128)
+    @Column(length = 128)
     private String password;
 
     @Column(nullable = false)
@@ -95,5 +95,11 @@ public class Member extends BaseTimeEntity {
 
     private String createUUID() {
         return UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+    }
+
+    public void update(Member member) {
+        this.email = member.getEmail();
+        this.username = member.getUsername();
+        this.profileImage = member.getProfileImage();
     }
 }

@@ -28,9 +28,9 @@ public class OAuthAttributes {
 
     public static OAuthAttributes of(String provider, String attributeKey, Map<String, Object> attributes) {
         switch (provider) {
-            case "GOOGLE":
+            case "google":
                 return ofGoogle(attributeKey, attributes);
-            case "KAKAO":
+            case "kakao":
                 return ofKakao("email", attributes);
             default:
                 throw new RuntimeException("Invalid Provider Type");

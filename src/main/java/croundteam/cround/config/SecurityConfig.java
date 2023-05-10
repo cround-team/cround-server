@@ -1,7 +1,5 @@
 package croundteam.cround.config;
 
-import croundteam.cround.security.oauth2.CustomOAuth2UserService;
-import croundteam.cround.security.oauth2.OAuthSuccessHandler;
 import croundteam.cround.security.token.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuthSuccessHandler oAuthSuccessHandler;
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
@@ -40,22 +35,22 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/favicon.ico", "/error").permitAll()
-                .antMatchers("/login", "/cround/health").permitAll()
+                .antMatchers("/login", "/cround/health", "/oauth2/authorize/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/oauth2/kakao").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members", "/api/members/login/token").permitAll()
                 .anyRequest().authenticated();
 
         http
                 .oauth2Login()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService)
-                .and()
-                .successHandler(oAuthSuccessHandler);
+                .defaultSuccessUrl("/home")
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize");
 
-        http
-                .logout()
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/");
+//        http
+//                .logout()
+//                .clearAuthentication(true)
+//                .deleteCookies("JSESSIONID")
+//                .logoutSuccessUrl("/");
 
 //        http
 //                .exceptionHandling()
