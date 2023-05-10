@@ -9,11 +9,16 @@ Content-Type: application/json
   "confirmPassword": "cround"
 }
 
-### 로그인
-POST localhost:8080/api/members/login/token
+### 일반 로그인
+POST localhost:8080/auth/login
 Content-Type: application/json
 
 {
   "email": "cround@cround.com",
   "password": "cround"
 }
+
+### 소셜 로그인
+GET localhost:8080/cround/auth
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWVzYTUyMjFAZ21haWwuY29tIiwiZXhwIjoxNjgzNzMzMTczLCJpYXQiOjE2ODM3MjU5NzN9.DzIhu4WLWxUuHWnPOi1aLmAFHlUki5zawh1XDu0vQO4

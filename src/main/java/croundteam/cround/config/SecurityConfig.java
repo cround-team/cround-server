@@ -35,20 +35,22 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/favicon.ico", "/error").permitAll()
-                .antMatchers("/login", "/cround/health").permitAll()
+                .antMatchers("/login", "/cround/health", "/oauth2/authorize/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/oauth2/kakao").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members", "/api/members/login/token").permitAll()
                 .anyRequest().authenticated();
 
         http
                 .oauth2Login()
+                .defaultSuccessUrl("/home")
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorize");
 
-        http
-                .logout()
-                .clearAuthentication(true)
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/");
+//        http
+//                .logout()
+//                .clearAuthentication(true)
+//                .deleteCookies("JSESSIONID")
+//                .logoutSuccessUrl("/");
 
 //        http
 //                .exceptionHandling()

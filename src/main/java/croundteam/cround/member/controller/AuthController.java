@@ -4,19 +4,20 @@ import croundteam.cround.member.service.AuthService;
 import croundteam.cround.common.dto.TokenResponse;
 import croundteam.cround.member.dto.MemberLoginRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api/members")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/login/token")
+    @PostMapping("/auth/login")
     public ResponseEntity<TokenResponse> login(@RequestBody @Valid final MemberLoginRequest memberLoginRequest) {
         TokenResponse tokenResponse = authService.login(memberLoginRequest);
         return ResponseEntity.ok().body(tokenResponse);

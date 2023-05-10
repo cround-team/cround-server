@@ -1,5 +1,7 @@
 package croundteam.cround.security;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +15,14 @@ public class HealthController {
     public Map<String, String> health() {
         Map<String, String> map = new HashMap<>();
         map.put("status", "UP");
+        return map;
+    }
+
+    @GetMapping("/cround/auth")
+    public Map<String, String> auth() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Map<String, String> map = new HashMap<>();
+        map.put("role", authentication.getAuthorities().toString());
         return map;
     }
 }
