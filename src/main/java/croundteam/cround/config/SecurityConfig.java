@@ -1,7 +1,5 @@
 package croundteam.cround.config;
 
-import croundteam.cround.security.oauth2.CustomOAuth2UserService;
-import croundteam.cround.security.oauth2.OAuthSuccessHandler;
 import croundteam.cround.security.token.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -17,9 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final OAuthSuccessHandler oAuthSuccessHandler;
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
@@ -46,10 +41,8 @@ public class SecurityConfig {
 
         http
                 .oauth2Login()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService)
-                .and()
-                .successHandler(oAuthSuccessHandler);
+                .authorizationEndpoint()
+                .baseUri("/oauth2/authorize");
 
         http
                 .logout()
