@@ -22,4 +22,10 @@ public class AuthController {
         TokenResponse tokenResponse = authService.login(memberLoginRequest);
         return ResponseEntity.ok().body(tokenResponse);
     }
+
+    @GetMapping("/oauth2/{provider}")
+    public ResponseEntity<TokenResponse> loginByOAuth(@PathVariable String provider, @RequestParam String code) {
+        TokenResponse tokenResponse = authService.loginByOAuth(provider, code);
+        return ResponseEntity.ok().body(tokenResponse);
+    }
 }
