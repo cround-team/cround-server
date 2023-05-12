@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -23,6 +27,24 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+        http
+                .cors()
+                .configurationSource(request -> {
+                    var cors = new CorsConfiguration();
+                    cors.setAllowedOriginPatterns(List.of("*"));
+                    cors.setAllowedMethods(List.of("*"));
+                    cors.setAllowedHeaders(List.of("*"));
+                    cors.addExposedHeader("Authorization");
+                    cors.addExposedHeader("Refresh_Token");
+                    cors.setAllowCredentials(true);
+
+                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                    source.registerCorsConfiguration("/**", cors);
+
+                    return cors;
+                });
+
         http
                 .formLogin().disable()
                 .csrf().disable()
@@ -35,9 +57,9 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/favicon.ico", "/error").permitAll()
-                .antMatchers("/login", "/cround/health", "/oauth2/authorize/**").permitAll()
+                .antMatchers("/login", "/cround/health", "/oauth2/authorize/**", "/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/oauth2/kakao").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/members", "/api/members/login/token").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/members", "/auth/login").permitAll()
                 .anyRequest().authenticated();
 
         http
