@@ -1,10 +1,17 @@
 package croundteam.cround.tag.domain;
 
+import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.exception.tag.ExceedTagLengthException;
+import croundteam.cround.common.exception.tag.ExceedTagsSizeException;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_TAGS_MAX_SIZE;
+import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_TAG_MAX_LENGTH;
 
 public class Tags {
 
@@ -16,10 +23,23 @@ public class Tags {
     }
 
     private void validateTags(List<Tag> tags) {
-        /**
-         * 태그의 개수 제한
-         * 또는 각 태그의 글자 제한을 검증
-         */
+        validateTagsSize(tags);
+        validateTagLength(tags);
+        this.tags = tags;
+    }
+
+    private void validateTagLength(List<Tag> tags) {
+        for (Tag tag : tags) {
+            if(tag.getTagName().length() > CREATOR_TAG_MAX_LENGTH) {
+                throw new ExceedTagLengthException(ErrorCode.EXCEED_TAG_LENGTH);
+            }
+        }
+    }
+
+    private void validateTagsSize(List<Tag> tags) {
+        if(tags.size() > CREATOR_TAGS_MAX_SIZE) {
+            throw new ExceedTagsSizeException(ErrorCode.EXCEED_TAGS_MAX_SIZE);
+        }
     }
 
     public static Tags from(List<Tag> tags) {
