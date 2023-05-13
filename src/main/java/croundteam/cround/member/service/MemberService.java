@@ -1,5 +1,6 @@
 package croundteam.cround.member.service;
 
+import croundteam.cround.common.exception.member.DuplicateNicknameException;
 import croundteam.cround.security.BCryptEncoder;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.DuplicateEmailException;
@@ -22,7 +23,7 @@ public class MemberService {
 
     @Transactional
     public Long saveMember(final MemberSaveRequest memberSaveRequest) {
-        validateDuplicateEmail(memberSaveRequest);
+        validateDuplicateEmail(memberSaveRequest.getEmail());
         validateIsSamePassword(memberSaveRequest);
 
         Member member = Member.builder()
@@ -35,15 +36,21 @@ public class MemberService {
         return saveMember.getId();
     }
 
-    private void validateIsSamePassword(MemberSaveRequest memberSaveRequest) {
-        if(!memberSaveRequest.getPassword().equals(memberSaveRequest.getConfirmPassword())) {
-            throw new PasswordMisMatchException(ErrorCode.PASSWORD_MISMATCH);
+    public void validateDuplicateEmail(String email) {
+        if(memberRepository.existsByEmail(email)) {
+            throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
         }
     }
 
-    private void validateDuplicateEmail(MemberSaveRequest memberSaveRequest) {
-        if (memberRepository.existsByEmail(memberSaveRequest.getEmail())) {
-            throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
+    public void validateDuplicateNickname(String nickname) {
+        if(memberRepository.existsByNickname(nickname)) {
+            throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
+        }
+    }
+
+    private void validateIsSamePassword(MemberSaveRequest memberSaveRequest) {
+        if(!memberSaveRequest.getPassword().equals(memberSaveRequest.getConfirmPassword())) {
+            throw new PasswordMisMatchException(ErrorCode.PASSWORD_MISMATCH);
         }
     }
 }
