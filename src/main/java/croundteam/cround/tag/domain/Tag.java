@@ -26,4 +26,8 @@ public class Tag extends BaseTimeEntity {
     public static Tag of(String name) {
         return new Tag(TagName.from(name));
     }
+
+    public String getTagName() {
+        return tagName.getName();
+    }
 }

@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_PLATFORM_URI;
+import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PROFILE_IMAGE;
 import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
@@ -35,11 +37,11 @@ class CreatorTest {
                 .email("cround@cround.com")
                 .build();
 
-        Platform platform = Platform.of("cround.com", "instagram", "crounder");
+        Platform platform = Platform.of(CREATOR_PLATFORM_URI, "instagram", "crounder");
         Tags tags = Tags.toTagsByNames("크라운드 대표", "크라운드 직원");
 
         // when
-        Creator creator = new Creator(member, platform, tags);
+        Creator creator = Creator.of(DEFAULT_PROFILE_IMAGE, member, platform, tags);
         Creator saveCreator = creatorRepository.save(creator);
 
         // then
