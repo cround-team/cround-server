@@ -8,6 +8,7 @@ import croundteam.cround.member.domain.follow.Follow;
 import croundteam.cround.member.domain.follow.Followers;
 import croundteam.cround.tag.domain.Tags;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,9 @@ public class Creator extends BaseTimeEntity {
     @Column(name = "creator_id")
     private Long id;
 
+    @Column(name = "profile_image")
+    private String profileImage;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_creator_to_member"))
     private Member member;
@@ -40,13 +44,23 @@ public class Creator extends BaseTimeEntity {
     private Followers followers;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.ALL)
-    List<CreatorTag> creatorTags = new ArrayList<>();
+    private List<CreatorTag> creatorTags = new ArrayList<>();
 
-    public Creator(Member member, Platform platform, Tags tags) { // , Followers followers
+    @Builder
+    private Creator(String profileImage, Member member, Platform platform, Tags creatorTags) {
+        this.profileImage = profileImage;
         this.member = member;
         this.platform = platform;
-        this.creatorTags = castTagsToCreatorTags(tags);
-        this.followers = followers;
+        this.creatorTags = castTagsToCreatorTags(creatorTags);
+    }
+
+    public static Creator of(String profileImage, Member member, Platform platform, Tags creatorTags) {
+        return Creator.builder()
+                .profileImage(profileImage)
+                .member(member)
+                .platform(platform)
+                .creatorTags(creatorTags)
+                .build();
     }
 
     public void addFollowers(Follow follow) {
