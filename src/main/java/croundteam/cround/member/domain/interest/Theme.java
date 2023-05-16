@@ -9,6 +9,7 @@ import javax.persistence.Column;
 
 @AllArgsConstructor
 @Getter
+@Deprecated(since = "2023.05.14")
 public enum Theme {
     ART("예술"),
     COOK("요리"),
