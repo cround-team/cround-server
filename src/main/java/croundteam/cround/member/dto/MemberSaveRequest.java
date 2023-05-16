@@ -36,7 +36,7 @@ public class MemberSaveRequest {
     @NotBlank(message = EMPTY_MESSAGE)
     private String confirmPassword;
 
-    private List<String> interestPlatform = new ArrayList<>();
+    private List<PlatformType> interestPlatform = new ArrayList<>();
 
     public Member toEntity() {
         return Member.builder()
@@ -44,7 +44,7 @@ public class MemberSaveRequest {
                 .username(username)
                 .nickname(nickname)
                 .password(BCryptEncoder.encrypt(password))
-                .interest(Interest.from(PlatformType.castPlatformTypeList(interestPlatform)))
+                .interest(Interest.from(interestPlatform))
                 .build();
     }
 }
