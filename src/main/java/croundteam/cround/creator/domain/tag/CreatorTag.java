@@ -26,7 +26,7 @@ public class CreatorTag {
     @JoinColumn(name = "tag_id", foreignKey = @ForeignKey(name = "fk_creatortag_to_tag"))
     private Tag tag;
 
-    public CreatorTag(Creator creator, Tag tag) {
+    private CreatorTag(Creator creator, Tag tag) {
         this.creator = creator;
         this.tag = tag;
     }
