@@ -40,4 +40,9 @@ public class MemberController {
         memberService.validateDuplicateNickname(nicknameValidationRequest.getNickname());
         return ResponseEntity.ok().build();
     }
+
+    /**
+     * /me/password
+     * 비밀번호 재설정
+     */
 }

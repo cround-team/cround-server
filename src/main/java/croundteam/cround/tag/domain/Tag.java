@@ -1,15 +1,18 @@
 package croundteam.cround.tag.domain;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import croundteam.cround.common.domain.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Tag extends BaseTimeEntity {
 
     @Id
@@ -23,7 +26,8 @@ public class Tag extends BaseTimeEntity {
         this.tagName = tagName;
     }
 
-    public static Tag of(String name) {
+    @JsonCreator
+    public static Tag from(String name) {
         return new Tag(TagName.from(name));
     }
 

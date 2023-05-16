@@ -1,0 +1,11 @@
+### 크리에이터 등록
+POST localhost:8080/api/creators/1
+Content-Type: application/json
+
+{
+  "profileImage": "profle image",
+  "platformUrl": "https://www.youtube.com/",
+  "platformType": "YOUTUBE",
+  "platformActivityName": "유튜버",
+  "tags": ["나는야", "유튜버", "빠밤"]
+}
