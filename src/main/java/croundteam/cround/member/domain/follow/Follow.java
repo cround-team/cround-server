@@ -5,9 +5,7 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.InvalidSourceTargetFollowException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -17,6 +15,8 @@ import javax.persistence.*;
 @Table(uniqueConstraints = @UniqueConstraint(
         name = "follow_source_and_target_composite_unique",
         columnNames= {"source_id", "target_id"}))
+@ToString
+@EqualsAndHashCode(of = {"source", "target"})
 public class Follow extends BaseTimeEntity {
 
     @Id
@@ -24,11 +24,11 @@ public class Follow extends BaseTimeEntity {
     @Column(name = "follow_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "source_id", foreignKey = @ForeignKey(name = "fk_follow_to_source"))
     private Member source;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "target_id", foreignKey = @ForeignKey(name = "fk_follow_to_target"))
     private Creator target;
 
@@ -43,8 +43,7 @@ public class Follow extends BaseTimeEntity {
     }
 
     private void validateSourceAndTarget(Member source, Creator target) {
-        Member targetMember = target.getMember();
-        if(source.equals(targetMember)) {
+        if(source.getId().equals(target.getMemberId())) {
             throw new InvalidSourceTargetFollowException(ErrorCode.INVALID_SOURCE_TARGET_FOLLOW);
         }
     }

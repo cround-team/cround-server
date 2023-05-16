@@ -1,11 +1,12 @@
 package croundteam.cround.member.service;
 
-import croundteam.cround.common.exception.member.DuplicateNicknameException;
-import croundteam.cround.security.BCryptEncoder;
+import croundteam.cround.common.exception.member.*;
+import croundteam.cround.creator.domain.Creator;
+import croundteam.cround.creator.repository.CreatorRepository;
+import croundteam.cround.member.dto.FollowRequest;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.member.DuplicateEmailException;
-import croundteam.cround.common.exception.member.PasswordMisMatchException;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.dto.FollowResponse;
 import croundteam.cround.member.dto.MemberSaveRequest;
 import croundteam.cround.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,16 +21,49 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final CreatorRepository creatorRepository;
 
     @Transactional
     public Long saveMember(final MemberSaveRequest memberSaveRequest) {
         validateDuplicateEmail(memberSaveRequest.getEmail());
+        validateDuplicateNickname(memberSaveRequest.getNickname());
         validateIsSamePassword(memberSaveRequest);
 
         Member member = memberSaveRequest.toEntity();
         Member saveMember = memberRepository.save(member);
 
         return saveMember.getId();
+    }
+
+    @Transactional
+    public FollowResponse followCreator(FollowRequest followRequest) {
+        Member source = findMemberById(followRequest.getSourceId());
+        Creator target = findCreatorById(followRequest.getTargetId());
+
+        source.follow(target);
+
+        return new FollowResponse(source.getId(), target.getMemberId());
+
+    }
+
+    @Transactional
+    public FollowResponse unfollowCreator(FollowRequest followRequest) {
+        Member source = findMemberById(followRequest.getSourceId());
+        Creator target = findCreatorById(followRequest.getTargetId());
+
+        source.unfollow(target);
+
+        return new FollowResponse(source.getId(), target.getMemberId());
+    }
+
+    private Creator findCreatorById(Long targetId) {
+        return creatorRepository.findById(targetId).orElseThrow(
+                () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
+    }
+
+    private Member findMemberById(Long sourceId) {
+        return memberRepository.findById(sourceId).orElseThrow(
+                () -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
     }
 
     public void validateDuplicateEmail(String email) {
@@ -49,4 +83,6 @@ public class MemberService {
             throw new PasswordMisMatchException(ErrorCode.PASSWORD_MISMATCH);
         }
     }
+
+
 }

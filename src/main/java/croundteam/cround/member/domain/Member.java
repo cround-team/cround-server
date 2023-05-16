@@ -1,17 +1,13 @@
 package croundteam.cround.member.domain;
 
 import croundteam.cround.common.domain.BaseTimeEntity;
-import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.member.ProfileImageEmptyException;
-import croundteam.cround.common.exception.member.ProfileImageEqualsException;
+import croundteam.cround.creator.domain.Creator;
+import croundteam.cround.member.domain.follow.Follow;
 import croundteam.cround.member.domain.follow.Followings;
 import croundteam.cround.member.domain.interest.Interest;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
-import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -58,12 +54,24 @@ public class Member extends BaseTimeEntity {
         this.role = Role.USER;
     }
 
-    public String getRoleName() {
-        return role.getName();
-    }
-
     public void update(Member member) {
         this.email = member.getEmail();
         this.username = member.getUsername();
+    }
+
+    public void follow(Creator target) {
+        Follow follow = Follow.of(this, target);
+        followings.add(follow);
+        target.add(follow);
+    }
+
+    public void unfollow(Creator target) {
+        Follow follow = Follow.of(this, target);
+        followings.remove(follow);
+        target.remove(follow);
+    }
+
+    public String getRoleName() {
+        return role.getName();
     }
 }

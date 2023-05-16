@@ -1,5 +1,6 @@
 package croundteam.cround.creator.domain.platform;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlatformActivityName {
 
-    @Column(name = "activity_name")
+    @Column(name = "platform_activity_name")
     private String name;
 
     private PlatformActivityName(String name) {

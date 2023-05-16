@@ -11,6 +11,19 @@ Content-Type: application/json
   "interestPlatform": ["YOUTUBE", "TIKTOK"]
 }
 
+### 회원가입
+POST localhost:8080/api/members
+Content-Type: application/json
+
+{
+  "email": "cround1@cround.com",
+  "username": "크라운드",
+  "nickname": "크라운드1",
+  "password": "cround",
+  "confirmPassword": "cround",
+  "interestPlatform": ["YOUTUBE", "TIKTOK"]
+}
+
 ### 일반 로그인
 POST localhost:8080/auth/login
 Content-Type: application/json
@@ -18,6 +31,24 @@ Content-Type: application/json
 {
   "email": "cround@cround.com",
   "password": "cround"
+}
+
+### 팔로우
+POST localhost:8080/api/members/following
+Content-Type: application/json
+
+{
+  "sourceId": 2,
+  "targetId": 1
+}
+
+### 언팔로우
+DELETE localhost:8080/api/members/following
+Content-Type: application/json
+
+{
+  "sourceId": 2,
+  "targetId": 1
 }
 
 ### 소셜 로그인
