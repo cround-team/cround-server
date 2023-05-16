@@ -38,12 +38,12 @@ public class Member extends BaseTimeEntity {
     @Column(length = 128)
     private String password;
 
+    @Embedded
+    private Interest interest;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
-
-    @Embedded
-    private Interest interest;
 
     @Embedded
     private Followings followings;

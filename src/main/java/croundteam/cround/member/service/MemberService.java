@@ -26,11 +26,7 @@ public class MemberService {
         validateDuplicateEmail(memberSaveRequest.getEmail());
         validateIsSamePassword(memberSaveRequest);
 
-        Member member = Member.builder()
-                .username(memberSaveRequest.getUsername())
-                .email(memberSaveRequest.getEmail())
-                .password(BCryptEncoder.encrypt(memberSaveRequest.getPassword()))
-                .build();
+        Member member = memberSaveRequest.toEntity();
         Member saveMember = memberRepository.save(member);
 
         return saveMember.getId();
