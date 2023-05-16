@@ -3,10 +3,12 @@ POST localhost:8080/api/members
 Content-Type: application/json
 
 {
-  "username": "크라운드",
   "email": "cround@cround.com",
+  "username": "크라운드",
+  "nickname": "크라운드",
   "password": "cround",
-  "confirmPassword": "cround"
+  "confirmPassword": "cround",
+  "interestPlatform": ["YOUTUBE", "TIKTOK"]
 }
 
 ### 일반 로그인

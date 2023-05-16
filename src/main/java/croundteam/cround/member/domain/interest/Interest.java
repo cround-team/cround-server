@@ -6,10 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -26,22 +23,11 @@ public class Interest {
                     name = "member_id"))
     private List<PlatformType> interestPlatform = new ArrayList<>();
 
-    /**
-     * Enum 확장성 있는 구조로 변경
-     */
-    @ElementCollection(fetch = FetchType.LAZY)
-    @CollectionTable(
-            name = "interest_theme",
-            joinColumns = @JoinColumn(
-                    name = "member_id"))
-    private List<ThemeKind> themeKinds = new ArrayList<>();
-
-    public Interest(List<PlatformType> interestPlatform, List<ThemeKind> themeKinds) {
+    public Interest(List<PlatformType> interestPlatform) {
         this.interestPlatform = interestPlatform;
-        this.themeKinds = themeKinds;
     }
 
-    public static Interest of(List<PlatformType> platformTypes, List<ThemeKind> themes) {
-        return new Interest(platformTypes, themes);
+    public static Interest from(List<PlatformType> platformTypes) {
+        return new Interest(platformTypes);
     }
 }

@@ -32,4 +32,16 @@ public class Platform {
                 PlatformActivityName.from(platformActivityName)
         );
     }
+
+    public String getPlatformUrl() {
+        return platformUrl.getUrl();
+    }
+
+    public String getPlatformType() {
+        return platformType.getPlatformName();
+    }
+
+    public String getPlatformActivityName() {
+        return platformActivityName.getName();
+    }
 }

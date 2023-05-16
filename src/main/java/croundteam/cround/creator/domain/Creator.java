@@ -33,12 +33,12 @@ public class Creator extends BaseTimeEntity {
     @Column(name = "profile_image")
     private String profileImage;
 
+    @Embedded
+    private Platform platform;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_creator_to_member"))
     private Member member;
-
-    @Embedded
-    private Platform platform;
 
     @Embedded
     private Followers followers;
@@ -54,6 +54,10 @@ public class Creator extends BaseTimeEntity {
         this.creatorTags = castTagsToCreatorTags(creatorTags);
     }
 
+    public void addMember(Member member) {
+        this.member = member;
+    }
+
     public static Creator of(String profileImage, Member member, Platform platform, Tags creatorTags) {
         return Creator.builder()
                 .profileImage(profileImage)
@@ -65,6 +69,10 @@ public class Creator extends BaseTimeEntity {
 
     public void addFollowers(Follow follow) {
         getFollowers().add(follow);
+    }
+
+    public String getActivityName() {
+        return platform.getPlatformActivityName();
     }
 
     public List<Follow> getFollowers() {

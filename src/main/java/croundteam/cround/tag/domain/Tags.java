@@ -4,10 +4,7 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.tag.ExceedTagLengthException;
 import croundteam.cround.common.exception.tag.ExceedTagsSizeException;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_TAGS_MAX_SIZE;
@@ -46,8 +43,16 @@ public class Tags {
         return new Tags(tags);
     }
 
+//    public static Tags from(List<String> tags) {
+//        return new Tags(castTagsList(tags));
+//    }
+
     public List<Tag> toList() {
         return Collections.unmodifiableList(tags);
+    }
+
+    public static List<Tag> castTagsList(List<String> tagNames) {
+        return tagNames.stream().map(Tag::from).collect(Collectors.toList());
     }
 
     public static Tags toTagsByNames(String... names) {
@@ -58,7 +63,7 @@ public class Tags {
              */
         }
         List<Tag> collect = Arrays.stream(names)
-                .map(name -> Tag.of(name))
+                .map(name -> Tag.from(name))
                 .collect(Collectors.toList());
         return new Tags(collect);
     }
