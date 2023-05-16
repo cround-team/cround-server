@@ -1,6 +1,8 @@
 package croundteam.cround.creator.service;
 
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.exception.member.DuplicateCreatorPlatformActivityNameException;
+import croundteam.cround.common.exception.member.DuplicateEmailException;
 import croundteam.cround.common.exception.member.NotExistMemberException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.dto.CreatorSaveRequest;
@@ -22,6 +24,8 @@ public class CreatorService {
     private final CreatorRepository creatorRepository;
 
     public String createCreator(Long memberId, CreatorSaveRequest creatorSaveRequest) {
+        validateCreator(creatorSaveRequest);
+
         Member member = findMemberById(memberId);
         Creator creator = creatorSaveRequest.toEntity();
         creator.addMember(member);
@@ -29,6 +33,12 @@ public class CreatorService {
         Creator saveCreator = creatorRepository.save(creator);
 
         return saveCreator.getActivityName();
+    }
+
+    private void validateCreator(CreatorSaveRequest creatorSaveRequest) {
+        if(creatorRepository.existByPlatformActivityName(creatorSaveRequest.getPlatformActivityName())) {
+            throw new DuplicateCreatorPlatformActivityNameException(ErrorCode.DUPLICATE_PLATFORM_ACTIVITY_NAME);
+        }
     }
 
     private Member findMemberById(Long memberId) {
