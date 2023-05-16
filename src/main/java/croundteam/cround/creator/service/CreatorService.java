@@ -2,7 +2,6 @@ package croundteam.cround.creator.service;
 
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.DuplicateCreatorPlatformActivityNameException;
-import croundteam.cround.common.exception.member.DuplicateEmailException;
 import croundteam.cround.common.exception.member.NotExistMemberException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.dto.CreatorSaveRequest;
@@ -36,7 +35,7 @@ public class CreatorService {
     }
 
     private void validateCreator(CreatorSaveRequest creatorSaveRequest) {
-        if(creatorRepository.existByPlatformActivityName(creatorSaveRequest.getPlatformActivityName())) {
+        if(creatorRepository.existsByPlatformPlatformActivityNameName(creatorSaveRequest.getPlatformActivityName())) {
             throw new DuplicateCreatorPlatformActivityNameException(ErrorCode.DUPLICATE_PLATFORM_ACTIVITY_NAME);
         }
     }

@@ -1,14 +1,9 @@
 package croundteam.cround.member.controller;
 
-import croundteam.cround.member.dto.EmailValidationRequest;
-import croundteam.cround.member.dto.MemberSaveRequest;
-import croundteam.cround.member.dto.NicknameValidationRequest;
+import croundteam.cround.member.dto.*;
 import croundteam.cround.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -40,6 +35,19 @@ public class MemberController {
         memberService.validateDuplicateNickname(nicknameValidationRequest.getNickname());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/following")
+    public ResponseEntity<FollowResponse> followCreator(@RequestBody FollowRequest followRequest) {
+        FollowResponse followResponse = memberService.followCreator(followRequest);
+        return ResponseEntity.ok(followResponse);
+    }
+
+    @DeleteMapping("/following")
+    public ResponseEntity<FollowResponse> unfollowCreator(@RequestBody FollowRequest followRequest) {
+        FollowResponse followResponse = memberService.unfollowCreator(followRequest);
+        return ResponseEntity.ok(followResponse);
+    }
+
 
     /**
      * /me/password

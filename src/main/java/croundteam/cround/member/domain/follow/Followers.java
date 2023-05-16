@@ -1,5 +1,7 @@
 package croundteam.cround.member.domain.follow;
 
+import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.exception.member.InvalidFollowException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +15,23 @@ import java.util.List;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Getter
 public class Followers {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "target", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "target", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Follow> followers = new ArrayList<>();
 
-    public Followers(List<Follow> followers) {
-        this.followers = followers;
+    public void add(Follow follow) {
+        followers.add(follow);
+    }
+
+    public void remove(Follow follow) {
+        validateFollow(follow);
+        followers.remove(follow);
+    }
+
+    private void validateFollow(Follow follow) {
+        if(!followers.contains(follow)) {
+            throw new InvalidFollowException(ErrorCode.INVALID_FOLLOW);
+        }
     }
 }

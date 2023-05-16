@@ -36,7 +36,7 @@ public class Creator extends BaseTimeEntity {
     @Embedded
     private Platform platform;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_creator_to_member"))
     private Member member;
 
@@ -54,8 +54,10 @@ public class Creator extends BaseTimeEntity {
         this.creatorTags = castTagsToCreatorTags(creatorTags);
     }
 
-    public void addMember(Member member) {
-        this.member = member;
+    private List<CreatorTag> castTagsToCreatorTags(Tags tags) {
+        return tags.toList().stream()
+                .map(tag -> CreatorTag.of(this, tag))
+                .collect(Collectors.toList());
     }
 
     public static Creator of(String profileImage, Member member, Platform platform, Tags creatorTags) {
@@ -67,21 +69,23 @@ public class Creator extends BaseTimeEntity {
                 .build();
     }
 
-    public void addFollowers(Follow follow) {
-        getFollowers().add(follow);
+    public void addMember(Member member) {
+        this.member = member;
+    }
+
+    public void add(Follow follow) {
+        followers.add(follow);
+    }
+
+    public void remove(Follow follow) {
+        followers.remove(follow);
     }
 
     public String getActivityName() {
         return platform.getPlatformActivityName();
     }
 
-    public List<Follow> getFollowers() {
-        return followers.getFollowers();
-    }
-
-    private List<CreatorTag> castTagsToCreatorTags(Tags tags) {
-        return tags.toList().stream()
-                .map(tag -> CreatorTag.of(this, tag))
-                .collect(Collectors.toList());
+    public Long getMemberId() {
+        return member.getId();
     }
 }
