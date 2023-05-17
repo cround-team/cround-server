@@ -7,5 +7,9 @@ Content-Type: application/json
   "platformUrl": "https://www.youtube.com/",
   "platformType": "YOUTUBE",
   "platformActivityName": "유튜버",
-  "tags": ["나는야", "유튜버", "빠밤"]
+  "tags": [
+    {"tagName": "나는야"},
+    {"tagName": "유튜버"},
+    {"tagName": "크리에이터"}
+  ]
 }

@@ -16,7 +16,7 @@ import javax.persistence.*;
         name = "follow_source_and_target_composite_unique",
         columnNames= {"source_id", "target_id"}))
 @ToString
-@EqualsAndHashCode(of = {"source", "target"})
+@EqualsAndHashCode(of = {"source", "target"}, callSuper = false)
 public class Follow extends BaseTimeEntity {
 
     @Id

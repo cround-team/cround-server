@@ -8,20 +8,10 @@ Content-Type: application/json
   "nickname": "크라운드",
   "password": "cround",
   "confirmPassword": "cround",
-  "interestPlatform": ["YOUTUBE", "TIKTOK"]
-}
-
-### 회원가입
-POST localhost:8080/api/members
-Content-Type: application/json
-
-{
-  "email": "cround1@cround.com",
-  "username": "크라운드",
-  "nickname": "크라운드1",
-  "password": "cround",
-  "confirmPassword": "cround",
-  "interestPlatform": ["YOUTUBE", "TIKTOK"]
+  "interestPlatform": [
+    {"platformName":"YOUTUBE"},
+    {"platformName":"TikTOk"}
+  ]
 }
 
 ### 일반 로그인
