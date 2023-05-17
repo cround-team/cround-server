@@ -1,0 +1,9 @@
+### 콘텐츠 글 작성
+POST localhost:8080/api/boards/1
+Content-Type: application/json
+
+{
+  "platformType": "YOUTUBE",
+  "title": "제목",
+  "content": "내용"
+}

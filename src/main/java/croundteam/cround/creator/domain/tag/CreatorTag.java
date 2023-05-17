@@ -18,11 +18,11 @@ public class CreatorTag {
     @Column(name = "creator_tag_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "creator_id", foreignKey = @ForeignKey(name = "fk_creatortag_to_creator"))
     private Creator creator;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "tag_id", foreignKey = @ForeignKey(name = "fk_creatortag_to_tag"))
     private Tag tag;
 

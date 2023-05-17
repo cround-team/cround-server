@@ -1,5 +1,6 @@
 package croundteam.cround.creator.domain.platform;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -18,6 +19,7 @@ public class PlatformType {
         this.platformName = platformName;
     }
 
+    @JsonCreator
     public static PlatformType from(String platformName) {
         return new PlatformType(PlatformName.from(platformName));
     }

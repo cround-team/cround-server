@@ -5,7 +5,10 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.InvalidSourceTargetFollowException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -15,7 +18,6 @@ import javax.persistence.*;
 @Table(uniqueConstraints = @UniqueConstraint(
         name = "follow_source_and_target_composite_unique",
         columnNames= {"source_id", "target_id"}))
-@ToString
 @EqualsAndHashCode(of = {"source", "target"}, callSuper = false)
 public class Follow extends BaseTimeEntity {
 
