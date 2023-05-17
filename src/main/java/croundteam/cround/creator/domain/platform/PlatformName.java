@@ -1,5 +1,6 @@
 package croundteam.cround.creator.domain.platform;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.tag.InvalidPlatformNameException;
 import lombok.Getter;
@@ -20,6 +21,7 @@ public enum PlatformName {
         this.name = name;
     }
 
+    @JsonCreator
     public static PlatformName from(String platformName) {
         try {
             String type = platformName.trim().toUpperCase();

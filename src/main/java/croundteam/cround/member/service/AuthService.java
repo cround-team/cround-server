@@ -5,7 +5,7 @@ import croundteam.cround.security.token.OAuthTokenResponse;
 import croundteam.cround.security.token.RefreshToken;
 import croundteam.cround.security.token.RefreshTokenRepository;
 import croundteam.cround.security.BCryptEncoder;
-import croundteam.cround.security.token.TokenProvider;
+import croundteam.cround.security.token.support.TokenProvider;
 import croundteam.cround.common.dto.TokenResponse;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.NotExistMemberException;

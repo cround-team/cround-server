@@ -1,5 +1,6 @@
 package croundteam.cround.creator.domain;
 
+import croundteam.cround.board.domain.Board;
 import croundteam.cround.common.domain.BaseTimeEntity;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.tag.CreatorTag;
@@ -43,8 +44,11 @@ public class Creator extends BaseTimeEntity {
     @Embedded
     private Followers followers;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
     private List<CreatorTag> creatorTags = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
+    private List<Board> boards = new ArrayList<>();
 
     @Builder
     private Creator(String profileImage, Member member, Platform platform, Tags creatorTags) {
@@ -71,6 +75,10 @@ public class Creator extends BaseTimeEntity {
 
     public void addMember(Member member) {
         this.member = member;
+    }
+
+    public void addBoard(Board board) {
+        boards.add(board);
     }
 
     public void add(Follow follow) {

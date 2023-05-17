@@ -7,9 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -29,12 +26,6 @@ public class PlatformType {
 
     public static PlatformType from(PlatformName platformName) {
         return new PlatformType(platformName);
-    }
-
-    public static List<PlatformType> castPlatformTypeList(List<String> types) {
-        return types.stream()
-                .map(PlatformType::from)
-                .collect(Collectors.toList());
     }
 
     public String getPlatformName() {

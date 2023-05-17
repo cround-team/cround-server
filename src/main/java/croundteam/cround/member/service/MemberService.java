@@ -2,6 +2,7 @@ package croundteam.cround.member.service;
 
 import croundteam.cround.common.exception.member.*;
 import croundteam.cround.creator.domain.Creator;
+import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.member.dto.FollowRequest;
 import croundteam.cround.common.exception.ErrorCode;
@@ -83,6 +84,4 @@ public class MemberService {
             throw new PasswordMisMatchException(ErrorCode.PASSWORD_MISMATCH);
         }
     }
-
-
 }

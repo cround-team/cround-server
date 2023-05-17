@@ -1,0 +1,10 @@
+### 콘텐츠 글 작성
+POST localhost:8080/api/boards
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm91bmRAY3JvdW5kLmNvbSIsImV4cCI6MTY4NDMyNDQ2MSwiaWF0IjoxNjg0MzE3MjYxfQ.GenxOvENTwiaD3QXd_36tuHOH3YPfYXu-dIYV5ESV_c
+
+{
+  "platformType": "YOUTUBE",
+  "title": "제목",
+  "content": "내용"
+}
