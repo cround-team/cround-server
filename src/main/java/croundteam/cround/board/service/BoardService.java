@@ -9,6 +9,7 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.member.NotExistCreatorException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.repository.CreatorRepository;
+import croundteam.cround.member.dto.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,8 @@ public class BoardService {
     private final CreatorRepository creatorRepository;
 
     @Transactional
-    public Long saveBoard(Long memberId, BoardSaveRequest boardSaveRequest) {
-        Creator creator = findCreatorById(memberId);
+    public Long saveBoard(LoginMember loginMember, BoardSaveRequest boardSaveRequest) {
+        Creator creator = findCreatorByEmail(loginMember.getEmail());
         Board board = Board.of(creator, boardSaveRequest);
         creator.addBoard(board);
 
@@ -45,8 +46,8 @@ public class BoardService {
         return new BoardsResponse(boardResponses);
     }
 
-    private Creator findCreatorById(Long memberId) {
-        return creatorRepository.findCreatorByMemberId(memberId).orElseThrow(
+    private Creator findCreatorByEmail(String email) {
+        return creatorRepository.findCreatorByEmail(email).orElseThrow(
                 () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
     }
 }

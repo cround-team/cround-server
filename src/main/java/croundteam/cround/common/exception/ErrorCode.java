@@ -22,6 +22,8 @@ public enum ErrorCode {
     EXCEED_TAGS_MAX_SIZE(HttpStatus.BAD_REQUEST, "태그는 최대 7개까지 설정할 수 있습니다."),
     EXCEED_TAG_LENGTH(HttpStatus.BAD_REQUEST, "태그는 최대 20글자까지 입력할 수 있습니다."),
 
+    INVALID_BEARER_TOKEN(HttpStatus.FORBIDDEN, "유효하지 않은 토큰입니다."),
+
     NOT_EXIST_CREATOR(HttpStatus.NOT_FOUND, "존재하지 않는 크리에이터입니다."),
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다.");
 

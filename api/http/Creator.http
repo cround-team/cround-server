@@ -1,6 +1,7 @@
 ### 크리에이터 등록
 POST localhost:8080/api/creators/1
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm91bmRAY3JvdW5kLmNvbSIsImV4cCI6MTY4NDMyMjgyMywiaWF0IjoxNjg0MzE1NjIzfQ.Uu_ow7i4CnW5KzK_pAXosNdBpujkIp0_-uTEu62aLWk
 
 {
   "profileImage": "profle image",

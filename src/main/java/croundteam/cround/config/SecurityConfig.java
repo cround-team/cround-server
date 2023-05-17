@@ -57,7 +57,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/favicon.ico", "/error").permitAll()
-                .antMatchers("/login", "/cround/health", "/cround/login", "/oauth2/authorize/**", "/**").permitAll()
+                .antMatchers("/login", "/cround/health", "/cround/login", "/oauth2/authorize/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/oauth2/kakao").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members", "/auth/login").permitAll()
                 .anyRequest().authenticated();
