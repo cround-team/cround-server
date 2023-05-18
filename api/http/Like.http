@@ -1,0 +1,9 @@
+### 콘텐츠 좋아요
+POST localhost:8080/api/likes/boards/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm91bmRAY3JvdW5kLmNvbSIsImV4cCI6MTY4NDQyNTE4MCwiaWF0IjoxNjg0NDE3OTgwfQ.RGALnF0lQUZxbEeTN_AcxuUO8_pLyjaqJ6a9kMj5gI0
+
+### 콘텐츠 좋아요 취소
+DELETE localhost:8080/api/likes/boards/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjcm91bmRAY3JvdW5kLmNvbSIsImV4cCI6MTY4NDQyNTE4MCwiaWF0IjoxNjg0NDE3OTgwfQ.RGALnF0lQUZxbEeTN_AcxuUO8_pLyjaqJ6a9kMj5gI0

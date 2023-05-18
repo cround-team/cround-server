@@ -56,6 +56,7 @@ public class AuthService {
         OAuthTokenResponse oAuthTokenResponse = getToken(clientRegistration, code);
         Map<String, Object> userAttributes = getUserAttributes(clientRegistration, oAuthTokenResponse);
         OAuthAttributes attributes = OAuthAttributes.of(provider, "email", userAttributes);
+        log.info("=> {} 님이 인증에 성공하였습니다.", attributes.getName());
 
         Member member = saveOrUpdate(attributes);
         log.info("=> social {} 에서 {} 이 로그인 하였습니다.", provider, member.getUsername());

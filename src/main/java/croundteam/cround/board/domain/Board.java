@@ -4,6 +4,7 @@ import croundteam.cround.board.dto.BoardSaveRequest;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.like.domain.BoardLike;
+import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,7 +39,7 @@ public class Board {
     @JoinColumn(name = "creator_id")
     private Creator creator;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<BoardLike> boardLikes = new ArrayList<>();
 
     @Builder
@@ -49,6 +50,16 @@ public class Board {
         this.creator = creator;
     }
 
+    public void like(Member member) {
+        BoardLike like = new BoardLike(this, member);
+        boardLikes.add(like);
+    }
+
+    public void unlike(Member member) {
+        BoardLike like = new BoardLike(this, member);
+        boardLikes.remove(like);
+    }
+
     public static Board of(Creator creator, BoardSaveRequest boardSaveRequest) {
         return Board.builder()
                 .platformType(PlatformType.from(boardSaveRequest.getPlatformType()))
@@ -56,6 +67,10 @@ public class Board {
                 .content(Content.from(boardSaveRequest.getContent()))
                 .creator(creator)
                 .build();
+    }
+
+    public int getBoardLikes() {
+        return boardLikes.size();
     }
 
     public String getPlatformType() {
