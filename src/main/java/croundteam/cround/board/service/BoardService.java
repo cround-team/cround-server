@@ -1,15 +1,17 @@
 package croundteam.cround.board.service;
 
 import croundteam.cround.board.domain.Board;
-import croundteam.cround.board.dto.BoardResponse;
-import croundteam.cround.board.dto.BoardSaveRequest;
-import croundteam.cround.board.dto.BoardsResponse;
+import croundteam.cround.board.dto.*;
 import croundteam.cround.board.repository.BoardRepository;
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.exception.like.NotExistBoardException;
 import croundteam.cround.common.exception.member.NotExistCreatorException;
+import croundteam.cround.common.exception.member.NotExistMemberException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.repository.CreatorRepository;
+import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.dto.LoginMember;
+import croundteam.cround.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,15 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final CreatorRepository creatorRepository;
+    private final MemberRepository memberRepository;
+
+    public BoardsResponse findBoards() {
+        List<BoardResponse> boardResponses = boardRepository.findAll()
+                .stream()
+                .map(BoardResponse::new)
+                .collect(Collectors.toList());
+        return new BoardsResponse(boardResponses);
+    }
 
     @Transactional
     public Long saveBoard(LoginMember loginMember, BoardSaveRequest boardSaveRequest) {
@@ -38,12 +49,54 @@ public class BoardService {
         return saveBoard.getId();
     }
 
-    public BoardsResponse findBoards() {
-        List<BoardResponse> boardResponses = boardRepository.findAll()
-                .stream()
-                .map(BoardResponse::new)
-                .collect(Collectors.toList());
-        return new BoardsResponse(boardResponses);
+    @Transactional
+    public BookmarkResponse bookmarkBoard(LoginMember loginMember, Long boardId) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Board board = findBoardById(boardId);
+
+        board.bookmark(member);
+
+        return new BookmarkResponse(board.getBoardBookmarks());
+    }
+
+    @Transactional
+    public BookmarkResponse unbookmarkBoard(LoginMember loginMember, Long boardId) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Board board = findBoardById(boardId);
+
+        board.unbookmark(member);
+
+        return new BookmarkResponse(board.getBoardBookmarks());
+    }
+
+    @Transactional
+    public LikeResponse likeBoard(LoginMember loginMember, Long boardId) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Board board = findBoardById(boardId);
+
+        board.like(member);
+
+        return new LikeResponse(board.getBoardLikes());
+    }
+
+    @Transactional
+    public LikeResponse unlikeBoard(LoginMember loginMember, Long boardId) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Board board = findBoardById(boardId);
+
+        board.unlike(member);
+
+        return new LikeResponse(board.getBoardLikes());
+    }
+
+    private Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(
+                () -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
+    }
+
+    private Board findBoardById(Long boardId) {
+        return boardRepository.findById(boardId).orElseThrow(
+                () -> new NotExistBoardException(ErrorCode.NOT_EXIST_BOARD));
     }
 
     private Creator findCreatorByEmail(String email) {

@@ -2,6 +2,8 @@ package croundteam.cround.board.controller;
 
 import croundteam.cround.board.dto.BoardSaveRequest;
 import croundteam.cround.board.dto.BoardsResponse;
+import croundteam.cround.board.dto.BookmarkResponse;
+import croundteam.cround.board.dto.LikeResponse;
 import croundteam.cround.board.service.BoardService;
 import croundteam.cround.member.dto.LoginMember;
 import croundteam.cround.security.token.support.Login;
@@ -36,4 +38,33 @@ public class BoardController {
         return ResponseEntity.ok(boards);
     }
 
+    @PostMapping("/{boardId}/bookmarks")
+    public ResponseEntity<BookmarkResponse> bookmarkBoard(
+            @Login LoginMember loginMember,
+            @PathVariable Long boardId
+    ) {
+        BookmarkResponse bookmarkResponse = boardService.bookmarkBoard(loginMember, boardId);
+        return ResponseEntity.ok(bookmarkResponse);
+    }
+
+    @DeleteMapping("/{boardId}/bookmarks")
+    public ResponseEntity<BookmarkResponse> unbookmarkBoard(
+            @Login LoginMember loginMember,
+            @PathVariable Long boardId
+    ) {
+        BookmarkResponse bookmarkResponse = boardService.unbookmarkBoard(loginMember, boardId);
+        return ResponseEntity.ok(bookmarkResponse);
+    }
+
+    @PostMapping("/{boardId}/likes")
+    public ResponseEntity<LikeResponse> likeBoard(@Login LoginMember loginMember, @PathVariable Long boardId) {
+        LikeResponse likeResponse = boardService.likeBoard(loginMember, boardId);
+        return ResponseEntity.ok(likeResponse);
+    }
+
+    @DeleteMapping("/{boardId}/likes")
+    public ResponseEntity<LikeResponse> unlikeBoard(@Login LoginMember loginMember, @PathVariable Long boardId) {
+        LikeResponse likeResponse = boardService.unlikeBoard(loginMember, boardId);
+        return ResponseEntity.ok(likeResponse);
+    }
 }

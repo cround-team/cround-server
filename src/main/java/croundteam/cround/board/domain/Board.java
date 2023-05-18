@@ -1,9 +1,10 @@
 package croundteam.cround.board.domain;
 
 import croundteam.cround.board.dto.BoardSaveRequest;
+import croundteam.cround.board.domain.bookmark.BoardBookmark;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
-import croundteam.cround.like.domain.BoardLike;
+import croundteam.cround.board.domain.like.BoardLike;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -42,6 +43,9 @@ public class Board {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<BoardLike> boardLikes = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    private List<BoardBookmark> boardBookmarks = new ArrayList<>();
+
     @Builder
     public Board(PlatformType platformType, Title title, Content content, Creator creator) {
         this.platformType = platformType;
@@ -60,6 +64,16 @@ public class Board {
         boardLikes.remove(like);
     }
 
+    public void bookmark(Member member) {
+        BoardBookmark bookmark = new BoardBookmark(this, member);
+        boardBookmarks.add(bookmark);
+    }
+
+    public void unbookmark(Member member) {
+        BoardBookmark bookmark = new BoardBookmark(this, member);
+        boardBookmarks.remove(bookmark);
+    }
+
     public static Board of(Creator creator, BoardSaveRequest boardSaveRequest) {
         return Board.builder()
                 .platformType(PlatformType.from(boardSaveRequest.getPlatformType()))
@@ -71,6 +85,10 @@ public class Board {
 
     public int getBoardLikes() {
         return boardLikes.size();
+    }
+
+    public int getBoardBookmarks() {
+        return boardBookmarks.size();
     }
 
     public String getPlatformType() {

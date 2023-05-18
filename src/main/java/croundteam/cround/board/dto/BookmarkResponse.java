@@ -1,4 +1,4 @@
-package croundteam.cround.like.dto;
+package croundteam.cround.board.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LikeResponse {
+public class BookmarkResponse {
 
     int boardLikeCount;
 }
