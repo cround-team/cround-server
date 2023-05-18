@@ -1,4 +1,4 @@
-package croundteam.cround.bookmark.domain;
+package croundteam.cround.board.domain.bookmark;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.member.domain.Member;

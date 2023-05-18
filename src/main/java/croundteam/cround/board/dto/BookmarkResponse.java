@@ -1,4 +1,4 @@
-package croundteam.cround.bookmark.dto;
+package croundteam.cround.board.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

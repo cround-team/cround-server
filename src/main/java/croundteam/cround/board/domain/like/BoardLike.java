@@ -1,4 +1,4 @@
-package croundteam.cround.like.domain;
+package croundteam.cround.board.domain.like;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.member.domain.Member;

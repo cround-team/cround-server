@@ -1,10 +1,10 @@
 package croundteam.cround.board.domain;
 
 import croundteam.cround.board.dto.BoardSaveRequest;
-import croundteam.cround.bookmark.domain.BoardBookmark;
+import croundteam.cround.board.domain.bookmark.BoardBookmark;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
-import croundteam.cround.like.domain.BoardLike;
+import croundteam.cround.board.domain.like.BoardLike;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
