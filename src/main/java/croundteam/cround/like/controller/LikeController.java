@@ -1,4 +1,4 @@
-package croundteam.cround.like;
+package croundteam.cround.like.controller;
 
 import croundteam.cround.like.dto.LikeResponse;
 import croundteam.cround.like.service.LikeService;
