@@ -1,5 +1,8 @@
 package croundteam.cround.like;
 
+import croundteam.cround.like.service.LikeService;
+import croundteam.cround.member.dto.LoginMember;
+import croundteam.cround.security.token.support.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class LikeController {
 
+    private final LikeService likeService;
+
     @PostMapping("/boards/{boardId}")
-    public void likeBoard(@PathVariable Long boardId) {
+    public void likeBoard(@Login LoginMember loginMember, @PathVariable Long boardId) {
+
 
     }
 }

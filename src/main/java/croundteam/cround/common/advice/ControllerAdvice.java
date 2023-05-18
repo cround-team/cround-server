@@ -9,6 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @RestControllerAdvice
 public class ControllerAdvice {
@@ -27,11 +29,14 @@ public class ControllerAdvice {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+    public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request) {
         /**
          * Slack or Discord 로 Notification 추가
          */
-        log.info("500: Internal server error, message = {}", e.getMessage());
+        String method = request.getMethod();
+        String requestURI = request.getRequestURI();
+
+        log.info("ERROR 500: [{}][{}]: Exception Message = {}", method, requestURI, e.getMessage());
         return ResponseEntity.internalServerError().body(new ErrorResponse("알 수 없는 문제가 발생했습니다. 서버 관리자에게 문의주세요."));
     }
 }
