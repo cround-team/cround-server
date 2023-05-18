@@ -2,9 +2,7 @@ package croundteam.cround.like.domain;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.member.domain.Member;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "board_like")
+@EqualsAndHashCode(of = {"board", "member"})
 public class BoardLike {
 
     @Id
@@ -27,12 +26,9 @@ public class BoardLike {
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_boardlike_to_member"))
     private Member member;
 
-    private BoardLike(Board board, Member member) {
+    public BoardLike(Board board, Member member) {
         this.board = board;
         this.member = member;
     }
 
-    public static BoardLike of(Board board, Member member) {
-        return new BoardLike(board, member);
-    }
 }

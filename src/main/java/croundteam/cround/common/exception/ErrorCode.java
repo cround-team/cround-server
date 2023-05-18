@@ -24,6 +24,7 @@ public enum ErrorCode {
 
     INVALID_BEARER_TOKEN(HttpStatus.FORBIDDEN, "유효하지 않은 토큰입니다."),
 
+    NOT_EXIST_BOARD(HttpStatus.NOT_FOUND, "존재하지 않는 콘텐츠입니다."),
     NOT_EXIST_CREATOR(HttpStatus.NOT_FOUND, "존재하지 않는 크리에이터입니다."),
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다.");
 
