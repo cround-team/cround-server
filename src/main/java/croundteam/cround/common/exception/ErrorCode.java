@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     DUPLICATE_EMAIL(HttpStatus.BAD_REQUEST, "이미 존재하는 E-mail입니다."),
+    DUPLICATE_LIKE(HttpStatus.BAD_REQUEST, "이미 좋아요한 대상입니다."),
     DUPLICATE_NICKNAME(HttpStatus.BAD_REQUEST, "이미 존재하는 닉네임입니다."),
     DUPLICATE_PLATFORM_ACTIVITY_NAME(HttpStatus.BAD_REQUEST, "이미 존재하는 활동명입니다."),
     PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
