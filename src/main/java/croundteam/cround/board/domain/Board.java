@@ -2,10 +2,14 @@ package croundteam.cround.board.domain;
 
 import croundteam.cround.board.dto.BoardSaveRequest;
 import croundteam.cround.board.domain.bookmark.BoardBookmark;
+import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.exception.InvalidLikeException;
+import croundteam.cround.common.exception.member.InvalidFollowException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.board.domain.like.BoardLike;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.domain.follow.Follow;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,7 +60,14 @@ public class Board {
 
     public void like(Member member) {
         BoardLike like = new BoardLike(this, member);
+        validateLike(like);
         boardLikes.add(like);
+    }
+
+    private void validateLike(BoardLike like) {
+        if(!boardBookmarks.contains(like)) {
+            throw new InvalidLikeException(ErrorCode.DUPLICATE_LIKE);
+        }
     }
 
     public void unlike(Member member) {
