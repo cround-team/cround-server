@@ -2,9 +2,7 @@ package croundteam.cround.shorts.service;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.dto.BookmarkResponse;
-import croundteam.cround.board.dto.LikeResponse;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.like.NotExistBoardException;
 import croundteam.cround.common.exception.like.NotExistShortsException;
 import croundteam.cround.common.exception.member.NotExistCreatorException;
 import croundteam.cround.common.exception.member.NotExistMemberException;
@@ -45,17 +43,23 @@ public class ShortsService {
     @Transactional
     public BookmarkResponse bookmarkShorts(LoginMember loginMember, Long shortsId) {
         Member member = findMemberByEmail(loginMember.getEmail());
-        Shorts shorts = findBoardById(shortsId);
+        Shorts shorts = findShortsById(shortsId);
 
         shorts.bookmark(member);
 
         return new BookmarkResponse(shorts.getShortsBookmarks());
     }
 
-//    @Transactional
-//    public BookmarkResponse unbookmarkShorts(LoginMember loginMember, Long shortsId) {
-//    }
-//
+    @Transactional
+    public BookmarkResponse unbookmarkShorts(LoginMember loginMember, Long shortsId) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Shorts shorts = findShortsById(shortsId);
+
+        shorts.unbookmark(member);
+
+        return new BookmarkResponse(shorts.getShortsBookmarks());
+    }
+
 //    @Transactional
 //    public LikeResponse likeShorts(LoginMember loginMember, Long shortsId) {
 //    }
@@ -74,7 +78,7 @@ public class ShortsService {
                 () -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
     }
 
-    private Shorts findBoardById(Long shortsId) {
+    private Shorts findShortsById(Long shortsId) {
         return shortsRepository.findById(shortsId).orElseThrow(
                 () -> new NotExistShortsException(ErrorCode.NOT_EXIST_SHORTS));
     }

@@ -1,6 +1,5 @@
 package croundteam.cround.shorts.domain;
 
-import croundteam.cround.shorts.domain.like.ShortsLike;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

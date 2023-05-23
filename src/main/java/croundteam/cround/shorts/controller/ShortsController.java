@@ -40,14 +40,14 @@ public class ShortsController {
         return ResponseEntity.ok(bookmarkResponse);
     }
 
-//    @DeleteMapping("/{shortsId}/bookmarks")
-//    public ResponseEntity<BookmarkResponse> unbookmarkShorts(
-//            @Login LoginMember loginMember,
-//            @PathVariable Long shortsId
-//    ) {
-//        BookmarkResponse bookmarkResponse = shortsService.unbookmarkShorts(loginMember, shortsId);
-//        return ResponseEntity.ok(bookmarkResponse);
-//    }
+    @DeleteMapping("/{shortsId}/bookmarks")
+    public ResponseEntity<BookmarkResponse> unbookmarkShorts(
+            @Login LoginMember loginMember,
+            @PathVariable Long shortsId
+    ) {
+        BookmarkResponse bookmarkResponse = shortsService.unbookmarkShorts(loginMember, shortsId);
+        return ResponseEntity.ok(bookmarkResponse);
+    }
 //
 //    @PostMapping("/{shortsId}/likes")
 //    public ResponseEntity<LikeResponse> likeShorts(@Login LoginMember loginMember, @PathVariable Long shortsId) {

@@ -5,8 +5,6 @@ import croundteam.cround.board.domain.Title;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.shorts.domain.bookmark.ShortsBookmark;
-import croundteam.cround.shorts.domain.like.ShortsLike;
 import croundteam.cround.shorts.dto.ShortsSaveRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -14,8 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -61,6 +57,10 @@ public class Shorts {
 
     public void bookmark(Member member) {
         shortsBookmarks.addBookmark(this, member);
+    }
+
+    public void unbookmark(Member member) {
+        shortsBookmarks.removeBookmark(this, member);
     }
 
     public static Shorts of(Creator creator, ShortsSaveRequest shortsSaveRequest) {

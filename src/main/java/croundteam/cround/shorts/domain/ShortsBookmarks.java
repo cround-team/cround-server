@@ -3,7 +3,6 @@ package croundteam.cround.shorts.domain;
 import croundteam.cround.common.InvalidBookmarkException;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.shorts.domain.bookmark.ShortsBookmark;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +26,11 @@ public class ShortsBookmarks {
         ShortsBookmark bookmark = ShortsBookmark.of(shorts, member);
         validateBookmark(bookmark);
         shortsBookmarks.add(bookmark);
+    }
+
+    public void removeBookmark(Shorts shorts, Member member) {
+        ShortsBookmark bookmark = ShortsBookmark.of(shorts, member);
+        shortsBookmarks.remove(bookmark);
     }
 
     private void validateBookmark(ShortsBookmark bookmark) {
