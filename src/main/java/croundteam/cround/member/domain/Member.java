@@ -62,13 +62,13 @@ public class Member extends BaseTimeEntity {
     public void follow(Creator target) {
         Follow follow = Follow.of(this, target);
         followings.add(follow);
-        target.add(follow);
+        target.addFollow(follow);
     }
 
     public void unfollow(Creator target) {
         Follow follow = Follow.of(this, target);
         followings.remove(follow);
-        target.remove(follow);
+        target.removeFollow(follow);
     }
 
     public String getRoleName() {

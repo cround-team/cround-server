@@ -6,6 +6,7 @@ import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.shorts.domain.bookmark.ShortsBookmark;
 import croundteam.cround.shorts.domain.like.ShortsLike;
+import croundteam.cround.shorts.dto.ShortsSaveRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,14 +28,13 @@ public class Shorts {
     private Long id;
 
     @Embedded
-    @Column(nullable = false)
-    private PlatformType platformType;
-
-    @Embedded
     private Title title;
 
     @Embedded
     private Content content;
+
+    @Embedded
+    private PlatformType platformType;
 
     @Embedded
     private ShortForm shortForm;
@@ -58,5 +58,13 @@ public class Shorts {
         this.creator = creator;
     }
 
-
+    public static Shorts of(Creator creator, ShortsSaveRequest shortsSaveRequest) {
+        return Shorts.builder()
+                .title(Title.from(shortsSaveRequest.getTitle()))
+                .content(Content.from(shortsSaveRequest.getContent()))
+                .platformType(PlatformType.from(shortsSaveRequest.getPlatformType()))
+                .shortForm(ShortForm.from(shortsSaveRequest.getShortsUrl()))
+                .creator(creator)
+                .build();
+    }
 }

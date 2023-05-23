@@ -14,7 +14,7 @@ public enum PlatformName {
     TIKTOK("틱톡"),
     PODCAST("팟캐스트");
 
-    @Column(name = "platform_name")
+    @Column(name = "platform_name", nullable = false)
     private String name;
 
     PlatformName(String name) {

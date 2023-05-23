@@ -13,7 +13,11 @@ public class ShortForm {
     @Column(name = "shorts_url", nullable = false)
     private String shortsUrl;
 
-    public ShortForm(String shortsUrl) {
+    private ShortForm(String shortsUrl) {
         this.shortsUrl = shortsUrl;
+    }
+
+    public static ShortForm from(String shortsUrl) {
+        return new ShortForm(shortsUrl);
     }
 }
