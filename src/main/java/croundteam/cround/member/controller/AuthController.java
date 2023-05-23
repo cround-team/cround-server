@@ -1,7 +1,7 @@
 package croundteam.cround.member.controller;
 
-import croundteam.cround.member.service.AuthService;
 import croundteam.cround.common.dto.TokenResponse;
+import croundteam.cround.member.service.AuthService;
 import croundteam.cround.member.service.dto.MemberLoginRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,8 +1,10 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.domain.Board;
 import croundteam.cround.member.domain.Member;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

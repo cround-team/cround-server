@@ -1,6 +1,5 @@
 package croundteam.cround.creator.domain.platform;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,9 +1,9 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.service.dto.BoardSaveRequest;
 import croundteam.cround.board.exception.InvalidBookmarkException;
-import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.board.exception.InvalidLikeException;
+import croundteam.cround.board.service.dto.BoardSaveRequest;
+import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
