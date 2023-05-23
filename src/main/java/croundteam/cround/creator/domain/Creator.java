@@ -7,6 +7,7 @@ import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.follow.Follow;
 import croundteam.cround.member.domain.follow.Followers;
+import croundteam.cround.shorts.domain.Shorts;
 import croundteam.cround.tag.domain.Tags;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -49,6 +50,9 @@ public class Creator extends BaseTimeEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
     private List<Board> boards = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
+    private List<Shorts> shorts = new ArrayList<>();
 
     @Builder
     private Creator(String profileImage, Member member, Platform platform, Tags creatorTags) {
