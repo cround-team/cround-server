@@ -48,17 +48,17 @@ public class ShortsController {
         BookmarkResponse bookmarkResponse = shortsService.unbookmarkShorts(loginMember, shortsId);
         return ResponseEntity.ok(bookmarkResponse);
     }
-//
-//    @PostMapping("/{shortsId}/likes")
-//    public ResponseEntity<LikeResponse> likeShorts(@Login LoginMember loginMember, @PathVariable Long shortsId) {
-//        LikeResponse likeResponse = shortsService.likeShorts(loginMember, shortsId);
-//        return ResponseEntity.ok(likeResponse);
-//    }
-//
-//    @DeleteMapping("/{shortsId}/likes")
-//    public ResponseEntity<LikeResponse> unlikeShorts(@Login LoginMember loginMember, @PathVariable Long shortsId) {
-//        LikeResponse likeResponse = shortsService.unlikeShorts(loginMember, shortsId);
-//        return ResponseEntity.ok(likeResponse);
-//    }
+
+    @PostMapping("/{shortsId}/likes")
+    public ResponseEntity<LikeResponse> likeShorts(@Login LoginMember loginMember, @PathVariable Long shortsId) {
+        LikeResponse likeResponse = shortsService.likeShorts(loginMember, shortsId);
+        return ResponseEntity.ok(likeResponse);
+    }
+
+    @DeleteMapping("/{shortsId}/likes")
+    public ResponseEntity<LikeResponse> unlikeShorts(@Login LoginMember loginMember, @PathVariable Long shortsId) {
+        LikeResponse likeResponse = shortsService.unlikeShorts(loginMember, shortsId);
+        return ResponseEntity.ok(likeResponse);
+    }
 
 }

@@ -2,6 +2,7 @@ package croundteam.cround.shorts.service;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.dto.BookmarkResponse;
+import croundteam.cround.board.dto.LikeResponse;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.exception.like.NotExistShortsException;
 import croundteam.cround.common.exception.member.NotExistCreatorException;
@@ -60,13 +61,25 @@ public class ShortsService {
         return new BookmarkResponse(shorts.getShortsBookmarks());
     }
 
-//    @Transactional
-//    public LikeResponse likeShorts(LoginMember loginMember, Long shortsId) {
-//    }
-//
-//    @Transactional
-//    public LikeResponse unlikeShorts(LoginMember loginMember, Long shortsId) {
-//    }
+    @Transactional
+    public LikeResponse likeShorts(LoginMember loginMember, Long shortsId) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Shorts shorts = findShortsById(shortsId);
+
+        shorts.like(member);
+
+        return new LikeResponse(shorts.getShortsLikes());
+    }
+
+    @Transactional
+    public LikeResponse unlikeShorts(LoginMember loginMember, Long shortsId) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Shorts shorts = findShortsById(shortsId);
+
+        shorts.unlike(member);
+
+        return new LikeResponse(shorts.getShortsLikes());
+    }
 
     private Creator findCreatorByEmail(String email) {
         return creatorRepository.findCreatorByEmail(email).orElseThrow(

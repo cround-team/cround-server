@@ -63,6 +63,14 @@ public class Shorts {
         shortsBookmarks.removeBookmark(this, member);
     }
 
+    public void like(Member member) {
+        shortsLikes.addLike(this, member);
+    }
+
+    public void unlike(Member member) {
+        shortsLikes.removeLike(this, member);
+    }
+
     public static Shorts of(Creator creator, ShortsSaveRequest shortsSaveRequest) {
         return Shorts.builder()
                 .title(Title.from(shortsSaveRequest.getTitle()))
@@ -75,5 +83,9 @@ public class Shorts {
 
     public int getShortsBookmarks() {
         return shortsBookmarks.getShortsBookmarks();
+    }
+
+    public int getShortsLikes() {
+        return shortsLikes.getShortsLikes();
     }
 }

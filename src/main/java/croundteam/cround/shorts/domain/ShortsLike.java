@@ -1,7 +1,6 @@
 package croundteam.cround.shorts.domain;
 
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.shorts.domain.Shorts;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -29,8 +28,12 @@ public class ShortsLike {
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_shorts_like_to_member"))
     private Member member;
 
-    public ShortsLike(Shorts shorts, Member member) {
+    private ShortsLike(Shorts shorts, Member member) {
         this.shorts = shorts;
         this.member = member;
+    }
+
+    public static ShortsLike of(Shorts shorts, Member member) {
+        return new ShortsLike(shorts, member);
     }
 }
