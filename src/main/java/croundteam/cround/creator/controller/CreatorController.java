@@ -1,6 +1,6 @@
 package croundteam.cround.creator.controller;
 
-import croundteam.cround.creator.dto.CreatorSaveRequest;
+import croundteam.cround.creator.service.dto.CreatorSaveRequest;
 import croundteam.cround.creator.service.CreatorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

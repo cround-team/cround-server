@@ -5,7 +5,7 @@ import croundteam.cround.board.domain.Title;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.shorts.dto.ShortsSaveRequest;
+import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

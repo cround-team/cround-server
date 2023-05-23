@@ -1,7 +1,7 @@
 package croundteam.cround.creator.domain.platform;
 
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.tag.InvalidPlatformNameException;
+import croundteam.cround.creator.exception.InvalidPlatformNameException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PlatformNameTest {
 

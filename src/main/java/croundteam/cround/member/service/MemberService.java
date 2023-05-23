@@ -1,14 +1,17 @@
 package croundteam.cround.member.service;
 
-import croundteam.cround.common.exception.member.*;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.creator.domain.platform.PlatformType;
+import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.repository.CreatorRepository;
-import croundteam.cround.member.dto.FollowRequest;
+import croundteam.cround.member.service.dto.FollowRequest;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.dto.FollowResponse;
-import croundteam.cround.member.dto.MemberSaveRequest;
+import croundteam.cround.member.service.dto.FollowResponse;
+import croundteam.cround.member.service.dto.MemberSaveRequest;
+import croundteam.cround.member.exception.DuplicateEmailException;
+import croundteam.cround.member.exception.DuplicateNicknameException;
+import croundteam.cround.member.exception.NotExistMemberException;
+import croundteam.cround.member.exception.PasswordMisMatchException;
 import croundteam.cround.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

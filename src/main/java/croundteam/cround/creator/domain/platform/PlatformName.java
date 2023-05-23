@@ -2,7 +2,7 @@ package croundteam.cround.creator.domain.platform;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.tag.InvalidPlatformNameException;
+import croundteam.cround.creator.exception.InvalidPlatformNameException;
 import lombok.Getter;
 
 import javax.persistence.Column;

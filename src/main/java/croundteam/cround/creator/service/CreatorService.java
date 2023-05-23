@@ -1,10 +1,10 @@
 package croundteam.cround.creator.service;
 
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.member.DuplicateCreatorPlatformActivityNameException;
-import croundteam.cround.common.exception.member.NotExistMemberException;
+import croundteam.cround.creator.exception.DuplicateCreatorPlatformActivityNameException;
+import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.creator.dto.CreatorSaveRequest;
+import croundteam.cround.creator.service.dto.CreatorSaveRequest;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.repository.MemberRepository;

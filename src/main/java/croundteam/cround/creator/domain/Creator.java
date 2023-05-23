@@ -1,14 +1,13 @@
 package croundteam.cround.creator.domain;
 
 import croundteam.cround.board.domain.Board;
-import croundteam.cround.common.domain.BaseTimeEntity;
+import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.platform.Platform;
-import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.follow.Follow;
 import croundteam.cround.member.domain.follow.Followers;
 import croundteam.cround.shorts.domain.Shorts;
-import croundteam.cround.tag.domain.Tags;
+import croundteam.cround.creator.domain.tag.Tags;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
         name = "creator_member_unique",
         columnNames="member_id"))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Creator extends BaseTimeEntity {
+public class Creator extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

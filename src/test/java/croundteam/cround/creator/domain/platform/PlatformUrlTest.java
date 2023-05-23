@@ -1,6 +1,6 @@
 package croundteam.cround.creator.domain.platform;
 
-import croundteam.cround.common.exception.member.InvalidUrlFormatException;
+import croundteam.cround.member.exception.InvalidUrlFormatException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -3,17 +3,13 @@ package croundteam.cround.creator.domain;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.domain.follow.Followers;
-import croundteam.cround.tag.domain.Tag;
-import croundteam.cround.tag.domain.Tags;
+import croundteam.cround.creator.domain.tag.Tags;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_PLATFORM_URI;
 import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PROFILE_IMAGE;
