@@ -1,11 +1,11 @@
 package croundteam.cround.board.controller;
 
-import croundteam.cround.board.dto.BoardSaveRequest;
-import croundteam.cround.board.dto.BoardsResponse;
-import croundteam.cround.board.dto.BookmarkResponse;
-import croundteam.cround.board.dto.LikeResponse;
+import croundteam.cround.board.service.dto.BoardSaveRequest;
+import croundteam.cround.board.service.dto.BoardsResponse;
+import croundteam.cround.board.service.dto.BookmarkResponse;
+import croundteam.cround.board.service.dto.LikeResponse;
 import croundteam.cround.board.service.BoardService;
-import croundteam.cround.member.dto.LoginMember;
+import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.token.support.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,10 +1,10 @@
 package croundteam.cround.shorts.controller;
 
-import croundteam.cround.board.dto.BookmarkResponse;
-import croundteam.cround.board.dto.LikeResponse;
-import croundteam.cround.member.dto.LoginMember;
+import croundteam.cround.board.service.dto.BookmarkResponse;
+import croundteam.cround.board.service.dto.LikeResponse;
+import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.token.support.Login;
-import croundteam.cround.shorts.dto.ShortsSaveRequest;
+import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import croundteam.cround.shorts.service.ShortsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

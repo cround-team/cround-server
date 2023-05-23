@@ -1,8 +1,7 @@
 package croundteam.cround.shorts.domain;
 
-import croundteam.cround.common.InvalidBookmarkException;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.like.InvalidLikeException;
+import croundteam.cround.board.exception.InvalidLikeException;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;

@@ -1,16 +1,16 @@
 package croundteam.cround.board.service;
 
 import croundteam.cround.board.domain.Board;
-import croundteam.cround.board.dto.*;
 import croundteam.cround.board.repository.BoardRepository;
+import croundteam.cround.board.service.dto.*;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.like.NotExistBoardException;
-import croundteam.cround.common.exception.member.NotExistCreatorException;
-import croundteam.cround.common.exception.member.NotExistMemberException;
+import croundteam.cround.board.exception.NotExistBoardException;
+import croundteam.cround.creator.exception.NotExistCreatorException;
+import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.dto.LoginMember;
+import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

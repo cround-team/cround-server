@@ -1,7 +1,7 @@
 package croundteam.cround.member.domain.follow;
 
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.member.InvalidFollowException;
+import croundteam.cround.member.exception.InvalidFollowException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

@@ -1,19 +1,18 @@
 package croundteam.cround.shorts.service;
 
-import croundteam.cround.board.domain.Board;
-import croundteam.cround.board.dto.BookmarkResponse;
-import croundteam.cround.board.dto.LikeResponse;
+import croundteam.cround.board.service.dto.BookmarkResponse;
+import croundteam.cround.board.service.dto.LikeResponse;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.like.NotExistShortsException;
-import croundteam.cround.common.exception.member.NotExistCreatorException;
-import croundteam.cround.common.exception.member.NotExistMemberException;
+import croundteam.cround.shorts.exception.NotExistShortsException;
+import croundteam.cround.creator.exception.NotExistCreatorException;
+import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.dto.LoginMember;
+import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.member.repository.MemberRepository;
 import croundteam.cround.shorts.domain.Shorts;
-import croundteam.cround.shorts.dto.ShortsSaveRequest;
+import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import croundteam.cround.shorts.repository.ShortsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

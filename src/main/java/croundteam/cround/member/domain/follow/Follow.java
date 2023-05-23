@@ -1,8 +1,8 @@
 package croundteam.cround.member.domain.follow;
 
-import croundteam.cround.common.domain.BaseTimeEntity;
+import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.member.InvalidSourceTargetFollowException;
+import croundteam.cround.member.exception.InvalidSourceTargetFollowException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
@@ -19,7 +19,7 @@ import javax.persistence.*;
         name = "follow_source_and_target_composite_unique",
         columnNames= {"source_id", "target_id"}))
 @EqualsAndHashCode(of = {"source", "target"}, callSuper = false)
-public class Follow extends BaseTimeEntity {
+public class Follow extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,7 @@
 package croundteam.cround.creator.domain.platform;
 
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.member.InvalidUrlFormatException;
+import croundteam.cround.member.exception.InvalidUrlFormatException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

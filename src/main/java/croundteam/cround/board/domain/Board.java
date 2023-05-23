@@ -1,13 +1,11 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.dto.BoardSaveRequest;
-import croundteam.cround.board.domain.bookmark.BoardBookmark;
-import croundteam.cround.common.InvalidBookmarkException;
+import croundteam.cround.board.service.dto.BoardSaveRequest;
+import croundteam.cround.board.exception.InvalidBookmarkException;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.like.InvalidLikeException;
+import croundteam.cround.board.exception.InvalidLikeException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
-import croundteam.cround.board.domain.like.BoardLike;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Builder;

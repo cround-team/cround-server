@@ -1,6 +1,6 @@
 package croundteam.cround.member.domain;
 
-import croundteam.cround.common.domain.BaseTimeEntity;
+import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.follow.Follow;
 import croundteam.cround.member.domain.follow.Followings;
@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Table(uniqueConstraints = @UniqueConstraint(
         name = "member_email_unique",
         columnNames="email"))
-public class Member extends BaseTimeEntity {
+public class Member extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,6 +2,7 @@ package croundteam.cround.member.controller;
 
 import croundteam.cround.member.dto.*;
 import croundteam.cround.member.service.MemberService;
+import croundteam.cround.member.service.dto.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

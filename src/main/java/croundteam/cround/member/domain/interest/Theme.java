@@ -1,7 +1,7 @@
 package croundteam.cround.member.domain.interest;
 
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.member.InvalidThemeNameException;
+import croundteam.cround.member.exception.InvalidThemeNameException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

@@ -1,6 +1,6 @@
 package croundteam.cround.security.token;
 
-import croundteam.cround.member.dto.LoginMember;
+import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.token.support.JwtTokenExtractor;
 import croundteam.cround.security.token.support.Login;
 import croundteam.cround.security.token.support.TokenProvider;
