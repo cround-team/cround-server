@@ -1,7 +1,6 @@
-package croundteam.cround.shorts.domain.like;
+package croundteam.cround.shorts.domain;
 
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.shorts.domain.Shorts;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,10 +21,19 @@ public class ShortsLike {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "shorts_id", foreignKey = @ForeignKey(name = "fk_shortslike_to_board"))
+    @JoinColumn(name = "shorts_id", foreignKey = @ForeignKey(name = "fk_shorts_like_to_board"))
     private Shorts shorts;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_shortslike_to_member"))
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_shorts_like_to_member"))
     private Member member;
+
+    private ShortsLike(Shorts shorts, Member member) {
+        this.shorts = shorts;
+        this.member = member;
+    }
+
+    public static ShortsLike of(Shorts shorts, Member member) {
+        return new ShortsLike(shorts, member);
+    }
 }

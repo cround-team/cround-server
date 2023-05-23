@@ -85,11 +85,15 @@ public class Creator extends BaseTimeEntity {
         boards.add(board);
     }
 
-    public void add(Follow follow) {
+    public void addShorts(Shorts shorts) {
+
+    }
+
+    public void addFollow(Follow follow) {
         followers.add(follow);
     }
 
-    public void remove(Follow follow) {
+    public void removeFollow(Follow follow) {
         followers.remove(follow);
     }
 

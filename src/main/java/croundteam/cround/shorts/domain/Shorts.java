@@ -2,19 +2,16 @@ package croundteam.cround.shorts.domain;
 
 import croundteam.cround.board.domain.Content;
 import croundteam.cround.board.domain.Title;
-import croundteam.cround.board.domain.bookmark.BoardBookmark;
-import croundteam.cround.board.domain.like.BoardLike;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
-import croundteam.cround.shorts.domain.bookmark.ShortsBookmark;
-import croundteam.cround.shorts.domain.like.ShortsLike;
+import croundteam.cround.member.domain.Member;
+import croundteam.cround.shorts.dto.ShortsSaveRequest;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -28,14 +25,13 @@ public class Shorts {
     private Long id;
 
     @Embedded
-    @Column(nullable = false)
-    private PlatformType platformType;
-
-    @Embedded
     private Title title;
 
     @Embedded
     private Content content;
+
+    @Embedded
+    private PlatformType platformType;
 
     @Embedded
     private ShortForm shortForm;
@@ -44,9 +40,52 @@ public class Shorts {
     @JoinColumn(name = "creator_id")
     private Creator creator;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shorts", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ShortsLike> boardLikes = new ArrayList<>();
+    @Embedded
+    private ShortsLikes shortsLikes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shorts", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ShortsBookmark> boardBookmarks = new ArrayList<>();
+    @Embedded
+    private ShortsBookmarks shortsBookmarks;
+
+    @Builder
+    public Shorts(PlatformType platformType, Title title, Content content, ShortForm shortForm, Creator creator) {
+        this.platformType = platformType;
+        this.title = title;
+        this.content = content;
+        this.shortForm = shortForm;
+        this.creator = creator;
+    }
+
+    public void bookmark(Member member) {
+        shortsBookmarks.addBookmark(this, member);
+    }
+
+    public void unbookmark(Member member) {
+        shortsBookmarks.removeBookmark(this, member);
+    }
+
+    public void like(Member member) {
+        shortsLikes.addLike(this, member);
+    }
+
+    public void unlike(Member member) {
+        shortsLikes.removeLike(this, member);
+    }
+
+    public static Shorts of(Creator creator, ShortsSaveRequest shortsSaveRequest) {
+        return Shorts.builder()
+                .title(Title.from(shortsSaveRequest.getTitle()))
+                .content(Content.from(shortsSaveRequest.getContent()))
+                .platformType(PlatformType.from(shortsSaveRequest.getPlatformType()))
+                .shortForm(ShortForm.from(shortsSaveRequest.getShortsUrl()))
+                .creator(creator)
+                .build();
+    }
+
+    public int getShortsBookmarks() {
+        return shortsBookmarks.getShortsBookmarks();
+    }
+
+    public int getShortsLikes() {
+        return shortsLikes.getShortsLikes();
+    }
 }
