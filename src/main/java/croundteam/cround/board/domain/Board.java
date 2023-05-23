@@ -89,13 +89,13 @@ public class Board {
     }
 
     private void validateLike(BoardLike like) {
-        if(!boardLikes.contains(like)) {
+        if(boardLikes.contains(like)) {
             throw new InvalidLikeException(ErrorCode.DUPLICATE_LIKE);
         }
     }
 
     private void validateBookmark(BoardBookmark bookmark) {
-        if(!boardBookmarks.contains(bookmark)) {
+        if(boardBookmarks.contains(bookmark)) {
             throw new InvalidBookmarkException(ErrorCode.DUPLICATE_BOOKMARK);
         }
     }

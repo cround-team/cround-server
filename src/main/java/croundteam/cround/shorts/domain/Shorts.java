@@ -2,13 +2,12 @@ package croundteam.cround.shorts.domain;
 
 import croundteam.cround.board.domain.Content;
 import croundteam.cround.board.domain.Title;
-import croundteam.cround.board.domain.bookmark.BoardBookmark;
-import croundteam.cround.board.domain.like.BoardLike;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.shorts.domain.bookmark.ShortsBookmark;
 import croundteam.cround.shorts.domain.like.ShortsLike;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -49,4 +48,15 @@ public class Shorts {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shorts", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ShortsBookmark> boardBookmarks = new ArrayList<>();
+
+    @Builder
+    public Shorts(PlatformType platformType, Title title, Content content, ShortForm shortForm, Creator creator) {
+        this.platformType = platformType;
+        this.title = title;
+        this.content = content;
+        this.shortForm = shortForm;
+        this.creator = creator;
+    }
+
+
 }
