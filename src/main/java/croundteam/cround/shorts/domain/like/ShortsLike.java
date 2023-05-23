@@ -22,10 +22,15 @@ public class ShortsLike {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "shorts_id", foreignKey = @ForeignKey(name = "fk_shortslike_to_board"))
+    @JoinColumn(name = "shorts_id", foreignKey = @ForeignKey(name = "fk_shorts_like_to_board"))
     private Shorts shorts;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_shortslike_to_member"))
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_shorts_like_to_member"))
     private Member member;
+
+    public ShortsLike(Shorts shorts, Member member) {
+        this.shorts = shorts;
+        this.member = member;
+    }
 }

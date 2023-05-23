@@ -4,6 +4,7 @@ import croundteam.cround.board.domain.Content;
 import croundteam.cround.board.domain.Title;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
+import croundteam.cround.member.domain.Member;
 import croundteam.cround.shorts.domain.bookmark.ShortsBookmark;
 import croundteam.cround.shorts.domain.like.ShortsLike;
 import croundteam.cround.shorts.dto.ShortsSaveRequest;
@@ -43,11 +44,11 @@ public class Shorts {
     @JoinColumn(name = "creator_id")
     private Creator creator;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shorts", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ShortsLike> boardLikes = new ArrayList<>();
+    @Embedded
+    private ShortsLikes shortsLikes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shorts", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<ShortsBookmark> boardBookmarks = new ArrayList<>();
+    @Embedded
+    private ShortsBookmarks shortsBookmarks;
 
     @Builder
     public Shorts(PlatformType platformType, Title title, Content content, ShortForm shortForm, Creator creator) {
@@ -58,6 +59,10 @@ public class Shorts {
         this.creator = creator;
     }
 
+    public void bookmark(Member member) {
+        shortsBookmarks.addBookmark(this, member);
+    }
+
     public static Shorts of(Creator creator, ShortsSaveRequest shortsSaveRequest) {
         return Shorts.builder()
                 .title(Title.from(shortsSaveRequest.getTitle()))
@@ -66,5 +71,9 @@ public class Shorts {
                 .shortForm(ShortForm.from(shortsSaveRequest.getShortsUrl()))
                 .creator(creator)
                 .build();
+    }
+
+    public int getShortsBookmarks() {
+        return shortsBookmarks.getShortsBookmarks();
     }
 }

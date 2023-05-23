@@ -1,6 +1,5 @@
 package croundteam.cround.shorts.domain.bookmark;
 
-import croundteam.cround.board.domain.Board;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.shorts.domain.Shorts;
 import lombok.AccessLevel;
@@ -29,4 +28,13 @@ public class ShortsBookmark {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_shorts_bookmark_to_member"))
     private Member member;
+
+    private ShortsBookmark(Shorts shorts, Member member) {
+        this.shorts = shorts;
+        this.member = member;
+    }
+
+    public static ShortsBookmark of(Shorts shorts, Member member) {
+        return new ShortsBookmark(shorts, member);
+    }
 }
