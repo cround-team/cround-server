@@ -1,5 +1,6 @@
 package croundteam.cround.config;
 
+import croundteam.cround.security.CustomAccessDeniedHandler;
 import croundteam.cround.security.CustomAuthenticationEntryPoint;
 import croundteam.cround.security.token.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
@@ -78,7 +80,8 @@ public class SecurityConfig {
 
         http
                 .exceptionHandling()
-                .authenticationEntryPoint(authenticationEntryPoint);
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler);
 
         http
                 .addFilterBefore((tokenAuthenticationFilter()), UsernamePasswordAuthenticationFilter.class);

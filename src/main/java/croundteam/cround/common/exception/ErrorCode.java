@@ -30,7 +30,8 @@ public enum ErrorCode {
     INVALID_SOURCE_TARGET_FOLLOW(HttpStatus.BAD_REQUEST, "자기 자신을 팔로우 할 수 없습니다."),
     INVALID_URI_FORMAT(HttpStatus.BAD_REQUEST, "유효하지 않은 URL 입니다."),
 
-    INVALID_BEARER_TOKEN(HttpStatus.FORBIDDEN, "유효하지 않은 토큰입니다."),
+    INVALID_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "인증에 실패하였습니다."),
+    INVALID_AUTHORIZATION(HttpStatus.FORBIDDEN, "권한이 없습니다."),
 
     NOT_EXIST_BOARD(HttpStatus.NOT_FOUND, "존재하지 않는 콘텐츠입니다."),
     NOT_EXIST_CREATOR(HttpStatus.NOT_FOUND, "존재하지 않는 크리에이터입니다."),

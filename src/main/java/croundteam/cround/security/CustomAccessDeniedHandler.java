@@ -6,8 +6,8 @@ import com.nimbusds.common.contenttype.ContentType;
 import croundteam.cround.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -20,20 +20,20 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void commence(
+    public void handle(
             HttpServletRequest request,
             HttpServletResponse response,
-            AuthenticationException authException
+            AccessDeniedException accessDeniedException
     ) throws IOException, ServletException {
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         response.setContentType(ContentType.APPLICATION_JSON.toString());
 
-        log.info("[AuthenticationEntryPoint] Invalid Authentication = {}", authException.getClass().getName());
+        log.info("[AccessDeniedHandler] Invalid Authorization = {}", accessDeniedException.getClass().getName());
         String json = getErrorResponseWithObjectMapper();
 
         response.getWriter().write(json);
@@ -42,7 +42,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     private String getErrorResponseWithObjectMapper() throws JsonProcessingException {
         Map<String, String> map = new HashMap<>();
         map.put("data", null);
-        map.put("message", ErrorCode.INVALID_AUTHENTICATION.getMessage());
+        map.put("message", ErrorCode.INVALID_AUTHORIZATION.getMessage());
         String json = objectMapper.writeValueAsString(map);
         return json;
     }
