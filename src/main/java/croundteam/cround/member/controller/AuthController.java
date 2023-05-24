@@ -3,8 +3,11 @@ package croundteam.cround.member.controller;
 import croundteam.cround.common.dto.TokenResponse;
 import croundteam.cround.member.service.AuthService;
 import croundteam.cround.member.service.dto.MemberLoginRequest;
+import croundteam.cround.security.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +23,16 @@ public class AuthController {
     @PostMapping("/auth/login")
     public ResponseEntity<TokenResponse> login(@RequestBody @Valid final MemberLoginRequest memberLoginRequest) {
         TokenResponse tokenResponse = authService.login(memberLoginRequest);
-        return ResponseEntity.ok().body(tokenResponse);
+        ResponseCookie responseCookie = CookieUtils.create(tokenResponse.getRefreshToken());
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString()).body(tokenResponse);
     }
 
     @GetMapping("/auth/{provider}/login")
     public ResponseEntity<TokenResponse> loginByOAuth(@PathVariable String provider, @RequestParam String code) {
         TokenResponse tokenResponse = authService.loginByOAuth(provider, code);
-        return ResponseEntity.ok().body(tokenResponse);
+        ResponseCookie responseCookie = CookieUtils.create(tokenResponse.getRefreshToken());
+
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, responseCookie.toString()).body(tokenResponse);
     }
 }
