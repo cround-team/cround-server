@@ -10,10 +10,11 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
-import static croundteam.cround.common.dto.ValidationMessages.EMPTY_MESSAGE;
+import static croundteam.cround.common.dto.ValidationMessages.*;
 
 @Getter
 @NoArgsConstructor
@@ -21,13 +22,16 @@ import static croundteam.cround.common.dto.ValidationMessages.EMPTY_MESSAGE;
 public class MemberSaveRequest {
 
     @NotBlank(message = EMPTY_MESSAGE)
-    @Email
+    @Email(message = EMAIL_FORMAT_MESSAGE)
+    @Pattern(regexp = MEMBER_EMAIL_FORMAT, message = MEMBER_EMAIL_MESSAGE)
     private String email;
 
     @NotBlank(message = EMPTY_MESSAGE)
+    @Pattern(regexp = MEMBER_NAME_FORMAT, message = MEMBER_NAME_MESSAGE)
     private String username;
 
     @NotBlank(message = EMPTY_MESSAGE)
+    @Pattern(regexp = MEMBER_NICKNAME_FORMAT, message = MEMBER_NICKNAME_MESSAGE)
     private String nickname;
 
     @NotBlank(message = EMPTY_MESSAGE)
