@@ -36,7 +36,7 @@ out/
 ### VS Code ###
 .vscode/
 
-/src/main/resources/application-jwt.yml
+/src/main/resources/application-security-common.yml
 /src/main/resources/application-oauth.yml
 /src/main/resources/application-aws.yml
 /api/http/**

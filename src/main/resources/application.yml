@@ -7,4 +7,4 @@ spring:
         - localport
       prod:
         - aws
-    include: jwt, oauth
+    include: security-common, oauth

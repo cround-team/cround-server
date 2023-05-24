@@ -12,6 +12,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static croundteam.cround.security.token.support.TokenProvider.AUTHORIZATION;
+
 public class AuthenticationHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final TokenProvider tokenProvider;
@@ -33,7 +35,9 @@ public class AuthenticationHandlerMethodArgumentResolver implements HandlerMetho
             WebDataBinderFactory binderFactory
     ) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String token = JwtTokenExtractor.extract(request);
+        String authorization = request.getHeader(AUTHORIZATION);
+        String token = JwtTokenExtractor.extract(authorization);
+
         String email = tokenProvider.getUserEmailFromToken(token);
 
         return new LoginMember(email);
