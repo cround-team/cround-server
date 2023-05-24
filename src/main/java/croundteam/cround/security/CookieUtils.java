@@ -12,9 +12,7 @@ public class CookieUtils {
     private CookieUtils() {}
 
     public static ResponseCookie create(String refreshToken) {
-        String token = JwtTokenExtractor.extract(refreshToken);
-
-        return ResponseCookie.from(COOKIE_NAME, token)
+        return ResponseCookie.from(COOKIE_NAME, refreshToken)
                 .httpOnly(true)
                 .path("/")
                 .maxAge(REFRESH_TOKEN_EXPIRE_AGE)
