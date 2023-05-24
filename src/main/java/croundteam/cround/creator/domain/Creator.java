@@ -31,6 +31,9 @@ public class Creator extends BaseTime {
     @Column(name = "creator_id")
     private Long id;
 
+    @Embedded
+    private Description description;
+
     @Column(name = "profile_image")
     private String profileImage;
 
@@ -54,11 +57,12 @@ public class Creator extends BaseTime {
     private List<Shorts> shorts = new ArrayList<>();
 
     @Builder
-    private Creator(String profileImage, Member member, Platform platform, Tags creatorTags) {
+    private Creator(String profileImage, Member member, Platform platform, Tags creatorTags, Description description) {
         this.profileImage = profileImage;
         this.member = member;
         this.platform = platform;
         this.creatorTags = castTagsToCreatorTags(creatorTags);
+        this.description = description;
     }
 
     private List<CreatorTag> castTagsToCreatorTags(Tags tags) {
