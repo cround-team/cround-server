@@ -1,6 +1,5 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.domain.Board;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;

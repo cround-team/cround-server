@@ -3,11 +3,11 @@ package croundteam.cround.creator.domain;
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.platform.Platform;
+import croundteam.cround.creator.domain.tag.Tags;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.follow.Follow;
 import croundteam.cround.member.domain.follow.Followers;
 import croundteam.cround.shorts.domain.Shorts;
-import croundteam.cround.creator.domain.tag.Tags;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +30,9 @@ public class Creator extends BaseTime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "creator_id")
     private Long id;
+
+    @Embedded
+    private Description description;
 
     @Column(name = "profile_image")
     private String profileImage;
@@ -54,11 +57,12 @@ public class Creator extends BaseTime {
     private List<Shorts> shorts = new ArrayList<>();
 
     @Builder
-    private Creator(String profileImage, Member member, Platform platform, Tags creatorTags) {
+    private Creator(String profileImage, Member member, Platform platform, Tags creatorTags, Description description) {
         this.profileImage = profileImage;
         this.member = member;
         this.platform = platform;
         this.creatorTags = castTagsToCreatorTags(creatorTags);
+        this.description = description;
     }
 
     private List<CreatorTag> castTagsToCreatorTags(Tags tags) {

@@ -1,6 +1,7 @@
 package croundteam.cround.creator.service.dto;
 
 import croundteam.cround.creator.domain.Creator;
+import croundteam.cround.creator.domain.Description;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.tag.Tag;
 import croundteam.cround.creator.domain.tag.Tags;
@@ -20,6 +21,7 @@ public class CreatorSaveRequest {
     private String platformUrl;
     private String platformType;
     private String platformActivityName;
+    private String description;
     private List<Tag> tags = new ArrayList<>();
 
     public Creator toEntity() {
@@ -27,6 +29,7 @@ public class CreatorSaveRequest {
                 .profileImage(profileImage)
                 .platform(Platform.of(platformUrl, platformType, platformActivityName))
                 .creatorTags(Tags.from(tags))
+                .description(Description.create(description))
                 .build();
     }
 }

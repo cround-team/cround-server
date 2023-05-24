@@ -8,16 +8,16 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ShortForm {
+public class ShortsForm {
 
     @Column(name = "shorts_url", nullable = false)
     private String shortsUrl;
 
-    private ShortForm(String shortsUrl) {
+    private ShortsForm(String shortsUrl) {
         this.shortsUrl = shortsUrl;
     }
 
-    public static ShortForm from(String shortsUrl) {
-        return new ShortForm(shortsUrl);
+    public static ShortsForm from(String shortsUrl) {
+        return new ShortsForm(shortsUrl);
     }
 }

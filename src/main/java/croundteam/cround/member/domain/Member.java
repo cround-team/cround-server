@@ -5,7 +5,10 @@ import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.follow.Follow;
 import croundteam.cround.member.domain.follow.Followings;
 import croundteam.cround.member.domain.interest.Interest;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

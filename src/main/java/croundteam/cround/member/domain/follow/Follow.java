@@ -2,9 +2,9 @@ package croundteam.cround.member.domain.follow;
 
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.member.exception.InvalidSourceTargetFollowException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.exception.InvalidSourceTargetFollowException;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -34,7 +34,7 @@ public class Shorts {
     private PlatformType platformType;
 
     @Embedded
-    private ShortForm shortForm;
+    private ShortsForm shortForm;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
@@ -47,7 +47,7 @@ public class Shorts {
     private ShortsBookmarks shortsBookmarks;
 
     @Builder
-    public Shorts(PlatformType platformType, Title title, Content content, ShortForm shortForm, Creator creator) {
+    public Shorts(PlatformType platformType, Title title, Content content, ShortsForm shortForm, Creator creator) {
         this.platformType = platformType;
         this.title = title;
         this.content = content;
@@ -76,7 +76,7 @@ public class Shorts {
                 .title(Title.from(shortsSaveRequest.getTitle()))
                 .content(Content.from(shortsSaveRequest.getContent()))
                 .platformType(PlatformType.from(shortsSaveRequest.getPlatformType()))
-                .shortForm(ShortForm.from(shortsSaveRequest.getShortsUrl()))
+                .shortForm(ShortsForm.from(shortsSaveRequest.getShortsUrl()))
                 .creator(creator)
                 .build();
     }
