@@ -16,7 +16,7 @@ public class JwtTokenExtractor {
 
     private static void validateBearerToken(String token) {
         if(Objects.isNull(token) || !token.toLowerCase().startsWith(BEARER.toLowerCase())) {
-            throw new InvalidBearerTokenException(ErrorCode.INVALID_BEARER_TOKEN);
+            throw new InvalidBearerTokenException(ErrorCode.INVALID_AUTHENTICATION);
         }
     }
 }
