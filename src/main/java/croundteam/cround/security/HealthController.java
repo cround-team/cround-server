@@ -18,13 +18,6 @@ public class HealthController {
         return map;
     }
 
-    @GetMapping("/cround/login")
-    public Map<String, String> loginPage() {
-        Map<String, String> map = new HashMap<>();
-        map.put("message", "로그인을 해주는 페이지로 이동시켜야 한다.");
-        return map;
-    }
-
     @GetMapping("/cround/auth")
     public Map<String, String> auth() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
