@@ -1,5 +1,6 @@
 package croundteam.cround.config;
 
+import croundteam.cround.security.CustomAuthenticationEntryPoint;
 import croundteam.cround.security.token.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,8 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
@@ -57,8 +60,8 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/favicon.ico", "/error").permitAll()
-                .antMatchers("/login", "/cround/health", "/cround/login", "/oauth2/authorize/**", "/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/oauth2/kakao", "/auth/kakao/login").permitAll()
+                .antMatchers("/login", "/cround/health", "/cround/login", "/oauth2/authorize/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/oauth2/kakao", "/auth/kakao/login", "/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/members", "/auth/login").permitAll()
                 .anyRequest().authenticated();
 
@@ -73,10 +76,9 @@ public class SecurityConfig {
 //                .deleteCookies("JSESSIONID")
 //                .logoutSuccessUrl("/");
 
-//        http
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new JwtAuthenticationEntryPoint());
-//                .accessDeniedHandler(new JwtAccessDeniedHandler());
+        http
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint);
 
         http
                 .addFilterBefore((tokenAuthenticationFilter()), UsernamePasswordAuthenticationFilter.class);
