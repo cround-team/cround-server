@@ -1,6 +1,5 @@
 package croundteam.cround.security;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.common.contenttype.ContentType;
 import croundteam.cround.common.exception.ErrorCode;
@@ -34,16 +33,13 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setContentType(ContentType.APPLICATION_JSON.toString());
 
         log.info("[AuthenticationEntryPoint] Invalid Authentication = {}", authException.getClass().getName());
-        String json = getErrorResponseWithObjectMapper();
 
-        response.getWriter().write(json);
-    }
-
-    private String getErrorResponseWithObjectMapper() throws JsonProcessingException {
         Map<String, String> map = new HashMap<>();
         map.put("data", null);
         map.put("message", ErrorCode.INVALID_AUTHENTICATION.getMessage());
         String json = objectMapper.writeValueAsString(map);
-        return json;
+
+        response.getWriter().write(json);
     }
+
 }

@@ -1,11 +1,10 @@
 package croundteam.cround.security;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.common.contenttype.ContentType;
 import croundteam.cround.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -31,19 +30,16 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
             AccessDeniedException accessDeniedException
     ) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.setContentType(ContentType.APPLICATION_JSON.toString());
+        response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
 
         log.info("[AccessDeniedHandler] Invalid Authorization = {}", accessDeniedException.getClass().getName());
-        String json = getErrorResponseWithObjectMapper();
 
-        response.getWriter().write(json);
-    }
-
-    private String getErrorResponseWithObjectMapper() throws JsonProcessingException {
         Map<String, String> map = new HashMap<>();
         map.put("data", null);
         map.put("message", ErrorCode.INVALID_AUTHORIZATION.getMessage());
         String json = objectMapper.writeValueAsString(map);
-        return json;
+
+        response.getWriter().write(json);
     }
+
 }
