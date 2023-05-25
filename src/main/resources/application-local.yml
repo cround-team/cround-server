@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
 
     properties:
       hibernate:
@@ -26,3 +26,8 @@ logging:
 #      apache:
 #        coyote:
 #          http11: debug
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
