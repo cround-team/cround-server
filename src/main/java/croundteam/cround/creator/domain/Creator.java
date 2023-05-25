@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -57,26 +56,20 @@ public class Creator extends BaseTime {
     private List<Shorts> shorts = new ArrayList<>();
 
     @Builder
-    private Creator(String profileImage, Member member, Platform platform, Tags creatorTags, Description description) {
+    private Creator(String profileImage, Member member, Platform platform, Tags tags, Description description) {
         this.profileImage = profileImage;
         this.member = member;
         this.platform = platform;
-        this.creatorTags = castTagsToCreatorTags(creatorTags);
+        this.creatorTags = tags.castCreatorTagsFromTags(this);
         this.description = description;
     }
 
-    private List<CreatorTag> castTagsToCreatorTags(Tags tags) {
-        return tags.toList().stream()
-                .map(tag -> CreatorTag.of(this, tag))
-                .collect(Collectors.toList());
-    }
-
-    public static Creator of(String profileImage, Member member, Platform platform, Tags creatorTags) {
+    public static Creator of(String profileImage, Member member, Platform platform, Tags tags) {
         return Creator.builder()
                 .profileImage(profileImage)
                 .member(member)
                 .platform(platform)
-                .creatorTags(creatorTags)
+                .tags(tags)
                 .build();
     }
 

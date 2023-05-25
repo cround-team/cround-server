@@ -1,23 +1,25 @@
 package croundteam.cround.creator.domain.tag;
 
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.creator.domain.Creator;
+import croundteam.cround.creator.domain.CreatorTag;
 import croundteam.cround.creator.exception.ExceedTagLengthException;
 import croundteam.cround.creator.exception.ExceedTagsSizeException;
+import croundteam.cround.creator.exception.NotEmptyTagException;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_TAGS_MAX_SIZE;
-import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_TAG_MAX_LENGTH;
+import static croundteam.cround.common.fixtures.ConstantFixtures.*;
 
 public class Tags {
 
     private List<Tag> tags;
 
     private Tags(List<Tag> tags) {
+        validateTagEmpty(tags);
         validateTagsSize(tags);
         validateTagLength(tags);
         this.tags = tags;
@@ -27,21 +29,21 @@ public class Tags {
         return new Tags(tags);
     }
 
-    public List<Tag> toList() {
-        return Collections.unmodifiableList(tags);
+    public static Tags from(String... names) {
+        List<Tag> tags = Arrays.stream(names).map(Tag::from).collect(Collectors.toList());
+        return new Tags(tags);
     }
 
-    public static Tags toTagsByNames(String... names) {
-        if(Objects.isNull(names)) {
-            /**
-             * TODO: 태그가 0개여도 가능한지 또는 무조건 1개 이상이어야 하는지에 대한 것도 구체화하기
-             * throws new NotEmptyTagException()
-             */
-        }
-        List<Tag> collect = Arrays.stream(names)
-                .map(name -> Tag.from(name))
+    public List<CreatorTag> castCreatorTagsFromTags(Creator creator) {
+        return tags.stream()
+                .map(tag -> CreatorTag.of(creator, tag))
                 .collect(Collectors.toList());
-        return new Tags(collect);
+    }
+
+    private void validateTagEmpty(List<Tag> tags) {
+        if(Objects.isNull(tags) || tags.isEmpty()) {
+            throw new NotEmptyTagException(ErrorCode.NOT_EMPTY_TAG);
+        }
     }
 
     private void validateTagLength(List<Tag> tags) {
@@ -53,8 +55,8 @@ public class Tags {
     }
 
     private void validateTagsSize(List<Tag> tags) {
-        if(tags.size() > CREATOR_TAGS_MAX_SIZE) {
-            throw new ExceedTagsSizeException(ErrorCode.EXCEED_TAGS_MAX_SIZE);
+        if(tags.size() > CREATOR_TAGS_MAX_SIZE || tags.size() < CREATOR_TAGS_MIN_SIZE) {
+            throw new ExceedTagsSizeException(ErrorCode.EXCEED_TAGS_SIZE);
         }
     }
 }

@@ -1,9 +1,9 @@
 package croundteam.cround.creator.domain;
 
 import croundteam.cround.creator.domain.platform.Platform;
+import croundteam.cround.creator.domain.tag.Tags;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.creator.domain.tag.Tags;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_PLATFORM_URI;
 import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PROFILE_IMAGE;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -34,7 +34,7 @@ class CreatorTest {
                 .build();
 
         Platform platform = Platform.of(CREATOR_PLATFORM_URI, "instagram", "crounder");
-        Tags tags = Tags.toTagsByNames("크라운드 대표", "크라운드 직원");
+        Tags tags = Tags.from("크라운드 대표", "크라운드 직원");
 
         // when
         Creator creator = Creator.of(DEFAULT_PROFILE_IMAGE, member, platform, tags);
