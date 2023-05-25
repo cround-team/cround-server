@@ -82,7 +82,7 @@ public class Creator extends BaseTime {
     }
 
     public void addShorts(Shorts shorts) {
-
+        this.shorts.add(shorts);
     }
 
     public void addFollow(Follow follow) {
@@ -99,5 +99,9 @@ public class Creator extends BaseTime {
 
     public Long getMemberId() {
         return member.getId();
+    }
+
+    public String getDescription() {
+        return description.getDescription();
     }
 }

@@ -3,11 +3,13 @@ package croundteam.cround.creator.domain;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.exception.InvalidDescriptionException;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
+@Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Description {
