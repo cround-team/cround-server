@@ -2,6 +2,7 @@ package croundteam.cround.shorts.domain;
 
 import croundteam.cround.board.domain.Content;
 import croundteam.cround.board.domain.Title;
+import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
@@ -17,7 +18,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "shorts_class")
-public class Shorts {
+public class Shorts extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

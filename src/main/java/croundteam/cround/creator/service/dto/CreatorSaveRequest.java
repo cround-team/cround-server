@@ -28,7 +28,7 @@ public class CreatorSaveRequest {
         return Creator.builder()
                 .profileImage(profileImage)
                 .platform(Platform.of(platformUrl, platformType, platformActivityName))
-                .creatorTags(Tags.from(tags))
+                .tags(Tags.from(tags))
                 .description(Description.create(description))
                 .build();
     }

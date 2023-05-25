@@ -16,13 +16,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Table(uniqueConstraints = @UniqueConstraint(
         name = "creator_member_unique",
-        columnNames="member_id"))
+        columnNames="member_id"),
+        indexes = @Index(name = "idx_platform_activity_name", columnList = "platform_activity_name", unique = true))
+// SELECT * FROM INFORMATION_SCHEMA.INDEXES where INDEX_NAME = 'IDX_PLATFORM_ACTIVITY_NAME';
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Creator extends BaseTime {
 
@@ -57,26 +58,20 @@ public class Creator extends BaseTime {
     private List<Shorts> shorts = new ArrayList<>();
 
     @Builder
-    private Creator(String profileImage, Member member, Platform platform, Tags creatorTags, Description description) {
+    private Creator(String profileImage, Member member, Platform platform, Tags tags, Description description) {
         this.profileImage = profileImage;
         this.member = member;
         this.platform = platform;
-        this.creatorTags = castTagsToCreatorTags(creatorTags);
+        this.creatorTags = tags.castCreatorTagsFromTags(this);
         this.description = description;
     }
 
-    private List<CreatorTag> castTagsToCreatorTags(Tags tags) {
-        return tags.toList().stream()
-                .map(tag -> CreatorTag.of(this, tag))
-                .collect(Collectors.toList());
-    }
-
-    public static Creator of(String profileImage, Member member, Platform platform, Tags creatorTags) {
+    public static Creator of(String profileImage, Member member, Platform platform, Tags tags) {
         return Creator.builder()
                 .profileImage(profileImage)
                 .member(member)
                 .platform(platform)
-                .creatorTags(creatorTags)
+                .tags(tags)
                 .build();
     }
 
@@ -89,7 +84,7 @@ public class Creator extends BaseTime {
     }
 
     public void addShorts(Shorts shorts) {
-
+        this.shorts.add(shorts);
     }
 
     public void addFollow(Follow follow) {
@@ -106,5 +101,9 @@ public class Creator extends BaseTime {
 
     public Long getMemberId() {
         return member.getId();
+    }
+
+    public String getDescription() {
+        return description.getDescription();
     }
 }

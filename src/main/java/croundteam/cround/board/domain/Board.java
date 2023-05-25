@@ -3,6 +3,7 @@ package croundteam.cround.board.domain;
 import croundteam.cround.board.exception.InvalidBookmarkException;
 import croundteam.cround.board.exception.InvalidLikeException;
 import croundteam.cround.board.service.dto.BoardSaveRequest;
+import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
@@ -20,7 +21,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "board")
-public class Board {
+public class Board extends BaseTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

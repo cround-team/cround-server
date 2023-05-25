@@ -19,7 +19,7 @@ public enum ErrorCode {
     PROFILE_IMAGE_MATCH(HttpStatus.BAD_REQUEST, "설정된 프로필 이미지와 달라야 합니다."),
     PROFILE_IMAGE_EMPTY(HttpStatus.BAD_REQUEST, "입력된 프로필 이미지가 없습니다."),
 
-    EXCEED_TAGS_MAX_SIZE(HttpStatus.BAD_REQUEST, "태그는 최대 7개까지 설정할 수 있습니다."),
+    EXCEED_TAGS_SIZE(HttpStatus.BAD_REQUEST, "태그는 최소 1개, 최대 7개까지 설정할 수 있습니다."),
     EXCEED_TAG_LENGTH(HttpStatus.BAD_REQUEST, "태그는 최대 20글자까지 입력할 수 있습니다."),
 
     EMPTY_DESCRIPTION(HttpStatus.BAD_REQUEST, "소개는 공백일 수 없습니다."),
@@ -36,7 +36,9 @@ public enum ErrorCode {
     NOT_EXIST_BOARD(HttpStatus.NOT_FOUND, "존재하지 않는 콘텐츠입니다."),
     NOT_EXIST_CREATOR(HttpStatus.NOT_FOUND, "존재하지 않는 크리에이터입니다."),
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
-    NOT_EXIST_SHORTS(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다.");
+    NOT_EXIST_SHORTS(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다."),
+
+    NOT_EMPTY_TAG(HttpStatus.BAD_REQUEST, "태그는 최소 1개 이상 설정돼야 합니다.");
 
     private final HttpStatus status;
     private final String message;
