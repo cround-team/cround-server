@@ -1,14 +1,13 @@
 package croundteam.cround.creator.service.dto;
 
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.creator.domain.platform.Platform;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class CreatorSearchResponse {
+public class SearchCreatorResponse {
 
     private Long creatorId;
     private String platformActivityName;
@@ -17,7 +16,7 @@ public class CreatorSearchResponse {
     private String platformType;
 
     @Builder
-    public CreatorSearchResponse(Long creatorId, String platformActivityName, String description, String profileImage, String platformType) {
+    public SearchCreatorResponse(Long creatorId, String platformActivityName, String description, String profileImage, String platformType) {
         this.creatorId = creatorId;
         this.platformActivityName = platformActivityName;
         this.description = description;
@@ -25,8 +24,8 @@ public class CreatorSearchResponse {
         this.platformType = platformType;
     }
 
-    public static CreatorSearchResponse from(Creator creator) {
-        return CreatorSearchResponse.builder()
+    public static SearchCreatorResponse from(Creator creator) {
+        return SearchCreatorResponse.builder()
                 .creatorId(creator.getId())
                 .platformActivityName(creator.getActivityName())
                 .description(creator.getDescription())

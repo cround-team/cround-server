@@ -8,10 +8,7 @@ import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.follow.Follow;
 import croundteam.cround.member.domain.follow.Followers;
 import croundteam.cround.shorts.domain.Shorts;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,12 +16,11 @@ import java.util.List;
 
 @Entity
 @Getter
-@Table(uniqueConstraints = @UniqueConstraint(
-        name = "creator_member_unique",
-        columnNames="member_id"),
-        indexes = @Index(name = "idx_platform_activity_name", columnList = "platform_activity_name", unique = true))
+@Table(uniqueConstraints = @UniqueConstraint(name = "creator_member_unique",columnNames = "member_id"),
+        indexes = @Index(name = "idx_platform_activity_name",columnList = "platform_activity_name",unique = true))
 // SELECT * FROM INFORMATION_SCHEMA.INDEXES where INDEX_NAME = 'IDX_PLATFORM_ACTIVITY_NAME';
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"id", "description", "profileImage", "platform"})
 public class Creator extends BaseTime {
 
     @Id

@@ -5,8 +5,9 @@ import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.DuplicateCreatorPlatformActivityNameException;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
-import croundteam.cround.creator.service.dto.CreatorSearchResponse;
-import croundteam.cround.creator.service.dto.SearchCreatorCondition;
+import croundteam.cround.creator.service.dto.SearchCreatorResponse;
+import croundteam.cround.creator.service.dto.SearchCondition;
+import croundteam.cround.creator.service.dto.SearchCreatorResponses;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.repository.MemberRepository;
@@ -40,14 +41,11 @@ public class CreatorService {
         return saveCreator.getActivityName();
     }
 
+    public SearchCreatorResponses searchCreatorsByCondition(SearchCondition searchCondition) {
+        Pageable pageable = searchCondition.toPageRequest();
+        Page<Creator> creators = creatorRepository.searchCreatorByKeywordAndPlatforms(searchCondition, pageable);
 
-    public Page<CreatorSearchResponse> searchCreatorsByCondition(
-            SearchCreatorCondition searchCreatorCondition,
-            Pageable pageable
-    ) {
-        Page<Creator> creators = creatorRepository.searchCreatorByKeywordAndPlatforms(
-                searchCreatorCondition.getPlatforms(), searchCreatorCondition.getKeyword(), pageable);
-        return creators.map(CreatorSearchResponse::from);
+        return new SearchCreatorResponses(creators.map(SearchCreatorResponse::from));
     }
 
     private void validateCreator(CreatorSaveRequest creatorSaveRequest) {
