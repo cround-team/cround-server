@@ -25,6 +25,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'com.querydsl:querydsl-jpa'
+	implementation 'com.querydsl:querydsl-apt'
 
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -49,6 +51,28 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
+def querydslSrcDir = 'src/main/generated'
+sourceSets {
+	main {
+		java {
+			srcDirs += [ querydslSrcDir ]
+		}
+	}
+}
+
+compileJava {
+	options.compilerArgs << '-Aquerydsl.generatedAnnotationClass=javax.annotation.Generated'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+	options.generatedSourceOutputDirectory = file(querydslSrcDir)
+}
+
+clean {
+	// clean 실행 시 생성된 QClass 삭제
+	delete file(querydslSrcDir)
 }
