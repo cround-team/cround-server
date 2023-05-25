@@ -21,7 +21,9 @@ import java.util.List;
 @Getter
 @Table(uniqueConstraints = @UniqueConstraint(
         name = "creator_member_unique",
-        columnNames="member_id"))
+        columnNames="member_id"),
+        indexes = @Index(name = "idx_platform_activity_name", columnList = "platform_activity_name", unique = true))
+// SELECT * FROM INFORMATION_SCHEMA.INDEXES where INDEX_NAME = 'IDX_PLATFORM_ACTIVITY_NAME';
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Creator extends BaseTime {
 
