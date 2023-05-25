@@ -4,6 +4,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import croundteam.cround.creator.domain.Creator;
+import croundteam.cround.creator.service.dto.SearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -28,20 +29,19 @@ public class CreatorQueryRepositoryImpl extends QuerydslRepositorySupport implem
      * 1. 키워드를 검색한다. or 연산으로 creator의 태그와, creator의 이름으로
      */
     @Override
-    public Page<Creator> searchCreatorByKeywordAndPlatforms(List<String> platforms, String keyword, Pageable pageable) {
-        System.out.println("platforms = " + platforms);
-        System.out.println("keyword = " + keyword);
+    public Page<Creator> searchCreatorByKeywordAndPlatforms(SearchCondition searchCondition, Pageable pageable) {
+        System.out.println("searchCondition = " + searchCondition);
         System.out.println("pageable = " + pageable);
 
         List<Long> tagIds = jpaQueryFactory
                 .select(tag.id)
                 .from(tag)
-                .where(containsTagName(keyword))
+                .where(containsTagName(searchCondition.getKeyword()))
                 .fetch();
 
         JPAQuery<Creator> query = jpaQueryFactory
                 .selectFrom(creator)
-                .where(whereKeywords(keyword, tagIds));
+                .where(whereKeywords(searchCondition.getKeyword(), tagIds));
 
         List<Creator> creators = getQuerydsl().applyPagination(pageable, query).fetch();
 
