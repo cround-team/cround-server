@@ -1,6 +1,7 @@
 package croundteam.cround.member.service.dto;
 
 public class LoginMember {
+
     private String email;
 
     public LoginMember(String email) {

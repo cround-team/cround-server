@@ -4,6 +4,8 @@ import croundteam.cround.creator.service.dto.CreatorSearchResponse;
 import croundteam.cround.creator.service.dto.SearchCreatorCondition;
 import croundteam.cround.creator.service.CreatorService;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
+import croundteam.cround.member.service.dto.LoginMember;
+import croundteam.cround.security.token.support.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -21,12 +23,12 @@ public class CreatorController {
 
     private final CreatorService creatorService;
 
-    @PostMapping("/{memberId}")
+    @PostMapping
     public ResponseEntity<Void> createCreator(
-            @PathVariable Long memberId,
+            @Login LoginMember member,
             @RequestBody CreatorSaveRequest creatorSaveRequest
     ) {
-        String activityName = creatorService.createCreator(memberId, creatorSaveRequest);
+        String activityName = creatorService.createCreator(member, creatorSaveRequest);
         return ResponseEntity.created(URI.create("/api/creators/" + activityName)).build();
     }
 

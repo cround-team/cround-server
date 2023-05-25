@@ -10,6 +10,7 @@ import croundteam.cround.creator.service.dto.SearchCreatorCondition;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.repository.MemberRepository;
+import croundteam.cround.member.service.dto.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -27,10 +28,10 @@ public class CreatorService {
     private final CreatorRepository creatorRepository;
 
     @Transactional
-    public String createCreator(Long memberId, CreatorSaveRequest creatorSaveRequest) {
+    public String createCreator(LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
         validateCreator(creatorSaveRequest);
 
-        Member member = findMemberById(memberId);
+        Member member = findMemberByEmail(loginMember.getEmail());
         Creator creator = creatorSaveRequest.toEntity();
         creator.addMember(member);
 
@@ -44,7 +45,8 @@ public class CreatorService {
             SearchCreatorCondition searchCreatorCondition,
             Pageable pageable
     ) {
-        Page<Creator> creators = creatorRepository.searchCreatorByKeywordAndPlatforms(searchCreatorCondition, pageable);
+        Page<Creator> creators = creatorRepository.searchCreatorByKeywordAndPlatforms(
+                searchCreatorCondition.getPlatforms(), searchCreatorCondition.getKeyword(), pageable);
         return creators.map(CreatorSearchResponse::from);
     }
 
@@ -54,8 +56,8 @@ public class CreatorService {
         }
     }
 
-    private Member findMemberById(Long memberId) {
-        return memberRepository.findById(memberId).orElseThrow(
+    private Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(
                 () -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
     }
 }
