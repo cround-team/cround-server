@@ -1,7 +1,7 @@
 package croundteam.cround.security.token.support;
 
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.security.InvalidBearerTokenException;
+import croundteam.cround.security.token.exception.InvalidBearerTokenException;
 
 import java.util.Objects;
 

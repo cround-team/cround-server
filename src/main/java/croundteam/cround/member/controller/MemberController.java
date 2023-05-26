@@ -24,18 +24,6 @@ public class MemberController {
         return ResponseEntity.created(URI.create("/api/members/" + memberId)).build();
     }
 
-    @PostMapping("/validations/email")
-    public ResponseEntity<Void> validateEmail(@RequestBody @Valid final EmailValidationRequest emailValidationRequest) {
-        memberService.validateDuplicateEmail(emailValidationRequest.getEmail());
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/validations/nickname")
-    public ResponseEntity<Void> validateNickname(@RequestBody @Valid final NicknameValidationRequest nicknameValidationRequest) {
-        memberService.validateDuplicateNickname(nicknameValidationRequest.getNickname());
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("/following")
     public ResponseEntity<FollowResponse> followCreator(@RequestBody FollowRequest followRequest) {
         FollowResponse followResponse = memberService.followCreator(followRequest);

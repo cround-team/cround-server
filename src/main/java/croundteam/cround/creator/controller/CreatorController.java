@@ -27,11 +27,12 @@ public class CreatorController {
             @RequestBody CreatorSaveRequest creatorSaveRequest
     ) {
         String activityName = creatorService.createCreator(member, creatorSaveRequest);
-        return ResponseEntity.created(URI.create("/api/creators/" + activityName)).build();
+        return ResponseEntity.created(URI.create("/api/creators/@" + activityName)).build();
     }
 
     @GetMapping
     public ResponseEntity<SearchCreatorResponses> searchCreators(SearchCondition searchCondition) {
+        System.out.println("searchCondition = " + searchCondition);
         return ResponseEntity.ok(creatorService.searchCreatorsByCondition(searchCondition));
     }
 }
