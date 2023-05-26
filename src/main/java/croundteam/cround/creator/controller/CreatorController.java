@@ -27,7 +27,7 @@ public class CreatorController {
             @RequestBody CreatorSaveRequest creatorSaveRequest
     ) {
         String activityName = creatorService.createCreator(member, creatorSaveRequest);
-        return ResponseEntity.created(URI.create("/api/creators/@" + activityName)).build();
+        return ResponseEntity.created(URI.create("/api/creators/" + activityName)).build();
     }
 
     @GetMapping

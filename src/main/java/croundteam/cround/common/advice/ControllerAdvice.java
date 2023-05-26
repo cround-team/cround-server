@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 @Slf4j
 @RestControllerAdvice
@@ -37,7 +38,11 @@ public class ControllerAdvice {
         String requestURI = request.getRequestURI();
         String queryString = request.getQueryString();
 
-        log.info("ERROR 500: [{}][{}?{}]: Exception Message = {}", method, requestURI, queryString, e.getMessage());
+        if(Objects.isNull(queryString)) {
+            queryString = "";
+        }
+
+        log.info("ERROR 500: [{}][{}={}]: Exception Message = {}", method, requestURI, queryString, e.getMessage());
         return ResponseEntity.internalServerError().body(new ErrorResponse("알 수 없는 문제가 발생했습니다. 서버 관리자에게 문의주세요."));
     }
 }
