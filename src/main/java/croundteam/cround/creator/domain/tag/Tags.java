@@ -25,11 +25,11 @@ public class Tags {
         this.tags = tags;
     }
 
-    public static Tags from(List<Tag> tags) {
+    public static Tags create(List<Tag> tags) {
         return new Tags(tags);
     }
 
-    public static Tags from(String... names) {
+    public static Tags create(String... names) {
         List<Tag> tags = Arrays.stream(names).map(Tag::from).collect(Collectors.toList());
         return new Tags(tags);
     }

@@ -21,6 +21,7 @@ public enum ErrorCode {
 
     EXCEED_TAGS_SIZE(HttpStatus.BAD_REQUEST, "태그는 최소 1개, 최대 7개까지 설정할 수 있습니다."),
     EXCEED_TAG_LENGTH(HttpStatus.BAD_REQUEST, "태그는 최대 20글자까지 입력할 수 있습니다."),
+    EXCEED_THEME_LENGTH(HttpStatus.BAD_REQUEST, "대표 테마는 최대 10글자까지 입력 가능합니다."),
 
     EMPTY_DESCRIPTION(HttpStatus.BAD_REQUEST, "소개는 공백일 수 없습니다."),
 

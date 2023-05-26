@@ -76,7 +76,7 @@ public class Shorts extends BaseTime {
         return Shorts.builder()
                 .title(Title.from(shortsSaveRequest.getTitle()))
                 .content(Content.from(shortsSaveRequest.getContent()))
-                .platformType(PlatformType.from(shortsSaveRequest.getPlatformType()))
+                .platformType(PlatformType.create(shortsSaveRequest.getPlatformType()))
                 .shortForm(ShortsForm.from(shortsSaveRequest.getShortsUrl()))
                 .creator(creator)
                 .build();

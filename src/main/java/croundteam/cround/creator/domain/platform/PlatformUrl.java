@@ -33,7 +33,7 @@ public class PlatformUrl {
         }
     }
 
-    public static PlatformUrl from(String url) {
+    public static PlatformUrl create(String url) {
         return new PlatformUrl(url);
     }
 }

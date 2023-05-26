@@ -80,7 +80,7 @@ public class Board extends BaseTime {
 
     public static Board of(Creator creator, BoardSaveRequest boardSaveRequest) {
         return Board.builder()
-                .platformType(PlatformType.from(boardSaveRequest.getPlatformType()))
+                .platformType(PlatformType.create(boardSaveRequest.getPlatformType()))
                 .title(Title.from(boardSaveRequest.getTitle()))
                 .content(Content.from(boardSaveRequest.getContent()))
                 .creator(creator)

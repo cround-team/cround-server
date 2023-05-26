@@ -34,7 +34,7 @@ class CreatorTest {
                 .build();
 
         Platform platform = Platform.of(CREATOR_PLATFORM_URI, "instagram", "crounder");
-        Tags tags = Tags.from("크라운드 대표", "크라운드 직원");
+        Tags tags = Tags.create("크라운드 대표", "크라운드 직원");
 
         // when
         Creator creator = Creator.of(DEFAULT_PROFILE_IMAGE, member, platform, tags);
