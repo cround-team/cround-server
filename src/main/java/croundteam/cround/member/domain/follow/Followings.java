@@ -1,6 +1,8 @@
 package croundteam.cround.member.domain.follow;
 
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.creator.domain.Creator;
+import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.InvalidFollowException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -19,13 +21,18 @@ public class Followings {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "source", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Follow> followings = new ArrayList<>();
 
-    public void add(Follow follow) {
-        validateFollow(follow);
-        followings.add(follow);
+    public void unfollow(Member member, Creator target) {
+        Follow follow = Follow.of(member, target);
+        followings.remove(follow);
+        target.removeFollow(follow);
     }
 
-    public void remove(Follow follow) {
-        followings.remove(follow);
+    public void follow(Member member, Creator target) {
+        Follow follow = Follow.of(member, target);
+        validateFollow(follow);
+
+        followings.add(follow);
+        target.addFollow(follow);
     }
 
     private void validateFollow(Follow follow) {

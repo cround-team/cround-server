@@ -63,15 +63,11 @@ public class Member extends BaseTime {
     }
 
     public void follow(Creator target) {
-        Follow follow = Follow.of(this, target);
-        followings.add(follow);
-        target.addFollow(follow);
+        followings.follow(this, target);
     }
 
     public void unfollow(Creator target) {
-        Follow follow = Follow.of(this, target);
-        followings.remove(follow);
-        target.removeFollow(follow);
+        followings.unfollow(this, target);
     }
 
     public String getRoleName() {

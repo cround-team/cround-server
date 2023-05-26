@@ -20,7 +20,7 @@ public class Title {
         this.value = value;
     }
 
-    public static Title from(String value) {
+    public static Title create(String value) {
         return new Title(value);
     }
 

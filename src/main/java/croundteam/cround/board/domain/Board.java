@@ -1,10 +1,7 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.exception.InvalidBookmarkException;
-import croundteam.cround.board.exception.InvalidLikeException;
 import croundteam.cround.board.service.dto.BoardSaveRequest;
 import croundteam.cround.common.domain.BaseTime;
-import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
@@ -14,8 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -58,8 +53,8 @@ public class Board extends BaseTime {
     public static Board of(Creator creator, BoardSaveRequest boardSaveRequest) {
         return Board.builder()
                 .platformType(PlatformType.create(boardSaveRequest.getPlatformType()))
-                .title(Title.from(boardSaveRequest.getTitle()))
-                .content(Content.from(boardSaveRequest.getContent()))
+                .title(Title.create(boardSaveRequest.getTitle()))
+                .content(Content.create(boardSaveRequest.getContent()))
                 .creator(creator)
                 .build();
     }
