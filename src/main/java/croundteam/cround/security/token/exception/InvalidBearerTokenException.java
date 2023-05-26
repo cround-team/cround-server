@@ -1,4 +1,4 @@
-package croundteam.cround.common.exception.security;
+package croundteam.cround.security.token.exception;
 
 import croundteam.cround.common.exception.BusinessException;
 import croundteam.cround.common.exception.ErrorCode;
