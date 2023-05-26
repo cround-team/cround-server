@@ -40,7 +40,7 @@ public enum ErrorCode {
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
     NOT_EXIST_SHORTS(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다."),
 
-    INCORRECT_SOURCE(HttpStatus.NOT_FOUND, "동일한 요청자가 아닙니다."),
+    INCORRECT_SOURCE(HttpStatus.UNAUTHORIZED, "동일한 요청자가 아닙니다."),
 
     NOT_EMPTY_TAG(HttpStatus.BAD_REQUEST, "태그는 최소 1개 이상 설정돼야 합니다.");
 
