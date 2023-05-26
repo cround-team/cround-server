@@ -35,8 +35,9 @@ public class ControllerAdvice {
          */
         String method = request.getMethod();
         String requestURI = request.getRequestURI();
+        String queryString = request.getQueryString();
 
-        log.info("ERROR 500: [{}][{}]: Exception Message = {}", method, requestURI, e.getMessage());
+        log.info("ERROR 500: [{}][{}?{}]: Exception Message = {}", method, requestURI, queryString, e.getMessage());
         return ResponseEntity.internalServerError().body(new ErrorResponse("알 수 없는 문제가 발생했습니다. 서버 관리자에게 문의주세요."));
     }
 }
