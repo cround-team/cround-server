@@ -56,6 +56,16 @@ public class Shorts extends BaseTime {
         this.creator = creator;
     }
 
+    public static Shorts of(Creator creator, ShortsSaveRequest shortsSaveRequest) {
+        return Shorts.builder()
+                .title(Title.create(shortsSaveRequest.getTitle()))
+                .content(Content.create(shortsSaveRequest.getContent()))
+                .platformType(PlatformType.create(shortsSaveRequest.getPlatformType()))
+                .shortForm(ShortsForm.create(shortsSaveRequest.getShortsUrl()))
+                .creator(creator)
+                .build();
+    }
+
     public void bookmark(Member member) {
         shortsBookmarks.addBookmark(this, member);
     }
@@ -70,16 +80,6 @@ public class Shorts extends BaseTime {
 
     public void unlike(Member member) {
         shortsLikes.removeLike(this, member);
-    }
-
-    public static Shorts of(Creator creator, ShortsSaveRequest shortsSaveRequest) {
-        return Shorts.builder()
-                .title(Title.from(shortsSaveRequest.getTitle()))
-                .content(Content.from(shortsSaveRequest.getContent()))
-                .platformType(PlatformType.from(shortsSaveRequest.getPlatformType()))
-                .shortForm(ShortsForm.from(shortsSaveRequest.getShortsUrl()))
-                .creator(creator)
-                .build();
     }
 
     public int getShortsBookmarks() {

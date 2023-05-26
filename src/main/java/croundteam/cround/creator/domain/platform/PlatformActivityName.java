@@ -19,7 +19,7 @@ public class PlatformActivityName {
         this.name = name;
     }
 
-    public static PlatformActivityName from(String name) {
+    public static PlatformActivityName create(String name) {
         validateName();
         return new PlatformActivityName(name);
     }

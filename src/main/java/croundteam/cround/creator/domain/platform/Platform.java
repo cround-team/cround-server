@@ -11,6 +11,8 @@ import javax.persistence.Embedded;
 public class Platform {
 
     // TODO: 플랫폼 테마 추가
+    @Embedded
+    private PlatformTheme platformTheme;
 
     @Embedded
     private PlatformUrl platformUrl;
@@ -22,19 +24,21 @@ public class Platform {
     @Embedded
     private PlatformActivityName platformActivityName;
 
-    private Platform(PlatformUrl platformUrl, PlatformType platformType, PlatformActivityName platformActivityName) {
+    private Platform(PlatformTheme platformTheme, PlatformUrl platformUrl,
+                     PlatformType platformType, PlatformActivityName platformActivityName) {
+        this.platformTheme = platformTheme;
         this.platformUrl = platformUrl;
         this.platformType = platformType;
         this.platformActivityName = platformActivityName;
     }
 
-    public static Platform of(String platformUrl, String platformType, String platformActivityName) {
+    public static Platform of(String platformTheme, String platformUrl,
+                              String platformType, String platformActivityName) {
         return new Platform(
-                PlatformUrl.from(platformUrl),
-                PlatformType.from(platformType),
-                PlatformActivityName.from(platformActivityName)
-        );
-    }
+                PlatformTheme.create(platformTheme),
+                PlatformUrl.create(platformUrl),
+                PlatformType.create(platformType),
+                PlatformActivityName.create(platformActivityName));}
 
     public String getPlatformUrl() {
         return platformUrl.getUrl();
@@ -46,5 +50,9 @@ public class Platform {
 
     public String getPlatformActivityName() {
         return platformActivityName.getName();
+    }
+
+    public String getPlatformTheme() {
+        return platformTheme.getTheme();
     }
 }

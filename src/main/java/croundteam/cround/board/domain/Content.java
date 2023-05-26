@@ -21,7 +21,7 @@ public class Content {
         this.value = value;
     }
 
-    public static Content from(String value) {
+    public static Content create(String value) {
         return new Content(value);
     }
 

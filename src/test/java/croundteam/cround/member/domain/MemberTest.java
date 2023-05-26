@@ -19,7 +19,7 @@ class MemberTest {
 
     @Test
     void member_save() {
-        List<PlatformType> platformTypes = Arrays.asList(PlatformType.from("YOUTUBE"), PlatformType.from("TIKTOK"));
+        List<PlatformType> platformTypes = Arrays.asList(PlatformType.create("YOUTUBE"), PlatformType.create("TIKTOK"));
         Interest interest = Interest.from(platformTypes);
         Interest emptyInterest = Interest.from(Collections.emptyList());
 

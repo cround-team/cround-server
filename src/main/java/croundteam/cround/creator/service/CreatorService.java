@@ -3,6 +3,7 @@ package croundteam.cround.creator.service;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.DuplicateCreatorPlatformActivityNameException;
+import croundteam.cround.creator.exception.IncorrectSourceException;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
 import croundteam.cround.creator.service.dto.SearchCreatorResponse;
@@ -33,12 +34,20 @@ public class CreatorService {
         validateCreator(creatorSaveRequest);
 
         Member member = findMemberByEmail(loginMember.getEmail());
+        validateSameSource(loginMember, member);
+
         Creator creator = creatorSaveRequest.toEntity();
         creator.addMember(member);
 
         Creator saveCreator = creatorRepository.save(creator);
 
         return saveCreator.getActivityName();
+    }
+
+    private void validateSameSource(LoginMember loginMember, Member member) {
+        if (!loginMember.getEmail().equals(member.getEmail())) {
+            throw new IncorrectSourceException(ErrorCode.INCORRECT_SOURCE);
+        }
     }
 
     public SearchCreatorResponses searchCreatorsByCondition(SearchCondition searchCondition) {

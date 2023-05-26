@@ -17,7 +17,7 @@ public class ShortsForm {
         this.shortsUrl = shortsUrl;
     }
 
-    public static ShortsForm from(String shortsUrl) {
+    public static ShortsForm create(String shortsUrl) {
         return new ShortsForm(shortsUrl);
     }
 }

@@ -1,10 +1,7 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.exception.InvalidBookmarkException;
-import croundteam.cround.board.exception.InvalidLikeException;
 import croundteam.cround.board.service.dto.BoardSaveRequest;
 import croundteam.cround.common.domain.BaseTime;
-import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
@@ -14,8 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -28,8 +23,11 @@ public class Board extends BaseTime {
     @Column(name = "board_id")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
+    private Creator creator;
+
     @Embedded
-    @Column(nullable = false)
     private PlatformType platformType;
 
     @Embedded
@@ -38,15 +36,11 @@ public class Board extends BaseTime {
     @Embedded
     private Content content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private Creator creator;
+    @Embedded
+    private BoardLikes boardLikes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<BoardLike> boardLikes = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<BoardBookmark> boardBookmarks = new ArrayList<>();
+    @Embedded
+    private BoardBookmarks boardBookmarks;
 
     @Builder
     public Board(PlatformType platformType, Title title, Content content, Creator creator) {
@@ -56,55 +50,37 @@ public class Board extends BaseTime {
         this.creator = creator;
     }
 
-    public void like(Member member) {
-        BoardLike like = new BoardLike(this, member);
-        validateLike(like);
-        boardLikes.add(like);
-    }
-
-    public void unlike(Member member) {
-        BoardLike like = new BoardLike(this, member);
-        boardLikes.remove(like);
-    }
-
-    public void bookmark(Member member) {
-        BoardBookmark bookmark = new BoardBookmark(this, member);
-        validateBookmark(bookmark);
-        boardBookmarks.add(bookmark);
-    }
-
-    public void unbookmark(Member member) {
-        BoardBookmark bookmark = new BoardBookmark(this, member);
-        boardBookmarks.remove(bookmark);
-    }
-
     public static Board of(Creator creator, BoardSaveRequest boardSaveRequest) {
         return Board.builder()
-                .platformType(PlatformType.from(boardSaveRequest.getPlatformType()))
-                .title(Title.from(boardSaveRequest.getTitle()))
-                .content(Content.from(boardSaveRequest.getContent()))
+                .platformType(PlatformType.create(boardSaveRequest.getPlatformType()))
+                .title(Title.create(boardSaveRequest.getTitle()))
+                .content(Content.create(boardSaveRequest.getContent()))
                 .creator(creator)
                 .build();
     }
 
-    private void validateLike(BoardLike like) {
-        if(boardLikes.contains(like)) {
-            throw new InvalidLikeException(ErrorCode.DUPLICATE_LIKE);
-        }
+    public void like(Member member) {
+        boardLikes.like(this, member);
     }
 
-    private void validateBookmark(BoardBookmark bookmark) {
-        if(boardBookmarks.contains(bookmark)) {
-            throw new InvalidBookmarkException(ErrorCode.DUPLICATE_BOOKMARK);
-        }
+    public void unlike(Member member) {
+        boardLikes.unlike(this, member);
+    }
+
+    public void bookmark(Member member) {
+        boardBookmarks.bookmark(this, member);
+    }
+
+    public void unbookmark(Member member) {
+        boardBookmarks.unbookmark(this, member);
     }
 
     public int getBoardLikes() {
-        return boardLikes.size();
+        return boardLikes.getLikeCount();
     }
 
     public int getBoardBookmarks() {
-        return boardBookmarks.size();
+        return boardBookmarks.getBookmarkCount();
     }
 
     public String getPlatformType() {

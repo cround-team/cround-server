@@ -14,7 +14,7 @@ class PlatformUrlTest {
     void validCreatorUrl() {
         String croundUrl = "http://cround.com";
 
-        assertThat(PlatformUrl.from(croundUrl)).isNotNull();
+        assertThat(PlatformUrl.create(croundUrl)).isNotNull();
     }
 
     @Test
@@ -22,7 +22,7 @@ class PlatformUrlTest {
     void invalidURISyntaxCreatorUrl() {
         String url = "http://cround.com/      @cround";
 
-        assertThatThrownBy(() -> PlatformUrl.from(url))
+        assertThatThrownBy(() -> PlatformUrl.create(url))
                 .isInstanceOf(InvalidUrlFormatException.class)
                 .hasMessage("유효하지 않은 URL 입니다.");
     }
@@ -32,7 +32,7 @@ class PlatformUrlTest {
     void invalidMalformedCreatorUrl() {
         String url = "hhttpp://cround.com";
 
-        assertThatThrownBy(() -> PlatformUrl.from(url))
+        assertThatThrownBy(() -> PlatformUrl.create(url))
                 .isInstanceOf(InvalidUrlFormatException.class)
                 .hasMessage("유효하지 않은 URL 입니다.");
     }

@@ -20,11 +20,11 @@ public class PlatformType {
     }
 
     @JsonCreator
-    public static PlatformType from(String platformName) {
+    public static PlatformType create(String platformName) {
         return new PlatformType(PlatformName.from(platformName));
     }
 
-    public static PlatformType from(PlatformName platformName) {
+    public static PlatformType create(PlatformName platformName) {
         return new PlatformType(platformName);
     }
 

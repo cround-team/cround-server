@@ -18,8 +18,8 @@ import java.util.List;
 public class CreatorSaveRequest {
 
     private String profileImage;
-    private String platformUrl;
     private String platformTheme;
+    private String platformUrl;
     private String platformType;
     private String platformActivityName;
     private String description;
@@ -28,8 +28,8 @@ public class CreatorSaveRequest {
     public Creator toEntity() {
         return Creator.builder()
                 .profileImage(profileImage)
-                .platform(Platform.of(platformUrl, platformType, platformActivityName))
-                .tags(Tags.from(tags))
+                .platform(Platform.of(platformTheme, platformUrl, platformType, platformActivityName))
+                .tags(Tags.create(tags))
                 .description(Description.create(description))
                 .build();
     }
