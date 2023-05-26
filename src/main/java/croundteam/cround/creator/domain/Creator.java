@@ -28,11 +28,11 @@ public class Creator extends BaseTime {
     @Column(name = "creator_id")
     private Long id;
 
-    @Embedded
-    private Description description;
-
     @Column(name = "profile_image")
     private String profileImage;
+
+    @Embedded
+    private Description description;
 
     @Embedded
     private Platform platform;
@@ -44,22 +44,26 @@ public class Creator extends BaseTime {
     @Embedded
     private Followers followers;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
-    private List<CreatorTag> creatorTags = new ArrayList<>();
+    @Embedded
+    private CreatorTags creatorTags;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
-    private List<Board> boards = new ArrayList<>();
+    @Embedded
+    private Boards boards;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
-    private List<Shorts> shorts = new ArrayList<>();
+    @Embedded
+    private ShortClass shortClass;
 
     @Builder
     private Creator(String profileImage, Member member, Platform platform, Tags tags, Description description) {
         this.profileImage = profileImage;
         this.member = member;
         this.platform = platform;
-        this.creatorTags = tags.castCreatorTagsFromTags(this);
+        this.creatorTags = castCreatorTagsFromTags(tags);
         this.description = description;
+    }
+
+    private CreatorTags castCreatorTagsFromTags(Tags tags) {
+        return CreatorTags.create(this, tags);
     }
 
     public static Creator of(String profileImage, Member member, Platform platform, Tags tags) {
@@ -80,7 +84,7 @@ public class Creator extends BaseTime {
     }
 
     public void addShorts(Shorts shorts) {
-        this.shorts.add(shorts);
+        shortClass.add(shorts);
     }
 
     public void addFollow(Follow follow) {
