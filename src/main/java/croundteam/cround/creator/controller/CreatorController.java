@@ -23,10 +23,10 @@ public class CreatorController {
 
     @PostMapping
     public ResponseEntity<Void> createCreator(
-            @Login LoginMember member,
+            @Login LoginMember loginMember,
             @RequestBody CreatorSaveRequest creatorSaveRequest
     ) {
-        String activityName = creatorService.createCreator(member, creatorSaveRequest);
+        String activityName = creatorService.createCreator(loginMember, creatorSaveRequest);
         return ResponseEntity.created(URI.create("/api/creators/" + activityName)).build();
     }
 
