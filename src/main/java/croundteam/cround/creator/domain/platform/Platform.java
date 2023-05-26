@@ -10,9 +10,12 @@ import javax.persistence.Embedded;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Platform {
 
+    // TODO: 플랫폼 테마 추가
+
     @Embedded
     private PlatformUrl platformUrl;
 
+    // TODO: 플랫폼 타입은 최소 1개 ~ 여러 개로 입력 가능하다.
     @Embedded
     private PlatformType platformType;
 
