@@ -25,7 +25,7 @@ public enum ErrorCode {
     EMPTY_DESCRIPTION(HttpStatus.BAD_REQUEST, "소개는 공백일 수 없습니다."),
 
     INVALID_PLATFORM_NAME(HttpStatus.BAD_REQUEST, "존재하지 않는 플랫폼 유형입니다."),
-    INVALID_FOLLOW(HttpStatus.BAD_REQUEST, "팔로우 정보가 존재하지 않습니다."),
+    INVALID_FOLLOW(HttpStatus.BAD_REQUEST, "이미 팔로우한 대상입니다."),
     INVALID_THEME_NAME(HttpStatus.BAD_REQUEST, "유효하지 않은 테마 이름 입니다."),
     INVALID_SOURCE_TARGET_FOLLOW(HttpStatus.BAD_REQUEST, "자기 자신을 팔로우 할 수 없습니다."),
     INVALID_URI_FORMAT(HttpStatus.BAD_REQUEST, "유효하지 않은 URL 입니다."),
@@ -38,7 +38,8 @@ public enum ErrorCode {
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
     NOT_EXIST_SHORTS(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다."),
 
-    NOT_EMPTY_TAG(HttpStatus.BAD_REQUEST, "태그는 최소 1개 이상 설정돼야 합니다.");
+    NOT_EMPTY_TAG(HttpStatus.BAD_REQUEST, "태그는 최소 1개 이상 설정돼야 합니다."),
+    INVALID_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 Provider입니다.");
 
     private final HttpStatus status;
     private final String message;

@@ -19,6 +19,7 @@ public class CreatorSaveRequest {
 
     private String profileImage;
     private String platformUrl;
+    private String platformTheme;
     private String platformType;
     private String platformActivityName;
     private String description;

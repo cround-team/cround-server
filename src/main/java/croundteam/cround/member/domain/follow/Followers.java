@@ -20,16 +20,17 @@ public class Followers {
     private List<Follow> followers = new ArrayList<>();
 
     public void add(Follow follow) {
+        validateFollow(follow);
         followers.add(follow);
     }
 
     public void remove(Follow follow) {
-        validateFollow(follow);
+
         followers.remove(follow);
     }
 
     private void validateFollow(Follow follow) {
-        if(!followers.contains(follow)) {
+        if(followers.contains(follow)) {
             throw new InvalidFollowException(ErrorCode.INVALID_FOLLOW);
         }
     }

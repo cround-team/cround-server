@@ -1,6 +1,8 @@
 package croundteam.cround.security.oauth2;
 
+import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.security.token.exception.InvalidProviderTypeException;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -33,7 +35,7 @@ public class OAuthAttributes {
             case "kakao":
                 return ofKakao("email", attributes);
             default:
-                throw new RuntimeException("Invalid Provider Type");
+                throw new InvalidProviderTypeException(ErrorCode.INVALID_PROVIDER_TYPE);
         }
     }
 
