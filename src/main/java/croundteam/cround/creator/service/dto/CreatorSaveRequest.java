@@ -28,7 +28,7 @@ public class CreatorSaveRequest {
     public Creator toEntity() {
         return Creator.builder()
                 .profileImage(profileImage)
-                .platform(Platform.of(platformTheme, platformUrl, platformType, platformActivityName))
+                .platform(Platform.of(platformTheme, platformUrl, platformActivityName, platformType))
                 .tags(Tags.create(tags))
                 .description(Description.create(description))
                 .build();

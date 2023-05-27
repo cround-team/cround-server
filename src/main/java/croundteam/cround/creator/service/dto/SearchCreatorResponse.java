@@ -30,7 +30,7 @@ public class SearchCreatorResponse {
                 .platformActivityName(creator.getActivityName())
                 .description(creator.getDescription())
                 .profileImage(creator.getProfileImage())
-                .platformType(creator.getPlatform().getPlatformType())
+                .platformType(creator.getPlatformType())
                 .build();
     }
 }
