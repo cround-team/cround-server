@@ -11,8 +11,6 @@ import croundteam.cround.shorts.domain.Shorts;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -48,18 +46,23 @@ public class Creator extends BaseTime {
     private CreatorTags creatorTags;
 
     @Embedded
+    private CreatorPlatformTypes platformTypes;
+
+    @Embedded
     private Boards boards;
 
     @Embedded
     private ShortClass shortClass;
 
     @Builder
-    private Creator(String profileImage, Member member, Platform platform, Tags tags, Description description) {
+    private Creator(String profileImage, Description description, Member member, Platform platform,
+                    Tags tags, CreatorPlatformTypes platformTypes) {
         this.profileImage = profileImage;
+        this.description = description;
         this.member = member;
         this.platform = platform;
         this.creatorTags = castCreatorTagsFromTags(tags);
-        this.description = description;
+        this.platformTypes = platformTypes;
     }
 
     private CreatorTags castCreatorTagsFromTags(Tags tags) {
@@ -97,6 +100,10 @@ public class Creator extends BaseTime {
 
     public String getActivityName() {
         return platform.getPlatformActivityName();
+    }
+
+    public String getPlatformType() {
+        return platform.getPlatformType();
     }
 
     public Long getMemberId() {

@@ -33,7 +33,7 @@ class CreatorTest {
                 .email("cround@cround.com")
                 .build();
 
-        Platform platform = Platform.of(CREATOR_PLATFORM_URI, "instagram", "crounder");
+        Platform platform = Platform.of(CREATOR_PLATFORM_URI, "instagram", "crounder", "youtube");
         Tags tags = Tags.create("크라운드 대표", "크라운드 직원");
 
         // when

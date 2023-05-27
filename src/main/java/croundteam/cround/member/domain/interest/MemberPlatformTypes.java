@@ -10,24 +10,20 @@ import java.util.List;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Interest {
+public class MemberPlatformTypes {
 
-    /**
-     * 플랫폼 여러개
-     * 테마 여러개
-     */
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
-            name = "interest_platform",
+            name = "member_platform",
             joinColumns = @JoinColumn(
                     name = "member_id"))
-    private List<PlatformType> interestPlatform = new ArrayList<>();
+    private List<PlatformType> platformTypes = new ArrayList<>();
 
-    public Interest(List<PlatformType> interestPlatform) {
-        this.interestPlatform = interestPlatform;
+    public MemberPlatformTypes(List<PlatformType> platformTypes) {
+        this.platformTypes = platformTypes;
     }
 
-    public static Interest from(List<PlatformType> platformTypes) {
-        return new Interest(platformTypes);
+    public static MemberPlatformTypes create(List<PlatformType> platformTypes) {
+        return new MemberPlatformTypes(platformTypes);
     }
 }

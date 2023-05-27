@@ -3,6 +3,7 @@ package croundteam.cround.creator.domain.platform;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
@@ -10,42 +11,38 @@ import javax.persistence.Embedded;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Platform {
 
-    // TODO: 플랫폼 테마 추가
     @Embedded
     private PlatformTheme platformTheme;
 
     @Embedded
     private PlatformUrl platformUrl;
 
-    // TODO: 플랫폼 타입은 최소 1개 ~ 여러 개로 입력 가능하다.
-    @Embedded
-    private PlatformType platformType;
-
     @Embedded
     private PlatformActivityName platformActivityName;
 
+    @Embedded
+    @Column(name = "platform_type")
+    private PlatformType platformType;
+
     private Platform(PlatformTheme platformTheme, PlatformUrl platformUrl,
-                     PlatformType platformType, PlatformActivityName platformActivityName) {
+                     PlatformActivityName platformActivityName, PlatformType platformType) {
         this.platformTheme = platformTheme;
         this.platformUrl = platformUrl;
-        this.platformType = platformType;
         this.platformActivityName = platformActivityName;
+        this.platformType = platformType;
     }
 
     public static Platform of(String platformTheme, String platformUrl,
-                              String platformType, String platformActivityName) {
+                              String platformActivityName, String platformType) {
         return new Platform(
                 PlatformTheme.create(platformTheme),
                 PlatformUrl.create(platformUrl),
-                PlatformType.create(platformType),
-                PlatformActivityName.create(platformActivityName));}
+                PlatformActivityName.create(platformActivityName),
+                PlatformType.create(platformType));
+    }
 
     public String getPlatformUrl() {
         return platformUrl.getUrl();
-    }
-
-    public String getPlatformType() {
-        return platformType.getPlatformName();
     }
 
     public String getPlatformActivityName() {
@@ -55,4 +52,9 @@ public class Platform {
     public String getPlatformTheme() {
         return platformTheme.getTheme();
     }
+
+    public String getPlatformType() {
+        return platformType.getPlatformName();
+    }
+
 }
