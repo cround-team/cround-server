@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
-import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_PLATFORM_URI;
+import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PLATFORM_URI;
 import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PROFILE_IMAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +33,7 @@ class CreatorTest {
                 .email("cround@cround.com")
                 .build();
 
-        Platform platform = Platform.of(CREATOR_PLATFORM_URI, "instagram", "crounder", "youtube");
+        Platform platform = Platform.of(DEFAULT_PLATFORM_URI, "instagram", "crounder", "youtube");
         Tags tags = Tags.create("크라운드 대표", "크라운드 직원");
 
         // when
