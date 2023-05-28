@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface CreatorRepository extends JpaRepository<Creator, Long>, CreatorOffsetQueryRepository {
+public interface CreatorRepository extends JpaRepository<Creator, Long>, CreatorQueryRepository {
 
     boolean existsByPlatformPlatformActivityNameName(String platformActivityName);
 

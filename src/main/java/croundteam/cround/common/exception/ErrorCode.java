@@ -30,6 +30,7 @@ public enum ErrorCode {
 
     NOT_EMPTY_TAG(HttpStatus.BAD_REQUEST, "태그는 최소 1개 이상 설정돼야 합니다."),
 
+    INVALID_SORT_TYPE(HttpStatus.BAD_REQUEST, "존재하지 않는 정렬 타입입니다."),
     INVALID_PLATFORM_NAME(HttpStatus.BAD_REQUEST, "존재하지 않는 플랫폼 유형입니다."),
     INVALID_THEME_NAME(HttpStatus.BAD_REQUEST, "유효하지 않은 테마 이름 입니다."),
     INVALID_URI_FORMAT(HttpStatus.BAD_REQUEST, "유효하지 않은 URL 입니다."),

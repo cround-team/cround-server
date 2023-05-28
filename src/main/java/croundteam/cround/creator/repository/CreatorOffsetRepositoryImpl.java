@@ -5,9 +5,11 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.service.dto.SearchCondition;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -16,19 +18,13 @@ import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
 import static croundteam.cround.member.domain.follow.QFollow.follow;
 
-public class CreatorOffsetQueryRepositoryImpl implements CreatorOffsetQueryRepository {
+@Repository
+@RequiredArgsConstructor
+public class CreatorOffsetRepositoryImpl {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public CreatorOffsetQueryRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
-        this.jpaQueryFactory = jpaQueryFactory;
-    }
-
-    /**
-     * 팔로워
-     */
-    @Override
-    public Page<Creator> searchCreatorByKeywordAndPlatforms(SearchCondition searchCondition, Pageable pageable) {
+    public Page<Creator> searchPageByKeywordAndPlatforms(SearchCondition searchCondition, Pageable pageable) {
         List<Long> tagIds = jpaQueryFactory
                 .select(tag.id)
                 .from(tag)
@@ -82,24 +78,24 @@ public class CreatorOffsetQueryRepositoryImpl implements CreatorOffsetQueryRepos
          *     .groupBy(creator)
          *     .orderBy(follow.count().desc(), creator.id.asc());
          */
-    }
-
-
-    private BooleanExpression containsTagName(String keyword) {
-        if(!StringUtils.hasText(keyword) || keyword.isEmpty()) {
-            return null;
         }
-        return tag.tagName.name.contains(keyword);
-    }
 
-    private BooleanExpression whereKeywords(String keyword, List<Long> tagIds) {
-         // contains와 like의 차이
-        if(!StringUtils.hasText(keyword) || keyword.isEmpty()) {
-            return null;
+        private BooleanExpression containsTagName(String keyword) {
+            if(!StringUtils.hasText(keyword) || keyword.isEmpty()) {
+                return null;
+            }
+            return tag.tagName.name.contains(keyword);
         }
-        BooleanExpression containName = creator.platform.platformActivityName.name.contains(keyword);
-        BooleanExpression containTagName = creator.creatorTags.any().id.in(tagIds);
 
-        return containName.or(containTagName);
-    }
+        private BooleanExpression whereKeywords(String keyword, List<Long> tagIds) {
+            // contains와 like의 차이
+            if(!StringUtils.hasText(keyword) || keyword.isEmpty()) {
+                return null;
+            }
+            BooleanExpression containName = creator.platform.platformActivityName.name.contains(keyword);
+            BooleanExpression containTagName = creator.creatorTags.creatorTags.any().id.in(tagIds);
+
+            return containName.or(containTagName);
+        }
+
 }

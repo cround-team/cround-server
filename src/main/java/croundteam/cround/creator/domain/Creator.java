@@ -35,7 +35,7 @@ public class Creator extends BaseTime {
     @Embedded
     private Platform platform;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_creator_to_member"))
     private Member member;
 
