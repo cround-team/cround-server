@@ -3,7 +3,7 @@ package croundteam.cround.member.domain;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.follow.Followings;
-import croundteam.cround.member.domain.interest.MemberPlatformTypes;
+import croundteam.cround.member.domain.interest.InterestPlatforms;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,7 +37,7 @@ public class Member extends BaseTime {
     private String password;
 
     @Embedded
-    private MemberPlatformTypes interest;
+    private InterestPlatforms interest;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -47,7 +47,7 @@ public class Member extends BaseTime {
     private Followings followings;
 
     @Builder
-    public Member(String email, String username, String nickname, String password, MemberPlatformTypes interest) {
+    public Member(String email, String username, String nickname, String password, InterestPlatforms interest) {
         this.email = email;
         this.username = username;
         this.nickname = nickname;

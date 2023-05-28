@@ -2,7 +2,7 @@ package croundteam.cround.member.service.dto;
 
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.domain.interest.MemberPlatformTypes;
+import croundteam.cround.member.domain.interest.InterestPlatforms;
 import croundteam.cround.security.BCryptEncoder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,7 +48,7 @@ public class MemberSaveRequest {
                 .username(username)
                 .nickname(nickname)
                 .password(BCryptEncoder.encrypt(password))
-                .interest(MemberPlatformTypes.create(platformTypes))
+                .interest(InterestPlatforms.create(platformTypes))
                 .build();
     }
 }

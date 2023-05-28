@@ -10,7 +10,7 @@ import java.util.List;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CreatorPlatformTypes {
+public class ActivityPlatforms {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
@@ -19,12 +19,12 @@ public class CreatorPlatformTypes {
                     name = "creator_id"))
     private List<PlatformType> platformTypes = new ArrayList<>();
 
-    public CreatorPlatformTypes(List<PlatformType> platformTypes) {
+    public ActivityPlatforms(List<PlatformType> platformTypes) {
         this.platformTypes = platformTypes;
     }
 
-    public static CreatorPlatformTypes create(List<PlatformType> platformTypes) {
-        return new CreatorPlatformTypes(platformTypes);
+    public static ActivityPlatforms create(List<PlatformType> platformTypes) {
+        return new ActivityPlatforms(platformTypes);
     }
 
     public List<PlatformType> getPlatformTypes() {

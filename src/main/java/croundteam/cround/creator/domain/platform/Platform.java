@@ -21,7 +21,6 @@ public class Platform {
     private PlatformActivityName platformActivityName;
 
     @Embedded
-    @Column(name = "platform_type")
     private PlatformType platformType;
 
     private Platform(PlatformTheme platformTheme, PlatformUrl platformUrl,

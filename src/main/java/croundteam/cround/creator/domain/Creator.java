@@ -46,7 +46,7 @@ public class Creator extends BaseTime {
     private CreatorTags creatorTags;
 
     @Embedded
-    private CreatorPlatformTypes platformTypes;
+    private ActivityPlatforms platformTypes;
 
     @Embedded
     private Boards boards;
@@ -56,7 +56,7 @@ public class Creator extends BaseTime {
 
     @Builder
     private Creator(String profileImage, Description description, Member member, Platform platform,
-                    Tags tags, CreatorPlatformTypes platformTypes) {
+                    Tags tags, ActivityPlatforms platformTypes) {
         this.profileImage = profileImage;
         this.description = description;
         this.member = member;
