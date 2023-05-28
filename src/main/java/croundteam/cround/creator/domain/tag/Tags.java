@@ -7,6 +7,7 @@ import croundteam.cround.creator.exception.ExceedTagLengthException;
 import croundteam.cround.creator.exception.ExceedTagsSizeException;
 import croundteam.cround.creator.exception.NotEmptyTagException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +33,11 @@ public class Tags {
     public static Tags create(String... names) {
         List<Tag> tags = Arrays.stream(names).map(Tag::from).collect(Collectors.toList());
         return new Tags(tags);
+    }
+
+    public static Tags castToTags(List<String> tags) {
+        List<Tag> collect = tags.stream().map(Tag::from).collect(Collectors.toList());
+        return new Tags(collect);
     }
 
     public List<CreatorTag> castCreatorTagsFromTags(Creator creator) {

@@ -46,7 +46,7 @@ public class Creator extends BaseTime {
     private CreatorTags creatorTags;
 
     @Embedded
-    private ActivityPlatforms platformTypes;
+    private ActivityPlatforms activityPlatforms;
 
     @Embedded
     private Boards boards;
@@ -56,25 +56,28 @@ public class Creator extends BaseTime {
 
     @Builder
     private Creator(ProfileImage profileImage, Description description, Member member, Platform platform,
-                    Tags tags, ActivityPlatforms platformTypes) {
+                    Tags tags, ActivityPlatforms activityPlatforms) {
         this.profileImage = profileImage;
         this.description = description;
         this.member = member;
         this.platform = platform;
         this.creatorTags = castCreatorTagsFromTags(tags);
-        this.platformTypes = platformTypes;
+        this.activityPlatforms = activityPlatforms;
     }
 
     private CreatorTags castCreatorTagsFromTags(Tags tags) {
         return CreatorTags.create(this, tags);
     }
 
-    public static Creator of(ProfileImage profileImage, Member member, Platform platform, Tags tags) {
+    public static Creator of(ProfileImage profileImage, Description description, Member member, Platform platform,
+                             Tags tags, ActivityPlatforms activityPlatforms) {
         return Creator.builder()
                 .profileImage(profileImage)
+                .description(description)
                 .member(member)
                 .platform(platform)
                 .tags(tags)
+                .activityPlatforms(activityPlatforms)
                 .build();
     }
 
@@ -112,5 +115,9 @@ public class Creator extends BaseTime {
 
     public String getDescription() {
         return description.getDescription();
+    }
+
+    public String getProfileImage() {
+        return profileImage.getProfileImage();
     }
 }

@@ -4,33 +4,38 @@ import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.Description;
 import croundteam.cround.creator.domain.ProfileImage;
 import croundteam.cround.creator.domain.platform.Platform;
-import croundteam.cround.creator.domain.tag.Tag;
-import croundteam.cround.creator.domain.tag.Tags;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static croundteam.cround.creator.domain.ActivityPlatforms.castToActivityPlatforms;
+import static croundteam.cround.creator.domain.tag.Tags.castToTags;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class CreatorSaveRequest {
 
     private String profileImage;
-    private String platformTheme;
+    private String platformHeadTheme;
+    private List<String> tags = new ArrayList<>();
+    private String platformHeadType;
+    private List<String> activityPlatforms = new ArrayList<>();
     private String platformUrl;
-    private String platformType;
     private String platformActivityName;
     private String description;
-    private List<Tag> tags = new ArrayList<>();
 
     public Creator toEntity() {
         return Creator.builder()
                 .profileImage(ProfileImage.create(profileImage))
-                .platform(Platform.of(platformTheme, platformUrl, platformActivityName, platformType))
-                .tags(Tags.create(tags))
+                .platform(Platform.of(platformHeadTheme, platformHeadType, platformUrl, platformActivityName))
+                .tags(castToTags(tags))
+                .activityPlatforms(castToActivityPlatforms(activityPlatforms))
                 .description(Description.create(description))
                 .build();
     }

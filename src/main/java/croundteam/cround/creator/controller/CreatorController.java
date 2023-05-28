@@ -26,6 +26,8 @@ public class CreatorController {
             @Login LoginMember loginMember,
             @RequestBody CreatorSaveRequest creatorSaveRequest
     ) {
+        System.out.println("CreatorController.createCreator");
+        System.out.println("creatorSaveRequest = " + creatorSaveRequest);
         String activityName = creatorService.createCreator(loginMember, creatorSaveRequest);
         return ResponseEntity.created(URI.create("/api/creators/" + activityName)).build();
     }

@@ -1,5 +1,6 @@
 package croundteam.cround.creator.domain.tag;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import croundteam.cround.common.domain.BaseTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class Tag extends BaseTime {
         this.tagName = tagName;
     }
 
+    @JsonCreator
     public static Tag from(String name) {
         return new Tag(TagName.from(name));
     }
@@ -30,4 +32,5 @@ public class Tag extends BaseTime {
     public String getTagName() {
         return tagName.getName();
     }
+
 }
