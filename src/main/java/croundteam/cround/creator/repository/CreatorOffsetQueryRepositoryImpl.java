@@ -16,11 +16,11 @@ import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
 import static croundteam.cround.member.domain.follow.QFollow.follow;
 
-public class CreatorQueryRepositoryImpl implements CreatorQueryRepository {
+public class CreatorOffsetQueryRepositoryImpl implements CreatorOffsetQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public CreatorQueryRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
+    public CreatorOffsetQueryRepositoryImpl(JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
