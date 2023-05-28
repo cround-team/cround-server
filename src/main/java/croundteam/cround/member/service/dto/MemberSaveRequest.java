@@ -1,6 +1,7 @@
 package croundteam.cround.member.service.dto;
 
 import croundteam.cround.creator.domain.platform.PlatformType;
+import croundteam.cround.member.domain.AuthProvider;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.interest.InterestPlatforms;
 import croundteam.cround.security.BCryptEncoder;
@@ -49,6 +50,7 @@ public class MemberSaveRequest {
                 .nickname(nickname)
                 .password(BCryptEncoder.encrypt(password))
                 .interest(InterestPlatforms.create(platformTypes))
+                .authProvider(AuthProvider.LOCAL)
                 .build();
     }
 }

@@ -40,20 +40,24 @@ public class Member extends BaseTime {
     private InterestPlatforms interest;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
 
     @Embedded
     private Followings followings;
 
     @Builder
-    public Member(String email, String username, String nickname, String password, InterestPlatforms interest) {
+    public Member(String email, String username, String nickname, String password, InterestPlatforms interest,
+                  AuthProvider authProvider) {
         this.email = email;
         this.username = username;
         this.nickname = nickname;
         this.password = password;
         this.interest = interest;
         this.role = Role.USER;
+        this.authProvider = authProvider;
     }
 
     public void update(Member member) {
