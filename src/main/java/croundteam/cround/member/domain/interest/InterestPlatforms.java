@@ -10,7 +10,7 @@ import java.util.List;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberPlatformTypes {
+public class InterestPlatforms {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
@@ -19,11 +19,11 @@ public class MemberPlatformTypes {
                     name = "member_id"))
     private List<PlatformType> platformTypes = new ArrayList<>();
 
-    public MemberPlatformTypes(List<PlatformType> platformTypes) {
+    public InterestPlatforms(List<PlatformType> platformTypes) {
         this.platformTypes = platformTypes;
     }
 
-    public static MemberPlatformTypes create(List<PlatformType> platformTypes) {
-        return new MemberPlatformTypes(platformTypes);
+    public static InterestPlatforms create(List<PlatformType> platformTypes) {
+        return new InterestPlatforms(platformTypes);
     }
 }

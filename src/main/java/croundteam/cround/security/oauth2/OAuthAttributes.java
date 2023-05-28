@@ -1,6 +1,7 @@
 package croundteam.cround.security.oauth2;
 
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.member.domain.AuthProvider;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.security.token.exception.InvalidProviderTypeException;
 import lombok.Builder;
@@ -80,6 +81,7 @@ public class OAuthAttributes {
                 .username(name)
                 .email(email)
                 .password(null)
+                .authProvider(AuthProvider.KAKAO)
                 .build();
     }
 }

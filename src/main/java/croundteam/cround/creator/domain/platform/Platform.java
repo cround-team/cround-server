@@ -3,7 +3,6 @@ package croundteam.cround.creator.domain.platform;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 
@@ -12,7 +11,10 @@ import javax.persistence.Embedded;
 public class Platform {
 
     @Embedded
-    private PlatformTheme platformTheme;
+    private PlatformTheme platformHeadTheme;
+
+    @Embedded
+    private PlatformType platformHeadType;
 
     @Embedded
     private PlatformUrl platformUrl;
@@ -20,25 +22,29 @@ public class Platform {
     @Embedded
     private PlatformActivityName platformActivityName;
 
-    @Embedded
-    @Column(name = "platform_type")
-    private PlatformType platformType;
-
-    private Platform(PlatformTheme platformTheme, PlatformUrl platformUrl,
-                     PlatformActivityName platformActivityName, PlatformType platformType) {
-        this.platformTheme = platformTheme;
+    private Platform(PlatformTheme platformHeadTheme, PlatformType platformHeadType,
+                     PlatformUrl platformUrl, PlatformActivityName platformActivityName) {
+        this.platformHeadTheme = platformHeadTheme;
+        this.platformHeadType = platformHeadType;
         this.platformUrl = platformUrl;
         this.platformActivityName = platformActivityName;
-        this.platformType = platformType;
     }
 
-    public static Platform of(String platformTheme, String platformUrl,
-                              String platformActivityName, String platformType) {
+    public static Platform of(String platformHeadTheme, String platformHeadType,
+                              String platformUrl, String platformActivityName) {
         return new Platform(
-                PlatformTheme.create(platformTheme),
+                PlatformTheme.create(platformHeadTheme),
+                PlatformType.create(platformHeadType),
                 PlatformUrl.create(platformUrl),
-                PlatformActivityName.create(platformActivityName),
-                PlatformType.create(platformType));
+                PlatformActivityName.create(platformActivityName));
+    }
+
+    public String getPlatformTheme() {
+        return platformHeadTheme.getTheme();
+    }
+
+    public String getPlatformType() {
+        return platformHeadType.getPlatformName();
     }
 
     public String getPlatformUrl() {
@@ -48,13 +54,4 @@ public class Platform {
     public String getPlatformActivityName() {
         return platformActivityName.getName();
     }
-
-    public String getPlatformTheme() {
-        return platformTheme.getTheme();
-    }
-
-    public String getPlatformType() {
-        return platformType.getPlatformName();
-    }
-
 }

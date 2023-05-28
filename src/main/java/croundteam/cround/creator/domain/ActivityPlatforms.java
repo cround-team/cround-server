@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CreatorPlatformTypes {
+public class ActivityPlatforms {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
@@ -19,12 +20,17 @@ public class CreatorPlatformTypes {
                     name = "creator_id"))
     private List<PlatformType> platformTypes = new ArrayList<>();
 
-    public CreatorPlatformTypes(List<PlatformType> platformTypes) {
+    public ActivityPlatforms(List<PlatformType> platformTypes) {
         this.platformTypes = platformTypes;
     }
 
-    public static CreatorPlatformTypes create(List<PlatformType> platformTypes) {
-        return new CreatorPlatformTypes(platformTypes);
+    public static ActivityPlatforms castToActivityPlatforms(List<String> activityPlatforms) {
+        List<PlatformType> temp = activityPlatforms.stream().map(PlatformType::create).collect(Collectors.toList());
+        return new ActivityPlatforms(temp);
+    }
+
+    public static ActivityPlatforms create(List<PlatformType> platformTypes) {
+        return new ActivityPlatforms(platformTypes);
     }
 
     public List<PlatformType> getPlatformTypes() {
