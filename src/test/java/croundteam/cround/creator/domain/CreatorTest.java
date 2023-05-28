@@ -37,7 +37,7 @@ class CreatorTest {
         Tags tags = Tags.create("크라운드 대표", "크라운드 직원");
 
         // when
-        Creator creator = Creator.of(DEFAULT_PROFILE_IMAGE, member, platform, tags);
+        Creator creator = Creator.of(ProfileImage.create(DEFAULT_PROFILE_IMAGE), member, platform, tags);
         Creator saveCreator = creatorRepository.save(creator);
 
         // then

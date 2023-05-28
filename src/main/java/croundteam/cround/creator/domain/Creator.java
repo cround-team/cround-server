@@ -26,8 +26,8 @@ public class Creator extends BaseTime {
     @Column(name = "creator_id")
     private Long id;
 
-    @Column(name = "profile_image")
-    private String profileImage;
+    @Embedded
+    private ProfileImage profileImage;
 
     @Embedded
     private Description description;
@@ -55,7 +55,7 @@ public class Creator extends BaseTime {
     private ShortClass shortClass;
 
     @Builder
-    private Creator(String profileImage, Description description, Member member, Platform platform,
+    private Creator(ProfileImage profileImage, Description description, Member member, Platform platform,
                     Tags tags, ActivityPlatforms platformTypes) {
         this.profileImage = profileImage;
         this.description = description;
@@ -69,7 +69,7 @@ public class Creator extends BaseTime {
         return CreatorTags.create(this, tags);
     }
 
-    public static Creator of(String profileImage, Member member, Platform platform, Tags tags) {
+    public static Creator of(ProfileImage profileImage, Member member, Platform platform, Tags tags) {
         return Creator.builder()
                 .profileImage(profileImage)
                 .member(member)

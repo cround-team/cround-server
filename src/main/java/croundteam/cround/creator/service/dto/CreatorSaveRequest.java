@@ -2,6 +2,7 @@ package croundteam.cround.creator.service.dto;
 
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.Description;
+import croundteam.cround.creator.domain.ProfileImage;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.tag.Tag;
 import croundteam.cround.creator.domain.tag.Tags;
@@ -27,7 +28,7 @@ public class CreatorSaveRequest {
 
     public Creator toEntity() {
         return Creator.builder()
-                .profileImage(profileImage)
+                .profileImage(ProfileImage.create(profileImage))
                 .platform(Platform.of(platformTheme, platformUrl, platformActivityName, platformType))
                 .tags(Tags.create(tags))
                 .description(Description.create(description))
