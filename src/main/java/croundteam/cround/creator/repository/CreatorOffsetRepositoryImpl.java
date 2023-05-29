@@ -18,8 +18,14 @@ import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
 import static croundteam.cround.member.domain.follow.QFollow.follow;
 
+/**
+ * @deprecated 2023.05.24
+ * To   No-Offset
+ * From Offset
+ */
 @Repository
 @RequiredArgsConstructor
+@Deprecated(since = "2023.05.24")
 public class CreatorOffsetRepositoryImpl {
 
     private final JPAQueryFactory jpaQueryFactory;

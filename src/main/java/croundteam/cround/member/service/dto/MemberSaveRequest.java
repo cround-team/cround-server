@@ -15,7 +15,7 @@ import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
-import static croundteam.cround.common.dto.ValidationMessages.*;
+import static croundteam.cround.common.fixtures.ValidationMessages.*;
 
 @Getter
 @NoArgsConstructor

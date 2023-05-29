@@ -5,7 +5,7 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.InvalidSortTypeException;
+import croundteam.cround.creator.exception.InvalidSortTypeException;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformName;
 import croundteam.cround.creator.service.dto.SearchCondition;
@@ -53,12 +53,15 @@ public class CreatorQueryRepositoryImpl implements CreatorQueryRepository {
 
         switch (type) {
             case LATEST:
-                return query.orderBy(creator.id.desc()).fetch();
+                return query
+                        .orderBy(creator.id.desc())
+                        .fetch();
             case FOLLOW:
                 return query
                         .leftJoin(creator.followers.followers, follow)
                         .groupBy(creator.id)
-                        .orderBy(follow.id.count().desc(), creator.id.desc()).fetch();
+                        .orderBy(follow.id.count().desc(), creator.id.desc())
+                        .fetch();
         }
         throw new InvalidSortTypeException(ErrorCode.INVALID_SORT_TYPE);
     }

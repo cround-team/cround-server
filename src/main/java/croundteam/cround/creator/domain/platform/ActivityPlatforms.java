@@ -1,6 +1,5 @@
-package croundteam.cround.creator.domain;
+package croundteam.cround.creator.domain.platform;
 
-import croundteam.cround.creator.domain.platform.PlatformType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
