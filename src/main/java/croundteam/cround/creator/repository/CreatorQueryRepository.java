@@ -7,7 +7,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformName;
-import croundteam.cround.creator.domain.tag.QCreatorTags;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
 import croundteam.cround.creator.service.dto.SearchCondition;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +20,6 @@ import java.util.Objects;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PAGE_SIZE;
 import static croundteam.cround.creator.domain.QCreator.creator;
-import static croundteam.cround.creator.domain.tag.QCreatorTag.creatorTag;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
 import static croundteam.cround.creator.service.dto.SearchCondition.CreatorSortCondition;
 import static croundteam.cround.member.domain.follow.QFollow.follow;
@@ -36,19 +34,26 @@ public class CreatorQueryRepository {
     }
 
     public Slice<Creator> searchByKeywordAndPlatforms(SearchCondition searchCondition, Pageable pageable) {
-        List<Long> tagIds = searchTagByCondition(searchCondition);
-
         JPAQuery<Creator> query = jpaQueryFactory
                 .selectFrom(creator)
                 .where(
-                        ltCursorId(searchCondition.getCursorId()),   // 페이지네이션
-                        wherePlatforms(searchCondition.getFilter()), // 필터 플랫폼
-                        searchKeywordInActivityNameAndTagName(searchCondition.getKeyword(), tagIds)) // 검색 조건
+                        ltCursorId(searchCondition.getCursorId()),     // 페이지네이션
+                        filterByPlatform(searchCondition.getFilter()), // 필터 플랫폼
+                        containsKeyword(searchCondition.getKeyword())) // 검색 조건
 //                        containsKeyword(searchCondition.getKeyword()), containsTagIds(tagIds)) // 검색 조건 and 연산
                 .limit(DEFAULT_PAGE_SIZE + 1);
-        List<Creator> fetch = sort(query, searchCondition);          // 정렬
+        List<Creator> fetch = sort(query, searchCondition);            // 정렬
 
         return convertToSliceFromCreator(fetch, pageable);
+    }
+
+    private Slice<Creator> convertToSliceFromCreator(List<Creator> creators, Pageable pageable) {
+        boolean hasNext = false;
+        if(creators.size() == DEFAULT_PAGE_SIZE + 1) {
+            creators.remove(DEFAULT_PAGE_SIZE);
+            hasNext = true;
+        }
+        return new SliceImpl<>(creators, pageable, hasNext);
     }
 
     private List<Creator> sort(JPAQuery<Creator> query, SearchCondition searchCondition) {
@@ -69,7 +74,7 @@ public class CreatorQueryRepository {
         throw new InvalidSortTypeException(ErrorCode.INVALID_SORT_TYPE);
     }
 
-    private BooleanBuilder wherePlatforms(List<String> platforms) {
+    private BooleanBuilder filterByPlatform(List<String> platforms) {
         if (Objects.isNull(platforms)) {
             return null;
         }
@@ -81,30 +86,30 @@ public class CreatorQueryRepository {
         return booleanBuilder;
     }
 
-    private BooleanBuilder searchKeywordInActivityNameAndTagName(String keyword, List<Long> tagIds) {
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
+    private BooleanBuilder containsKeyword(String keyword) {
+        if(!StringUtils.hasText(keyword)) {
+            return null;
+        }
 
-        if(StringUtils.hasText(keyword)) {
-            booleanBuilder.or(creator.platform.platformActivityName.name.contains(keyword));
-        }
-        if (Objects.nonNull(tagIds) && tagIds.size() > 0) {
-            booleanBuilder.or(creator.creatorTags.creatorTags.any().id.in(tagIds));
-        }
-        return booleanBuilder;
-        // return containsKeyword(keyword).or(inTags(tagIds));
+        return new BooleanBuilder()
+                .or(containActivityName(keyword))
+                .or(containTags(keyword));
     }
 
-    private BooleanExpression inTags(List<Long> tagIds) {
+    private BooleanExpression containTags(String keyword) {
+        List<Long> tagIds = jpaQueryFactory
+                .select(tag.id)
+                .from(tag)
+                .where(tag.tagName.name.contains(keyword))
+                .fetch();
+
         if(Objects.isNull(tagIds) || tagIds.size() < 1) {
             return null;
         }
         return creator.creatorTags.creatorTags.any().id.in(tagIds);
     }
 
-    private BooleanExpression containsKeyword(String keyword) {
-        if(!StringUtils.hasText(keyword)) {
-            return null;
-        }
+    private BooleanExpression containActivityName(String keyword) {
         return creator.platform.platformActivityName.name.contains(keyword);
     }
 
@@ -113,25 +118,5 @@ public class CreatorQueryRepository {
             return null;
         }
         return creator.id.lt(cursorId);
-    }
-
-    private List<Long> searchTagByCondition(SearchCondition searchCondition) {
-        if(!StringUtils.hasText(searchCondition.getKeyword())) {
-            return null;
-        }
-        return jpaQueryFactory
-                .select(tag.id)
-                .from(tag)
-                .where(tag.tagName.name.contains(searchCondition.getKeyword()))
-                .fetch();
-    }
-
-    private Slice<Creator> convertToSliceFromCreator(List<Creator> creators, Pageable pageable) {
-        boolean hasNext = false;
-        if(creators.size() == DEFAULT_PAGE_SIZE + 1) {
-            creators.remove(DEFAULT_PAGE_SIZE);
-            hasNext = true;
-        }
-        return new SliceImpl<>(creators, pageable, hasNext);
     }
 }

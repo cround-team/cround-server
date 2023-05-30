@@ -1,7 +1,6 @@
 package croundteam.cround.creator.service.dto;
 
 import lombok.*;
-import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Objects;
@@ -26,10 +25,6 @@ public class SearchCondition {
             return null;
         }
         return filter;
-    }
-
-    public String getCondition() {
-        return CreatorSortCondition.valueOf(sort.toUpperCase()).name();
     }
 
     public CreatorSortCondition getSortType() {
