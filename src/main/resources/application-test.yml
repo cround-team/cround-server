@@ -1,20 +1,17 @@
 spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create-drop
 
     properties:
       hibernate:
         show_sql: true
         format_sql: true
-
-  flyway:
-    enabled: true
-
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
 
 logging:
   level:
@@ -23,3 +20,8 @@ logging:
 #      apache:
 #        coyote:
 #          http11: debug
+
+#decorator:
+#  datasource:
+#    p6spy:
+#      enable-logging: true

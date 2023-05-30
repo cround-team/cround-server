@@ -26,7 +26,7 @@ public class DataComponent {
     private final MemberRepository memberRepository;
     private final CreatorRepository creatorRepository;
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         Member 감자 = createAndSaveMember("감자");
         Platform platform = createPlatform("캔다", "Youtube", "감자농장");
