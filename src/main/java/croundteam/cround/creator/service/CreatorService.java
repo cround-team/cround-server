@@ -4,6 +4,7 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.DuplicateCreatorPlatformActivityNameException;
 import croundteam.cround.creator.exception.IncorrectSourceException;
+import croundteam.cround.creator.repository.CreatorQueryRepository;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
 import croundteam.cround.creator.service.dto.SearchCondition;
@@ -27,6 +28,7 @@ public class CreatorService {
 
     private final MemberRepository memberRepository;
     private final CreatorRepository creatorRepository;
+    private final CreatorQueryRepository creatorQueryRepository;
 
     @Transactional
     public String createCreator(LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
@@ -44,7 +46,7 @@ public class CreatorService {
     }
 
     public SearchCreatorResponses searchCreatorsByCondition(SearchCondition searchCondition, Pageable pageable) {
-        Slice<Creator> creators = creatorRepository.searchByKeywordAndPlatforms(searchCondition, pageable);
+        Slice<Creator> creators = creatorQueryRepository.searchByKeywordAndPlatforms(searchCondition, pageable);
         return new SearchCreatorResponses(creators);
     }
 
