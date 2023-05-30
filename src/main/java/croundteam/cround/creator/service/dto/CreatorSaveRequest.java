@@ -12,7 +12,7 @@ import lombok.ToString;
 import java.util.ArrayList;
 import java.util.List;
 
-import static croundteam.cround.creator.domain.ActivityPlatforms.castToActivityPlatforms;
+import static croundteam.cround.creator.domain.platform.ActivityPlatforms.castToActivityPlatforms;
 import static croundteam.cround.creator.domain.tag.Tags.castToTags;
 
 @Getter

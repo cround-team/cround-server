@@ -25,7 +25,6 @@ public class Followers {
     }
 
     public void remove(Follow follow) {
-
         followers.remove(follow);
     }
 

@@ -1,4 +1,4 @@
-package croundteam.cround;
+package croundteam.cround.common;
 
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.Description;

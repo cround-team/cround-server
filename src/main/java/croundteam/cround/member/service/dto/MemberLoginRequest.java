@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-import static croundteam.cround.common.dto.ValidationMessages.EMPTY_MESSAGE;
+import static croundteam.cround.common.fixtures.ValidationMessages.EMPTY_MESSAGE;
 
 @Getter
 @NoArgsConstructor

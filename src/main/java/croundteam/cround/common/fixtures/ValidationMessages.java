@@ -1,4 +1,4 @@
-package croundteam.cround.common.dto;
+package croundteam.cround.common.fixtures;
 
 public final class ValidationMessages {
     private ValidationMessages() {}

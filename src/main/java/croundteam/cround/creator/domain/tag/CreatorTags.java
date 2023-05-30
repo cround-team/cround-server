@@ -1,6 +1,6 @@
-package croundteam.cround.creator.domain;
+package croundteam.cround.creator.domain.tag;
 
-import croundteam.cround.creator.domain.tag.Tags;
+import croundteam.cround.creator.domain.Creator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
