@@ -1,12 +1,15 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
 
     properties:
       hibernate:
         show_sql: true
         format_sql: true
+
+  flyway:
+    enabled: true
 
   h2:
     console:
