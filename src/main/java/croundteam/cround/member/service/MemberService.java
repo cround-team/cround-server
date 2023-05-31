@@ -70,13 +70,13 @@ public class MemberService {
                 () -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
     }
 
-    private void validateDuplicateEmail(String email) {
+    public void validateDuplicateEmail(String email) {
         if(memberRepository.existsByEmail(email)) {
             throw new DuplicateEmailException(ErrorCode.DUPLICATE_EMAIL);
         }
     }
 
-    private void validateDuplicateNickname(String nickname) {
+    public void validateDuplicateNickname(String nickname) {
         if(memberRepository.existsByNickname(nickname)) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
         }
