@@ -10,6 +10,7 @@ import croundteam.cround.member.domain.AuthProvider;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -19,6 +20,7 @@ import java.util.Arrays;
 import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PLATFORM_URI;
 import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PROFILE_IMAGE;
 
+@Profile("local")
 @Component
 @RequiredArgsConstructor
 public class DataComponent {
@@ -26,7 +28,7 @@ public class DataComponent {
     private final MemberRepository memberRepository;
     private final CreatorRepository creatorRepository;
 
-//    @PostConstruct
+    @PostConstruct
     public void init() {
         Member 감자 = createAndSaveMember("감자");
         Platform platform = createPlatform("캔다", "Youtube", "감자농장");
