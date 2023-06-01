@@ -28,10 +28,6 @@ public class ActivityPlatforms {
         return new ActivityPlatforms(temp);
     }
 
-    public static ActivityPlatforms create(List<PlatformType> platformTypes) {
-        return new ActivityPlatforms(platformTypes);
-    }
-
     public List<PlatformType> getPlatformTypes() {
         return platformTypes;
     }
