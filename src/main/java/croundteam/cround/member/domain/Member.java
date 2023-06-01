@@ -49,8 +49,9 @@ public class Member extends BaseTime {
     private Followings followings;
 
     @Builder
-    public Member(String email, String username, String nickname, String password, InterestPlatforms interest,
+    public Member(Long id, String email, String username, String nickname, String password, InterestPlatforms interest,
                   AuthProvider authProvider) {
+        this.id = id;
         this.email = email;
         this.username = username;
         this.nickname = nickname;
