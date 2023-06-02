@@ -61,6 +61,7 @@ public class CreatorService {
     public FindCreatorResponse findOne(String email, Long creatorId) {
         Member member = getLoginMember(email);
         Creator creator = findCreatorWithJoinById(creatorId);
+
         List<CreatorTag> creatorTags = creatorTagRepository.findCreatorTagById(creatorId);
         CreatorTags tags = CreatorTags.create(creatorTags);
 
@@ -87,7 +88,7 @@ public class CreatorService {
     }
 
     /**
-     * 일반 쿼리 (N + 1)
+     * 일반 쿼리 (1 + N)
      * 1: Creator
      * 2: Follow
      * 3: CreatorTag

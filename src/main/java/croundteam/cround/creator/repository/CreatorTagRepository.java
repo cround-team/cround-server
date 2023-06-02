@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface CreatorTagRepository extends JpaRepository<CreatorTag, Long> {
 
-    @Query("SELECT c FROM CreatorTag c join fetch c.tag t WHERE c.creator.id = :creatorId")
+    @Query("SELECT c FROM CreatorTag c " +
+            "join fetch c.tag t " +
+            "WHERE c.creator.id = :creatorId")
     List<CreatorTag> findCreatorTagById(@Param("creatorId") Long creatorId);
 }

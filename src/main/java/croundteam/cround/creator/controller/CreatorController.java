@@ -49,9 +49,6 @@ public class CreatorController {
         String token = getAuthorizationHeader();
         String email = extractEmailBy(token);
 
-        System.out.println("=========================");
-        System.out.println("=========================");
-
         return ResponseEntity.ok(creatorService.findOne(email, creatorId));
     }
 
