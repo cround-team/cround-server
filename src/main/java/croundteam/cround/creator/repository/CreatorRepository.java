@@ -13,4 +13,10 @@ public interface CreatorRepository extends JpaRepository<Creator, Long> {
 
     @Query("SELECT c FROM Creator c WHERE c.member.email = :email")
     Optional<Creator> findCreatorByEmail(@Param("email") String email);
+
+    @Query("SELECT c FROM Creator c " +
+            "join fetch c.member m " +
+            "join fetch c.activityPlatforms.platformTypes " +
+            "WHERE c.id = :creatorId")
+    Optional<Creator> findCreatorById(@Param("creatorId") Long creatorId);
 }

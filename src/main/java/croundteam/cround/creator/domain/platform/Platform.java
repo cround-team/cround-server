@@ -16,7 +16,6 @@ public class Platform {
     @Embedded
     private PlatformTheme platformHeadTheme;
 
-
     @Embedded
     private PlatformUrl platformUrl;
 

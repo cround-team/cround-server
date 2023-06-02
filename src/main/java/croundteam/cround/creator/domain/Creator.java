@@ -4,6 +4,7 @@ import croundteam.cround.board.domain.Board;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.platform.ActivityPlatforms;
 import croundteam.cround.creator.domain.platform.Platform;
+import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.domain.tag.CreatorTags;
 import croundteam.cround.creator.domain.tag.Tags;
 import croundteam.cround.member.domain.Member;
@@ -13,6 +14,9 @@ import croundteam.cround.shorts.domain.Shorts;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -103,6 +107,17 @@ public class Creator extends BaseTime {
         followers.remove(follow);
     }
 
+    public int getFollowersCount() {
+        return followers.getFollowersCount();
+    }
+
+    public boolean isFollowedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return followers.isFollowedBy(member);
+    }
+
     public String getActivityName() {
         return platform.getPlatformActivityName();
     }
@@ -125,5 +140,9 @@ public class Creator extends BaseTime {
 
     public String getProfileImage() {
         return profileImage.getProfileImage();
+    }
+
+    public List<PlatformType> getActivityPlatforms() {
+        return activityPlatforms.getPlatformTypes();
     }
 }
