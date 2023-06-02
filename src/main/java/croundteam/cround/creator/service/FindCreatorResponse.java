@@ -9,18 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-/**
- * 크리에이터 사진
- * 크리에이터 활동명
- * 크리에이터 대표 테마
- * 크리에이터 활동 플랫폼
- * 리뷰 점수
- * 팔로워 수
- * 크리에이터 대표 플랫폼
- * 사용자의 팔로워 상태
- * 크리에이터 설명
- * 크리에이터 태그
- */
 @Getter
 @NoArgsConstructor
 public class FindCreatorResponse {
@@ -43,7 +31,7 @@ public class FindCreatorResponse {
         this.platformActivityName = creator.getActivityName();
         this.platformHeadTheme = creator.getPlatformTheme();
         this.platformTypes = creator.getActivityPlatforms();
-        this.reviewsCount = 5; // 리뷰 개수
+        this.reviewsCount = 5; // 리뷰 평점
         this.followersCount = creator.getFollowersCount();
         this.platformHeadType = creator.getPlatformType();
         this.isFollowed = creator.isFollowedBy(member);
