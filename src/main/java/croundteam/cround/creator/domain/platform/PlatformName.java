@@ -12,7 +12,14 @@ public enum PlatformName {
     YOUTUBE("유튜브"),
     INSTAGRAM("인스타그램"),
     TIKTOK("틱톡"),
-    PODCAST("팟캐스트");
+    TWITCH("트위치"),
+    AFREECATV("아프리카TV"),
+    BLOG("블로그"),
+    PODCAST("팟캐스트"),
+    SPOON("스푼"),
+    ZEPETTO("제페토"),
+    EMOTICON("이모티콘"),
+    NFT("NFT");
 
     @Column(name = "platform_name", nullable = false)
     private String name;
