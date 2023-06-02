@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -22,7 +23,7 @@ public class TokenProvider {
     public static final String ACCESS = "ACCESS";
     public static final String REFRESH = "REFRESH";
 
-    public static final long ACCESS_TOKEN_EXPIRE = 2 * 60 * 60 * 1000L;      //    2 Hour
+    public static final long ACCESS_TOKEN_EXPIRE = 2 * 60 * 60 * 1000L;       //   2 Hour
     public static final long REFRESH_TOKEN_EXPIRE = 7 * 24 * 60 * 60 * 1000L; // 168 Hour
 
     @Value("${security.jwt.secret}")
@@ -70,11 +71,18 @@ public class TokenProvider {
         return false;
     }
 
-    public String getUserEmailFromToken(String token) {
+    public String getSubject(String token) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
         } catch (ExpiredJwtException e) {
             return e.getClaims().getSubject();
         }
+    }
+
+    public void setAuthorizationHeader(String token, HttpServletResponse response) {
+        String issueToken = createToken(getSubject(token), ACCESS);
+        response.setHeader(AUTHORIZATION, issueToken);
+
+        log.info("[JWT Token] issue Access Token = {}", issueToken);
     }
 }

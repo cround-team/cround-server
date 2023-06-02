@@ -1,18 +1,19 @@
 package croundteam.cround.security.token;
 
+import croundteam.cround.security.CookieUtils;
 import croundteam.cround.security.CustomUserDetailsService;
 import croundteam.cround.security.token.support.TokenProvider;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import static croundteam.cround.security.token.support.TokenProvider.AUTHORIZATION;
 import static croundteam.cround.security.token.support.TokenProvider.BEARER;
 
+@Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -38,44 +40,35 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         if(StringUtils.hasText(jwt)) {
             try {
-                if (tokenProvider.validateToken(jwt)) {
-                    String userEmail = tokenProvider.getUserEmailFromToken(jwt);
-
-                    UserDetails userDetails = customUserDetailsService.loadUserByUsername(userEmail);
-                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
+                if (isValidateToken(jwt)) {
+                    Authentication authentication = getAuthentication(jwt);
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                } else { // 토큰 만료
-                    Cookie[] cookies = request.getCookies();
+                } else { // 액세스 토큰 만료
+                    String token = CookieUtils.extractTokenByCookies(request);
 
-                    String userEmailByRefreshToken = null;
-                    for (Cookie cookie : cookies) {
-                        if(cookie.getName().equals("refreshToken")) {
-                            String refreshToken = cookie.getValue();
+                    if(isValidateToken(token)) {
+                        tokenProvider.setAuthorizationHeader(token, response);
 
-                            if(tokenProvider.validateToken(refreshToken)) {
-                                userEmailByRefreshToken = tokenProvider.getUserEmailFromToken(refreshToken);
-                                jwt = tokenProvider.createToken(userEmailByRefreshToken, "ACCESS");
-
-                                UserDetails userDetails = customUserDetailsService.loadUserByUsername(userEmailByRefreshToken);
-                                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                                        userDetails, null, userDetails.getAuthorities());
-                                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                                SecurityContextHolder.getContext().setAuthentication(authentication);
-                            } else {
-                                System.out.println("토큰이 유효하지 않습니다.");
-                            }
-                        }
+                        Authentication authentication = getAuthentication(token);
+                        SecurityContextHolder.getContext().setAuthentication(authentication);
                     }
                 }
             } catch (Exception ex) {
-                logger.error("message = " + ex.getMessage(), ex);
+                log.info("[Token Filter] {}", ex.getMessage(), ex);
             }
         }
         filterChain.doFilter(request, response);
+    }
+
+    private Authentication getAuthentication(String jwt) {
+        String userEmail = tokenProvider.getSubject(jwt);
+
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(userEmail);
+        return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+    }
+
+    private boolean isValidateToken(String jwt) {
+        return tokenProvider.validateToken(jwt);
     }
 
     private String getJwtTokenFromRequest(HttpServletRequest request) {
