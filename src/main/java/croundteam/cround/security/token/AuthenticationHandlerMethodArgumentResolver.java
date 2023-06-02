@@ -38,7 +38,7 @@ public class AuthenticationHandlerMethodArgumentResolver implements HandlerMetho
         String authorization = request.getHeader(AUTHORIZATION);
         String token = JwtTokenExtractor.extract(authorization);
 
-        String email = tokenProvider.getUserEmailFromToken(token);
+        String email = tokenProvider.getSubject(token);
 
         return new LoginMember(email);
     }

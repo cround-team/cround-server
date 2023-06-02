@@ -1,8 +1,11 @@
 package croundteam.cround.security;
 
-import croundteam.cround.security.token.support.JwtTokenExtractor;
-import org.springframework.boot.web.server.Cookie;
 import org.springframework.http.ResponseCookie;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
+import static org.springframework.boot.web.server.Cookie.*;
 
 public class CookieUtils {
 
@@ -17,7 +20,18 @@ public class CookieUtils {
                 .path("/")
                 .maxAge(REFRESH_TOKEN_EXPIRE_AGE)
                 .secure(true)
-                .sameSite(Cookie.SameSite.NONE.attributeValue())
+                .sameSite(SameSite.NONE.attributeValue())
                 .build();
+    }
+
+    public static String extractTokenByCookies(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals("refreshToken")) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 }
