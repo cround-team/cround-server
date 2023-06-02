@@ -20,7 +20,7 @@ import java.util.List;
 public class Followers {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "target", cascade = CascadeType.PERSIST, orphanRemoval = true)
-//    @LazyCollection(LazyCollectionOption.EXTRA)
+    @LazyCollection(LazyCollectionOption.EXTRA)
     private List<Follow> followers = new ArrayList<>();
 
     public void add(Follow follow) {

@@ -2,6 +2,7 @@ package croundteam.cround.creator.service;
 
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
+import croundteam.cround.creator.domain.tag.CreatorTags;
 import croundteam.cround.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,8 +36,8 @@ public class FindCreatorResponse {
     private String description;
     private List<String> tags;
 
-    public FindCreatorResponse(Creator creator, Member member) {
-        // List<String> tags = creatorTags.castTagsFromCreatorTags();
+    public FindCreatorResponse(Creator creator, Member member, CreatorTags creatorTags) {
+         List<String> tags = creatorTags.castTagsFromCreatorTags();
 
         this.profileImage = creator.getProfileImage();
         this.platformActivityName = creator.getActivityName();
@@ -47,6 +48,6 @@ public class FindCreatorResponse {
         this.platformHeadType = creator.getPlatformType();
         this.isFollowed = creator.isFollowedBy(member);
         this.description = creator.getDescription();
-        this.tags = creator.getCreatorTags().castTagsFromCreatorTags();
+        this.tags = tags;
     }
 }

@@ -60,12 +60,11 @@ public class CreatorService {
 
     public FindCreatorResponse findOne(String email, Long creatorId) {
         Member member = getLoginMember(email);
-        Creator creator = findCreatorById(creatorId);
-//        List<CreatorTag> creatorTags = creatorTagRepository.findCreatorTagById(creatorId);
-//        CreatorTags tags = CreatorTags.create(creatorTags);
+        Creator creator = findCreatorWithJoinById(creatorId);
+        List<CreatorTag> creatorTags = creatorTagRepository.findCreatorTagById(creatorId);
+        CreatorTags tags = CreatorTags.create(creatorTags);
 
-//        return new FindCreatorResponse(creator, member, tags);
-        return new FindCreatorResponse(creator, member);
+        return new FindCreatorResponse(creator, member, tags);
     }
 
     private Member getLoginMember(String email) {
@@ -89,6 +88,11 @@ public class CreatorService {
 
     /**
      * 일반 쿼리 (N + 1)
+     * 1: Creator
+     * 2: Follow
+     * 3: CreatorTag
+     * 4: Tag
+     * 5: Creator_Platform
      */
     private Creator findCreatorById(Long creatorId) {
         return creatorRepository.findById(creatorId).orElseThrow(() -> {
