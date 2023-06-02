@@ -42,10 +42,10 @@ public class Creator extends BaseTime {
     private Member member;
 
     @Embedded
-    private Followers followers;
+    private CreatorTags creatorTags;
 
     @Embedded
-    private CreatorTags creatorTags;
+    private Followers followers;
 
     @Embedded
     private ActivityPlatforms activityPlatforms;

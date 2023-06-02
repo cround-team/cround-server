@@ -17,7 +17,8 @@ public class SearchCreatorResponse {
     private String platformTheme;
 
     @Builder
-    public SearchCreatorResponse(Long creatorId, String platformActivityName, String description, String profileImage, String platformType, String platformTheme) {
+    public SearchCreatorResponse(Long creatorId, String platformActivityName, String description, String profileImage,
+                                 String platformType, String platformTheme) {
         this.creatorId = creatorId;
         this.platformActivityName = platformActivityName;
         this.description = description;

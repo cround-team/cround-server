@@ -18,7 +18,6 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Objects;
 
-import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PAGE_SIZE;
 import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
 import static croundteam.cround.creator.service.dto.SearchCondition.CreatorSortCondition;
