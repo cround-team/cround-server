@@ -41,16 +41,16 @@ public class CreatorQueryRepository {
                         filterByPlatform(searchCondition.getFilter()), // 필터 플랫폼
                         containsKeyword(searchCondition.getKeyword())) // 검색 조건
 //                        containsKeyword(searchCondition.getKeyword()), containsTagIds(tagIds)) // 검색 조건 and 연산
-                .limit(DEFAULT_PAGE_SIZE + 1);
+                .limit(searchCondition.getPage() + 1);
         List<Creator> fetch = sort(query, searchCondition);            // 정렬
 
-        return convertToSliceFromCreator(fetch, pageable);
+        return convertToSliceFromCreator(searchCondition.getPage(), fetch, pageable);
     }
 
-    private Slice<Creator> convertToSliceFromCreator(List<Creator> creators, Pageable pageable) {
+    private Slice<Creator> convertToSliceFromCreator(int page, List<Creator> creators, Pageable pageable) {
         boolean hasNext = false;
-        if(creators.size() == DEFAULT_PAGE_SIZE + 1) {
-            creators.remove(DEFAULT_PAGE_SIZE);
+        if(creators.size() == page + 1) {
+            creators.remove(page);
             hasNext = true;
         }
         return new SliceImpl<>(creators, pageable, hasNext);

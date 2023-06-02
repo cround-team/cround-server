@@ -13,12 +13,10 @@ public class SearchCondition {
     private final int DEFAULT_SIZE = 5;
 
     private String keyword;
-
     private List<String> filter;
     private String sort;
     private Long cursorId;
-
-    private int page;
+    private int page = DEFAULT_SIZE;
 
     public List<String> getFilter() {
         if(Objects.isNull(filter) || filter.size() == 0) {
