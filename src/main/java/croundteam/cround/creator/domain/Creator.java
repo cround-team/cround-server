@@ -111,6 +111,10 @@ public class Creator extends BaseTime {
         return platform.getPlatformType();
     }
 
+    public String getPlatformTheme() {
+        return platform.getPlatformTheme();
+    }
+
     public Long getMemberId() {
         return member.getId();
     }
