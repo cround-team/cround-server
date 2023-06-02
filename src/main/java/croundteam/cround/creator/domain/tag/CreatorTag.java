@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -32,5 +34,9 @@ public class CreatorTag {
 
     public static CreatorTag of(Creator creator, Tag tag) {
         return new CreatorTag(creator, tag);
+    }
+
+    public String getTagName() {
+        return tag.getTagName();
     }
 }

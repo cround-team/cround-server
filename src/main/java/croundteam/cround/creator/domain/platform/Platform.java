@@ -11,10 +11,10 @@ import javax.persistence.Embedded;
 public class Platform {
 
     @Embedded
-    private PlatformTheme platformHeadTheme;
+    private PlatformType platformHeadType;
 
     @Embedded
-    private PlatformType platformHeadType;
+    private PlatformTheme platformHeadTheme;
 
     @Embedded
     private PlatformUrl platformUrl;
@@ -24,8 +24,8 @@ public class Platform {
 
     private Platform(PlatformTheme platformHeadTheme, PlatformType platformHeadType,
                      PlatformUrl platformUrl, PlatformActivityName platformActivityName) {
-        this.platformHeadTheme = platformHeadTheme;
         this.platformHeadType = platformHeadType;
+        this.platformHeadTheme = platformHeadTheme;
         this.platformUrl = platformUrl;
         this.platformActivityName = platformActivityName;
     }
