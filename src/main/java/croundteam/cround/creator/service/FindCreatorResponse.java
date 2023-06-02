@@ -23,6 +23,7 @@ public class FindCreatorResponse {
     private boolean isFollowed;
     private String description;
     private List<String> tags;
+    private String platformUrl;
 
     public FindCreatorResponse(Creator creator, Member member, CreatorTags creatorTags) {
          List<String> tags = creatorTags.castTagsFromCreatorTags();
@@ -37,5 +38,6 @@ public class FindCreatorResponse {
         this.isFollowed = creator.isFollowedBy(member);
         this.description = creator.getDescription();
         this.tags = tags;
+        this.platformUrl = creator.getPlatformUrl();
     }
 }

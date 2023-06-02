@@ -144,4 +144,8 @@ public class Creator extends BaseTime {
     public List<PlatformType> getActivityPlatforms() {
         return activityPlatforms.getPlatformTypes();
     }
+
+    public String getPlatformUrl() {
+        return platform.getPlatformUrl();
+    }
 }
