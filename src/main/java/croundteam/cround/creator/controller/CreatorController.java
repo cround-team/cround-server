@@ -3,25 +3,20 @@ package croundteam.cround.creator.controller;
 import croundteam.cround.creator.service.CreatorService;
 import croundteam.cround.creator.service.dto.FindCreatorResponse;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
-import croundteam.cround.creator.service.dto.SearchCondition;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.creator.service.dto.SearchCreatorResponses;
 import croundteam.cround.member.service.dto.LoginMember;
-import croundteam.cround.security.token.support.AppUser;
-import croundteam.cround.security.token.support.Authenticated;
-import croundteam.cround.security.token.support.Login;
-import croundteam.cround.security.token.support.TokenProvider;
+import croundteam.cround.security.support.AppUser;
+import croundteam.cround.security.support.Authenticated;
+import croundteam.cround.security.support.Login;
+import croundteam.cround.security.token.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URI;
-
-import static croundteam.cround.security.token.support.TokenProvider.AUTHORIZATION;
 
 @RestController
 @Slf4j

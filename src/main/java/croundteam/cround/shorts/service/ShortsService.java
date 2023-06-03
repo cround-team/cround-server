@@ -2,20 +2,21 @@ package croundteam.cround.shorts.service;
 
 import croundteam.cround.board.service.dto.BookmarkResponse;
 import croundteam.cround.board.service.dto.LikeResponse;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.repository.CreatorRepository;
-import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.repository.MemberRepository;
 import croundteam.cround.member.service.dto.LoginMember;
-import croundteam.cround.security.token.support.AppUser;
+import croundteam.cround.security.support.AppUser;
 import croundteam.cround.shorts.domain.Shorts;
 import croundteam.cround.shorts.exception.NotExistShortsException;
 import croundteam.cround.shorts.repository.ShortsQueryRepository;
 import croundteam.cround.shorts.repository.ShortsRepository;
+import croundteam.cround.shorts.service.dto.FindShortsResponse;
 import croundteam.cround.shorts.service.dto.SearchShortsResponses;
 import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import lombok.RequiredArgsConstructor;
@@ -50,15 +51,15 @@ public class ShortsService {
     public SearchShortsResponses searchShorts(SearchCondition searchCondition, Pageable pageable, AppUser appUser) {
         Member member = getLoginMember(appUser);
 
-        Slice<Shorts> shorts = shortsQueryRepository.searchByKeywordAndPlatforms(searchCondition, pageable);
+        Slice<Shorts> shorts = shortsQueryRepository.searchByCondition(searchCondition, pageable);
         return new SearchShortsResponses(shorts, member);
     }
 
-    private Member getLoginMember(AppUser appUser) {
-        if (appUser.isGuest()) {
-            return null;
-        }
-        return findMemberByEmail(appUser.getEmail());
+    public FindShortsResponse findOne(Long shortsId, AppUser appUser) {
+        Member member = getLoginMember(appUser);
+        Shorts shorts = shortsRepository.findShortsWithJoinById(shortsId);
+
+        return FindShortsResponse.from(shorts, member);
     }
 
     @Transactional
@@ -99,6 +100,13 @@ public class ShortsService {
         shorts.unlike(member);
 
         return new LikeResponse(shorts.getShortsLikes());
+    }
+
+    private Member getLoginMember(AppUser appUser) {
+        if (appUser.isGuest()) {
+            return null;
+        }
+        return findMemberByEmail(appUser.getEmail());
     }
 
     private Creator findCreatorByEmail(String email) {

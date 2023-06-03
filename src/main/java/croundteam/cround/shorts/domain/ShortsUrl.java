@@ -8,20 +8,20 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ThumbnailUrl {
+public class ShortsUrl {
 
-    @Column(name = "thumbnail_url", nullable = false)
+    @Column(name = "shorts_url", nullable = false)
     private String url;
 
-    private ThumbnailUrl(String imageUrl) {
-        this.url = imageUrl;
+    private ShortsUrl(String url) {
+        this.url = url;
     }
 
-    public static ThumbnailUrl create(String shortsUrl) {
-        return new ThumbnailUrl(shortsUrl);
+    public static ShortsUrl create(String url) {
+        return new ShortsUrl(url);
     }
 
-    public String getUrl() {
+    public String getShortsUrl() {
         return url;
     }
 }

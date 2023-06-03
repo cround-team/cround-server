@@ -38,6 +38,9 @@ public class Shorts extends BaseTime {
     @Embedded
     private ThumbnailUrl thumbnailUrl;
 
+    @Embedded
+    private ShortsUrl shortsUrl;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
     private Creator creator;
@@ -49,11 +52,13 @@ public class Shorts extends BaseTime {
     private ShortsBookmarks shortsBookmarks;
 
     @Builder
-    public Shorts(PlatformType platformType, Title title, Content content, ThumbnailUrl thumbnailUrl, Creator creator) {
+    public Shorts(PlatformType platformType, Title title, Content content,
+                  ThumbnailUrl thumbnailUrl, ShortsUrl shortsUrl, Creator creator) {
         this.platformType = platformType;
         this.title = title;
         this.content = content;
         this.thumbnailUrl = thumbnailUrl;
+        this.shortsUrl = shortsUrl;
         this.creator = creator;
     }
 
@@ -92,11 +97,15 @@ public class Shorts extends BaseTime {
     }
 
     public String getThumbnailUrl() {
-        return thumbnailUrl.getImageUrl();
+        return thumbnailUrl.getUrl();
     }
 
     public String getTitle() {
         return title.getTitle();
+    }
+
+    public String getContent() {
+        return content.getContent();
     }
 
     public String getPlatformType() {
@@ -119,5 +128,13 @@ public class Shorts extends BaseTime {
             return false;
         }
         return shortsBookmarks.isBookmarkedBy(member);
+    }
+
+    public String getProfileImage() {
+        return creator.getProfileImage();
+    }
+
+    public String getShortsUrl() {
+        return shortsUrl.getShortsUrl();
     }
 }

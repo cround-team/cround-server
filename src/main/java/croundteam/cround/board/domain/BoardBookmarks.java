@@ -42,4 +42,9 @@ public class BoardBookmarks {
     public int getBookmarkCount() {
         return boardBookmarks.size();
     }
+
+    public boolean isBookmarkedBy(Board board, Member member) {
+        BoardBookmark bookmark = new BoardBookmark(board, member);
+        return boardBookmarks.contains(bookmark);
+    }
 }

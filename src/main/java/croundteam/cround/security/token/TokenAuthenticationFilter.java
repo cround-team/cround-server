@@ -2,7 +2,6 @@ package croundteam.cround.security.token;
 
 import croundteam.cround.security.CookieUtils;
 import croundteam.cround.security.CustomUserDetailsService;
-import croundteam.cround.security.token.support.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static croundteam.cround.security.token.support.TokenProvider.AUTHORIZATION;
-import static croundteam.cround.security.token.support.TokenProvider.BEARER;
+import static croundteam.cround.security.token.TokenProvider.AUTHORIZATION;
+import static croundteam.cround.security.token.TokenProvider.BEARER;
 
 @Slf4j
 public class TokenAuthenticationFilter extends OncePerRequestFilter {

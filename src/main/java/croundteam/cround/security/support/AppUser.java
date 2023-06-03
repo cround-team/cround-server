@@ -1,4 +1,4 @@
-package croundteam.cround.security.token.support;
+package croundteam.cround.security.support;
 
 import lombok.Getter;
 import lombok.ToString;

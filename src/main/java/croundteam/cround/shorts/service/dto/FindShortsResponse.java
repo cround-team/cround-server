@@ -8,43 +8,46 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class SearchShortsResponse {
+public class FindShortsResponse {
 
     private Long shortsId;
-    private String thumbnailUrl;
     private String title;
+    private String content;
+    private String author;
     private String platformType;
     private String profileImage;
-    private String author;
+    private String shortsUrl;
     private int likesCount;
     private int bookmarksCount;
     private boolean isLiked;
     private boolean isBookmarked;
 
     @Builder
-    public SearchShortsResponse(Long shortsId, String thumbnailUrl, String title, String platformType,
-                                String profileImage, String author,
-                                int likesCount, int bookmarksCount, boolean isLiked, boolean isBookmarked) {
+    public FindShortsResponse(Long shortsId, String title, String content,
+                              String author, String platformType, String profileImage, String shortsUrl,
+                              int likesCount, int bookmarksCount, boolean isLiked, boolean isBookmarked) {
         this.shortsId = shortsId;
-        this.thumbnailUrl = thumbnailUrl;
         this.title = title;
+        this.content = content;
+        this.author = author;
         this.platformType = platformType;
         this.profileImage = profileImage;
-        this.author = author;
+        this.shortsUrl = shortsUrl;
         this.likesCount = likesCount;
         this.bookmarksCount = bookmarksCount;
         this.isLiked = isLiked;
         this.isBookmarked = isBookmarked;
     }
 
-    public static SearchShortsResponse from(Shorts shorts, Member member) {
-        return SearchShortsResponse.builder()
+    public static FindShortsResponse from(Shorts shorts, Member member) {
+        return FindShortsResponse.builder()
                 .shortsId(shorts.getId())
-                .thumbnailUrl(shorts.getThumbnailUrl())
                 .title(shorts.getTitle())
+                .content(shorts.getContent())
+                .author(shorts.getCreatorActivityName())
                 .platformType(shorts.getPlatformType())
                 .profileImage(shorts.getProfileImage())
-                .author(shorts.getCreatorActivityName())
+                .shortsUrl(shorts.getShortsUrl())
                 .likesCount(shorts.getShortsLikes())
                 .bookmarksCount(shorts.getShortsBookmarks())
                 .isLiked(shorts.isLikedBy(member))

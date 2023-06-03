@@ -1,4 +1,4 @@
-package croundteam.cround.security.token.support;
+package croundteam.cround.security.token;
 
 import croundteam.cround.common.dto.TokenResponse;
 import io.jsonwebtoken.*;

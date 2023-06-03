@@ -39,4 +39,9 @@ public class BoardLikes {
     public int getLikeCount() {
         return boardLikes.size();
     }
+
+    public boolean isLikedBy(Board board, Member member) {
+        BoardLike like = new BoardLike(board, member);
+        return boardLikes.contains(like);
+    }
 }
