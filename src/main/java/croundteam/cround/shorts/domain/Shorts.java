@@ -67,7 +67,8 @@ public class Shorts extends BaseTime {
                 .title(Title.create(shortsSaveRequest.getTitle()))
                 .content(Content.create(shortsSaveRequest.getContent()))
                 .platformType(PlatformType.create(shortsSaveRequest.getPlatformType()))
-                .thumbnailUrl(ThumbnailUrl.create(shortsSaveRequest.getShortsUrl()))
+                .thumbnailUrl(ThumbnailUrl.create(shortsSaveRequest.getThumbnailUrl()))
+                .shortsUrl(ShortsUrl.create(shortsSaveRequest.getShortsUrl()))
                 .creator(creator)
                 .build();
     }
@@ -97,7 +98,7 @@ public class Shorts extends BaseTime {
     }
 
     public String getThumbnailUrl() {
-        return thumbnailUrl.getUrl();
+        return thumbnailUrl.getThumbnailUrl();
     }
 
     public String getTitle() {
