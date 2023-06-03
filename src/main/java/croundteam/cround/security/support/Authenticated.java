@@ -1,4 +1,4 @@
-package croundteam.cround.security.token.support;
+package croundteam.cround.security.support;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Login {
+public @interface Authenticated {
 }

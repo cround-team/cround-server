@@ -12,7 +12,7 @@ import croundteam.cround.security.oauth2.OAuthAttributes;
 import croundteam.cround.security.token.OAuthTokenResponse;
 import croundteam.cround.security.token.RefreshToken;
 import croundteam.cround.security.token.RefreshTokenRepository;
-import croundteam.cround.security.token.support.TokenProvider;
+import croundteam.cround.security.token.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;

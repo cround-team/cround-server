@@ -6,7 +6,7 @@ import croundteam.cround.board.service.dto.BoardsResponse;
 import croundteam.cround.board.service.dto.BookmarkResponse;
 import croundteam.cround.board.service.dto.LikeResponse;
 import croundteam.cround.member.service.dto.LoginMember;
-import croundteam.cround.security.token.support.Login;
+import croundteam.cround.security.support.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
