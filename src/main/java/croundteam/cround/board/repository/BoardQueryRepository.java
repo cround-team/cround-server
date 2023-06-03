@@ -1,4 +1,4 @@
-package croundteam.cround.shorts.repository;
+package croundteam.cround.board.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -19,32 +19,19 @@ import java.util.List;
 import java.util.Objects;
 
 import static croundteam.cround.creator.domain.QCreator.creator;
-import static croundteam.cround.creator.service.dto.SearchCondition.*;
-import static croundteam.cround.shorts.domain.QShorts.*;
+import static croundteam.cround.shorts.domain.QShorts.shorts;
 
 @Repository
-public class ShortsQueryRepository {
+public class BoardQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    public ShortsQueryRepository(JPAQueryFactory jpaQueryFactory) {
+    public BoardQueryRepository(JPAQueryFactory jpaQueryFactory) {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public Slice<Shorts> searchByKeywordAndPlatforms(SearchCondition searchCondition, Pageable pageable) {
+    public void searchByCondition(SearchCondition searchCondition, Pageable pageable) {
 
-        JPAQuery<Shorts> query = jpaQueryFactory
-                .select(shorts)
-                .from(shorts, shorts)
-                .join(shorts.creator, creator).fetchJoin()
-                .where(
-                        ltCursorId(searchCondition.getCursorId()),     // 페이지네이션
-                        filterByPlatform(searchCondition.getFilter()), // 필터 플랫폼
-                        containsKeyword(searchCondition.getKeyword())) // 검색 조건
-                .limit(searchCondition.getSize() + 1);
-        List<Shorts> fetch = sort(query, searchCondition);             // 정렬
-
-        return convertToSliceFromShorts(searchCondition.getSize(), fetch, pageable);
     }
 
     private Slice<Shorts> convertToSliceFromShorts(int page, List<Shorts> shorts, Pageable pageable) {
@@ -57,7 +44,7 @@ public class ShortsQueryRepository {
     }
 
     private List<Shorts> sort(JPAQuery<Shorts> query, SearchCondition searchCondition) {
-        ContentSortCondition type = searchCondition.getSortTypeByContent();
+        SearchCondition.ContentSortCondition type = searchCondition.getSortTypeByContent();
 
         switch (type) {
             case LATEST:

@@ -5,10 +5,14 @@ import croundteam.cround.board.service.dto.BoardSaveRequest;
 import croundteam.cround.board.service.dto.BoardsResponse;
 import croundteam.cround.board.service.dto.BookmarkResponse;
 import croundteam.cround.board.service.dto.LikeResponse;
+import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.member.service.dto.LoginMember;
+import croundteam.cround.security.support.AppUser;
+import croundteam.cround.security.support.Authenticated;
 import croundteam.cround.security.support.Login;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,8 +37,12 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<BoardsResponse> findBoards() {
-        BoardsResponse boards = boardService.findBoards();
+    public ResponseEntity<BoardsResponse> searchBoards(
+            SearchCondition searchCondition,
+            Pageable pageable,
+            @Authenticated AppUser appUser
+    ) {
+        BoardsResponse boards = boardService.searchBoards(searchCondition, pageable, appUser);
         return ResponseEntity.ok(boards);
     }
 
