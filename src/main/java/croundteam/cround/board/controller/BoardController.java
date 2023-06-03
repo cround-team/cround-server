@@ -1,10 +1,7 @@
 package croundteam.cround.board.controller;
 
 import croundteam.cround.board.service.BoardService;
-import croundteam.cround.board.service.dto.BoardSaveRequest;
-import croundteam.cround.board.service.dto.SearchBoardsResponses;
-import croundteam.cround.board.service.dto.BookmarkResponse;
-import croundteam.cround.board.service.dto.LikeResponse;
+import croundteam.cround.board.service.dto.*;
 import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.support.AppUser;
@@ -44,6 +41,11 @@ public class BoardController {
     ) {
         SearchBoardsResponses searchBoardsResponses = boardService.searchBoards(searchCondition, pageable, appUser);
         return ResponseEntity.ok(searchBoardsResponses);
+    }
+
+    @GetMapping("/{boardId}")
+    public ResponseEntity<FindBoardResponse> findOne(@PathVariable Long boardId) {
+        return ResponseEntity.ok(boardService.findOne(boardId));
     }
 
     @PostMapping("/{boardId}/bookmarks")

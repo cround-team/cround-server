@@ -51,11 +51,16 @@ public class BoardService {
         return new SearchBoardsResponses(boards, member);
     }
 
-    private Member getLoginMember(AppUser appUser) {
-        if (appUser.isGuest()) {
-            return null;
-        }
-        return findMemberByEmail(appUser.getEmail());
+
+    public FindBoardResponse findOne(Long boardId) {
+        Board board = findBoardWithJoinById(boardId);
+        return FindBoardResponse.from(board);
+    }
+
+    private Board findBoardWithJoinById(Long boardId) {
+        return boardRepository.findBoardById(boardId).orElseThrow(() -> {
+            throw new NotExistBoardException(ErrorCode.NOT_EXIST_BOARD);
+        });
     }
 
     @Transactional
@@ -96,6 +101,13 @@ public class BoardService {
         board.unlike(member);
 
         return new LikeResponse(board.getBoardLikes());
+    }
+
+    private Member getLoginMember(AppUser appUser) {
+        if (appUser.isGuest()) {
+            return null;
+        }
+        return findMemberByEmail(appUser.getEmail());
     }
 
     private Member findMemberByEmail(String email) {
