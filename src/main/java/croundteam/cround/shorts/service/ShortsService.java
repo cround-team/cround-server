@@ -6,16 +6,22 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.repository.CreatorRepository;
+import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.repository.MemberRepository;
 import croundteam.cround.member.service.dto.LoginMember;
+import croundteam.cround.security.token.support.AppUser;
 import croundteam.cround.shorts.domain.Shorts;
 import croundteam.cround.shorts.exception.NotExistShortsException;
+import croundteam.cround.shorts.repository.ShortsQueryRepository;
 import croundteam.cround.shorts.repository.ShortsRepository;
+import croundteam.cround.shorts.service.dto.SearchShortsResponses;
 import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +33,7 @@ public class ShortsService {
 
     private final CreatorRepository creatorRepository;
     private final ShortsRepository shortsRepository;
+    private final ShortsQueryRepository shortsQueryRepository;
     private final MemberRepository memberRepository;
 
     @Transactional
@@ -38,6 +45,20 @@ public class ShortsService {
         Shorts saveShorts = shortsRepository.save(shorts);
 
         return saveShorts.getId();
+    }
+
+    public SearchShortsResponses searchShorts(SearchCondition searchCondition, Pageable pageable, AppUser appUser) {
+        Member member = getLoginMember(appUser);
+
+        Slice<Shorts> shorts = shortsQueryRepository.searchByKeywordAndPlatforms(searchCondition, pageable);
+        return new SearchShortsResponses(shorts);
+    }
+
+    private Member getLoginMember(AppUser appUser) {
+        if (appUser.isGuest()) {
+            return null;
+        }
+        return findMemberByEmail(appUser.getEmail());
     }
 
     @Transactional
@@ -94,5 +115,4 @@ public class ShortsService {
         return shortsRepository.findById(shortsId).orElseThrow(
                 () -> new NotExistShortsException(ErrorCode.NOT_EXIST_SHORTS));
     }
-
 }

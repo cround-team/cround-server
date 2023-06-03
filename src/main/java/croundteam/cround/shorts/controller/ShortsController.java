@@ -31,7 +31,6 @@ import static croundteam.cround.security.token.support.TokenProvider.AUTHORIZATI
 public class ShortsController {
 
     private final ShortsService shortsService;
-    private final TokenProvider tokenProvider;
 
     @PostMapping
     public ResponseEntity<Void> saveShorts(
@@ -43,9 +42,12 @@ public class ShortsController {
     }
 
     @GetMapping
-    public void searchShorts(SearchCondition searchCondition, Pageable pageable, @Authenticated AppUser appUser) {
-        System.out.println("appUser = " + appUser);
-
+    public void searchShorts(
+            SearchCondition searchCondition,
+            Pageable pageable,
+            @Authenticated AppUser appUser
+    ) {
+        shortsService.searchShorts(searchCondition, pageable, appUser);
 
     }
 
