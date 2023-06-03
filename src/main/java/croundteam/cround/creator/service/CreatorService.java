@@ -18,6 +18,7 @@ import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.repository.MemberRepository;
 import croundteam.cround.member.service.dto.LoginMember;
+import croundteam.cround.security.token.support.AppUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -59,8 +60,8 @@ public class CreatorService {
         return new SearchCreatorResponses(creators);
     }
 
-    public FindCreatorResponse findOne(String email, Long creatorId) {
-        Member member = getLoginMember(email);
+    public FindCreatorResponse findOne(AppUser appUser, Long creatorId) {
+        Member member = getLoginMember(appUser);
         Creator creator = findCreatorWithJoinById(creatorId);
 
         List<CreatorTag> creatorTags = creatorTagRepository.findCreatorTagById(creatorId);
@@ -69,11 +70,11 @@ public class CreatorService {
         return new FindCreatorResponse(creator, member, tags);
     }
 
-    private Member getLoginMember(String email) {
-        if(!StringUtils.hasText(email)) {
+    private Member getLoginMember(AppUser appUser) {
+        if (appUser.isGuest()) {
             return null;
         }
-        return findMemberByEmail(email);
+        return findMemberByEmail(appUser.getEmail());
     }
 
     /**

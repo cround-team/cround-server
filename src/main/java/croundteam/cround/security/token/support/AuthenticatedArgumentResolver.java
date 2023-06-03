@@ -1,10 +1,7 @@
-package croundteam.cround.security.token;
+package croundteam.cround.security.token.support;
 
-import croundteam.cround.member.service.dto.LoginMember;
-import croundteam.cround.security.token.support.JwtTokenExtractor;
-import croundteam.cround.security.token.support.Login;
-import croundteam.cround.security.token.support.TokenProvider;
 import org.springframework.core.MethodParameter;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -14,17 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import static croundteam.cround.security.token.support.TokenProvider.AUTHORIZATION;
 
-public class AuthenticationHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+public class AuthenticatedArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final TokenProvider tokenProvider;
 
-    public AuthenticationHandlerMethodArgumentResolver(TokenProvider tokenProvider) {
+    public AuthenticatedArgumentResolver(TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
     }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(Login.class);
+        return parameter.hasParameterAnnotation(Authenticated.class);
     }
 
     @Override
@@ -35,11 +32,16 @@ public class AuthenticationHandlerMethodArgumentResolver implements HandlerMetho
             WebDataBinderFactory binderFactory
     ) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String authorization = request.getHeader(AUTHORIZATION);
-        String token = JwtTokenExtractor.extract(authorization);
+        String token = request.getHeader(AUTHORIZATION);
+        String email = extractEmailBy(token);
 
-        String email = tokenProvider.getSubject(token);
+        return new AppUser(email);
+    }
 
-        return new LoginMember(email);
+    private String extractEmailBy(String token) {
+        if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+            return tokenProvider.getSubject(token);
+        }
+        return null;
     }
 }

@@ -4,6 +4,8 @@ import croundteam.cround.board.service.dto.BookmarkResponse;
 import croundteam.cround.board.service.dto.LikeResponse;
 import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.member.service.dto.LoginMember;
+import croundteam.cround.security.token.support.AppUser;
+import croundteam.cround.security.token.support.Authenticated;
 import croundteam.cround.security.token.support.Login;
 import croundteam.cround.security.token.support.TokenProvider;
 import croundteam.cround.shorts.service.ShortsService;
@@ -41,10 +43,8 @@ public class ShortsController {
     }
 
     @GetMapping
-    public void searchShorts(SearchCondition searchCondition, Pageable pageable) {
-        String token = getAuthorizationHeader();
-        String email = extractEmailBy(token);
-
+    public void searchShorts(SearchCondition searchCondition, Pageable pageable, @Authenticated AppUser appUser) {
+        System.out.println("appUser = " + appUser);
 
 
     }
@@ -77,18 +77,5 @@ public class ShortsController {
     public ResponseEntity<LikeResponse> unlikeShorts(@Login LoginMember loginMember, @PathVariable Long shortsId) {
         LikeResponse likeResponse = shortsService.unlikeShorts(loginMember, shortsId);
         return ResponseEntity.ok(likeResponse);
-    }
-
-    private String extractEmailBy(String token) {
-        if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
-            return tokenProvider.getSubject(token);
-        }
-        return null;
-    }
-
-    private static String getAuthorizationHeader() {
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-                .getRequest()
-                .getHeader(AUTHORIZATION);
     }
 }
