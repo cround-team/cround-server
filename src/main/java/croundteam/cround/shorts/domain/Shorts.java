@@ -120,4 +120,8 @@ public class Shorts extends BaseTime {
         }
         return shortsBookmarks.isBookmarkedBy(member);
     }
+
+    public String getProfileImage() {
+        return creator.getProfileImage();
+    }
 }

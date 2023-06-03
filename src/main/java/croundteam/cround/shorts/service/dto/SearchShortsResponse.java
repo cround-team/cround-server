@@ -43,6 +43,7 @@ public class SearchShortsResponse {
                 .thumbnailUrl(shorts.getThumbnailUrl())
                 .title(shorts.getTitle())
                 .platformType(shorts.getPlatformType())
+                .profileImage(shorts.getProfileImage())
                 .author(shorts.getCreatorActivityName())
                 .likesCount(shorts.getShortsLikes())
                 .bookmarksCount(shorts.getShortsBookmarks())

@@ -9,7 +9,7 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.repository.CreatorRepository;
-import croundteam.cround.creator.service.dto.SearchCondition;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.repository.MemberRepository;
@@ -18,11 +18,9 @@ import croundteam.cround.security.support.AppUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,16 +44,11 @@ public class BoardService {
         return saveBoard.getId();
     }
 
-    public BoardsResponse searchBoards(SearchCondition searchCondition, Pageable pageable, AppUser appUser) {
+    public SearchBoardsResponses searchBoards(SearchCondition searchCondition, Pageable pageable, AppUser appUser) {
         Member member = getLoginMember(appUser);
+        Slice<Board> boards = boardQueryRepository.searchByCondition(searchCondition, pageable);
 
-        boardQueryRepository.searchByCondition(searchCondition, pageable);
-
-        List<BoardResponse> boardResponses = boardRepository.findAll()
-                .stream()
-                .map(BoardResponse::new)
-                .collect(Collectors.toList());
-        return new BoardsResponse(boardResponses);
+        return new SearchBoardsResponses(boards, member);
     }
 
     private Member getLoginMember(AppUser appUser) {

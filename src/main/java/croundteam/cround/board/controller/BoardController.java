@@ -2,10 +2,10 @@ package croundteam.cround.board.controller;
 
 import croundteam.cround.board.service.BoardService;
 import croundteam.cround.board.service.dto.BoardSaveRequest;
-import croundteam.cround.board.service.dto.BoardsResponse;
+import croundteam.cround.board.service.dto.SearchBoardsResponses;
 import croundteam.cround.board.service.dto.BookmarkResponse;
 import croundteam.cround.board.service.dto.LikeResponse;
-import croundteam.cround.creator.service.dto.SearchCondition;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.support.AppUser;
 import croundteam.cround.security.support.Authenticated;
@@ -37,13 +37,13 @@ public class BoardController {
     }
 
     @GetMapping
-    public ResponseEntity<BoardsResponse> searchBoards(
+    public ResponseEntity<SearchBoardsResponses> searchBoards(
             SearchCondition searchCondition,
             Pageable pageable,
             @Authenticated AppUser appUser
     ) {
-        BoardsResponse boards = boardService.searchBoards(searchCondition, pageable, appUser);
-        return ResponseEntity.ok(boards);
+        SearchBoardsResponses searchBoardsResponses = boardService.searchBoards(searchCondition, pageable, appUser);
+        return ResponseEntity.ok(searchBoardsResponses);
     }
 
     @PostMapping("/{boardId}/bookmarks")

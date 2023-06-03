@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -23,18 +24,18 @@ public class Board extends BaseTime {
     @Column(name = "board_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private Creator creator;
-
-    @Embedded
-    private PlatformType platformType;
-
     @Embedded
     private Title title;
 
     @Embedded
     private Content content;
+
+    @Embedded
+    private PlatformType platformType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
+    private Creator creator;
 
     @Embedded
     private BoardLikes boardLikes;
@@ -95,7 +96,25 @@ public class Board extends BaseTime {
         return content.getValue();
     }
 
-    public String getAuthor() {
+    public String getProfileImage() {
+        return creator.getProfileImage();
+    }
+
+    public String getCreatorActivityName() {
         return creator.getActivityName();
+    }
+
+    public boolean isLikedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return boardLikes.isLikedBy(this, member);
+    }
+
+    public boolean isBookmarkedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return boardBookmarks.isBookmarkedBy(this, member);
     }
 }

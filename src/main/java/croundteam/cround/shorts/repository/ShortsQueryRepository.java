@@ -7,7 +7,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformName;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
-import croundteam.cround.creator.service.dto.SearchCondition;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.shorts.domain.Shorts;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static croundteam.cround.creator.domain.QCreator.creator;
-import static croundteam.cround.creator.service.dto.SearchCondition.*;
+import static croundteam.cround.common.dto.SearchCondition.*;
 import static croundteam.cround.shorts.domain.QShorts.*;
 
 @Repository

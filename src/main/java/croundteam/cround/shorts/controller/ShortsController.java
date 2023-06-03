@@ -2,7 +2,7 @@ package croundteam.cround.shorts.controller;
 
 import croundteam.cround.board.service.dto.BookmarkResponse;
 import croundteam.cround.board.service.dto.LikeResponse;
-import croundteam.cround.creator.service.dto.SearchCondition;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.support.AppUser;
 import croundteam.cround.security.support.Authenticated;

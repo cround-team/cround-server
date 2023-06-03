@@ -3,7 +3,7 @@ package croundteam.cround.creator.controller;
 import croundteam.cround.creator.service.CreatorService;
 import croundteam.cround.creator.service.dto.FindCreatorResponse;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
-import croundteam.cround.creator.service.dto.SearchCondition;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.creator.service.dto.SearchCreatorResponses;
 import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.support.AppUser;

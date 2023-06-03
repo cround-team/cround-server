@@ -1,4 +1,4 @@
-package croundteam.cround.creator.service.dto;
+package croundteam.cround.common.dto;
 
 import lombok.*;
 
