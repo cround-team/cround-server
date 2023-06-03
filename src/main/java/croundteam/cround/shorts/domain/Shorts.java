@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -35,7 +36,7 @@ public class Shorts extends BaseTime {
     private PlatformType platformType;
 
     @Embedded
-    private ThumbnailUrl shortForm;
+    private ThumbnailUrl thumbnailUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
@@ -48,11 +49,11 @@ public class Shorts extends BaseTime {
     private ShortsBookmarks shortsBookmarks;
 
     @Builder
-    public Shorts(PlatformType platformType, Title title, Content content, ThumbnailUrl shortForm, Creator creator) {
+    public Shorts(PlatformType platformType, Title title, Content content, ThumbnailUrl thumbnailUrl, Creator creator) {
         this.platformType = platformType;
         this.title = title;
         this.content = content;
-        this.shortForm = shortForm;
+        this.thumbnailUrl = thumbnailUrl;
         this.creator = creator;
     }
 
@@ -61,7 +62,7 @@ public class Shorts extends BaseTime {
                 .title(Title.create(shortsSaveRequest.getTitle()))
                 .content(Content.create(shortsSaveRequest.getContent()))
                 .platformType(PlatformType.create(shortsSaveRequest.getPlatformType()))
-                .shortForm(ThumbnailUrl.create(shortsSaveRequest.getShortsUrl()))
+                .thumbnailUrl(ThumbnailUrl.create(shortsSaveRequest.getShortsUrl()))
                 .creator(creator)
                 .build();
     }
@@ -88,5 +89,35 @@ public class Shorts extends BaseTime {
 
     public int getShortsLikes() {
         return shortsLikes.getShortsLikes();
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl.getImageUrl();
+    }
+
+    public String getTitle() {
+        return title.getTitle();
+    }
+
+    public String getPlatformType() {
+        return platformType.getPlatformName();
+    }
+
+    public String getCreatorActivityName() {
+        return creator.getActivityName();
+    }
+
+    public boolean isLikedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return shortsLikes.isLikedBy(this, member);
+    }
+
+    public boolean isBookmarkedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return shortsBookmarks.isBookmarkedBy(member);
     }
 }

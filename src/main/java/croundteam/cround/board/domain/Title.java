@@ -26,4 +26,8 @@ public class Title {
 
     private void validateTitleLength(String value) {
     }
+
+    public String getTitle() {
+        return value;
+    }
 }

@@ -51,7 +51,7 @@ public class ShortsService {
         Member member = getLoginMember(appUser);
 
         Slice<Shorts> shorts = shortsQueryRepository.searchByKeywordAndPlatforms(searchCondition, pageable);
-        return new SearchShortsResponses(shorts);
+        return new SearchShortsResponses(shorts, member);
     }
 
     private Member getLoginMember(AppUser appUser) {

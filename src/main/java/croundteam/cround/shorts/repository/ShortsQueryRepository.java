@@ -34,7 +34,9 @@ public class ShortsQueryRepository {
     public Slice<Shorts> searchByKeywordAndPlatforms(SearchCondition searchCondition, Pageable pageable) {
 
         JPAQuery<Shorts> query = jpaQueryFactory
-                .selectFrom(shorts)
+                .select(shorts)
+                .from(shorts, shorts)
+                .join(shorts.creator, creator).fetchJoin()
                 .where(
                         ltCursorId(searchCondition.getCursorId()),     // 페이지네이션
                         filterByPlatform(searchCondition.getFilter()), // 필터 플랫폼
@@ -87,7 +89,7 @@ public class ShortsQueryRepository {
         }
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         for (String platform : platforms) {
-            booleanBuilder.and(shorts.platformType.platformName.eq(PlatformName.from(platform)));
+            booleanBuilder.or(shorts.platformType.platformName.eq(PlatformName.from(platform)));
         }
         return booleanBuilder;
     }

@@ -20,4 +20,8 @@ public class ThumbnailUrl {
     public static ThumbnailUrl create(String shortsUrl) {
         return new ThumbnailUrl(shortsUrl);
     }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
 }

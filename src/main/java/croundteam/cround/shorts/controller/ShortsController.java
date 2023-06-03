@@ -7,22 +7,17 @@ import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.token.support.AppUser;
 import croundteam.cround.security.token.support.Authenticated;
 import croundteam.cround.security.token.support.Login;
-import croundteam.cround.security.token.support.TokenProvider;
 import croundteam.cround.shorts.service.ShortsService;
+import croundteam.cround.shorts.service.dto.SearchShortsResponses;
 import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.validation.Valid;
 import java.net.URI;
-
-import static croundteam.cround.security.token.support.TokenProvider.AUTHORIZATION;
 
 @Slf4j
 @RestController
@@ -42,13 +37,14 @@ public class ShortsController {
     }
 
     @GetMapping
-    public void searchShorts(
+    public ResponseEntity<SearchShortsResponses> searchShorts(
             SearchCondition searchCondition,
             Pageable pageable,
             @Authenticated AppUser appUser
     ) {
-        shortsService.searchShorts(searchCondition, pageable, appUser);
+        SearchShortsResponses searchShortsResponses = shortsService.searchShorts(searchCondition, pageable, appUser);
 
+        return ResponseEntity.ok(searchShortsResponses);
     }
 
     @PostMapping("/{shortsId}/bookmarks")

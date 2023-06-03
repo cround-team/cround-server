@@ -32,14 +32,18 @@ public class AuthenticatedArgumentResolver implements HandlerMethodArgumentResol
             WebDataBinderFactory binderFactory
     ) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String token = request.getHeader(AUTHORIZATION);
-        String email = extractEmailBy(token);
+        String authorization = request.getHeader(AUTHORIZATION);
+        String email = extractEmailBy(authorization);
 
         return new AppUser(email);
     }
 
-    private String extractEmailBy(String token) {
-        if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+    private String extractEmailBy(String authorization) {
+        if(!StringUtils.hasText(authorization)) {
+            return null;
+        }
+        String token = JwtTokenExtractor.extract(authorization);
+        if(tokenProvider.validateToken(token)) {
             return tokenProvider.getSubject(token);
         }
         return null;
