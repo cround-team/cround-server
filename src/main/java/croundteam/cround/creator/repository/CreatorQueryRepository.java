@@ -80,7 +80,7 @@ public class CreatorQueryRepository {
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         for (String platform : platforms) {
-            booleanBuilder.and(creator.platform.platformHeadType.platformName.eq(PlatformName.from(platform)));
+            booleanBuilder.or(creator.platform.platformHeadType.platformName.eq(PlatformName.from(platform)));
         }
         return booleanBuilder;
     }
