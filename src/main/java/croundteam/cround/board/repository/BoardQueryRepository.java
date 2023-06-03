@@ -5,10 +5,10 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import croundteam.cround.board.domain.Board;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformName;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
-import croundteam.cround.common.dto.SearchCondition;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Objects;
 
 import static croundteam.cround.board.domain.QBoard.board;
-import static croundteam.cround.common.repository.RepositorySupport.convertToSliceFrom;
 import static croundteam.cround.common.dto.SearchCondition.ContentSortCondition;
+import static croundteam.cround.common.repository.RepositorySupport.convertToSliceFrom;
 
 @Repository
 public class BoardQueryRepository {

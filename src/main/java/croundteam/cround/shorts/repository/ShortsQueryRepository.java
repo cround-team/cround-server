@@ -4,23 +4,23 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.repository.RepositorySupport;
 import croundteam.cround.creator.domain.platform.PlatformName;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
-import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.shorts.domain.Shorts;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
 
+import static croundteam.cround.common.dto.SearchCondition.ContentSortCondition;
 import static croundteam.cround.creator.domain.QCreator.creator;
-import static croundteam.cround.common.dto.SearchCondition.*;
-import static croundteam.cround.shorts.domain.QShorts.*;
+import static croundteam.cround.shorts.domain.QShorts.shorts;
 
 @Repository
 public class ShortsQueryRepository {
@@ -44,16 +44,7 @@ public class ShortsQueryRepository {
                 .limit(searchCondition.getSize() + 1);
         List<Shorts> fetch = sort(query, searchCondition);             // 정렬
 
-        return convertToSliceFromShorts(searchCondition.getSize(), fetch, pageable);
-    }
-
-    private Slice<Shorts> convertToSliceFromShorts(int page, List<Shorts> shorts, Pageable pageable) {
-        boolean hasNext = false;
-        if(shorts.size() == page + 1) {
-            shorts.remove(page);
-            hasNext = true;
-        }
-        return new SliceImpl<>(shorts, pageable, hasNext);
+        return RepositorySupport.convertToSliceFrom(searchCondition.getSize(), fetch, pageable);
     }
 
     private List<Shorts> sort(JPAQuery<Shorts> query, SearchCondition searchCondition) {
