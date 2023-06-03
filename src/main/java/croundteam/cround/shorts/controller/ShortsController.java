@@ -8,6 +8,7 @@ import croundteam.cround.security.support.AppUser;
 import croundteam.cround.security.support.Authenticated;
 import croundteam.cround.security.support.Login;
 import croundteam.cround.shorts.service.ShortsService;
+import croundteam.cround.shorts.service.dto.FindShortsResponse;
 import croundteam.cround.shorts.service.dto.SearchShortsResponses;
 import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,11 @@ public class ShortsController {
         SearchShortsResponses searchShortsResponses = shortsService.searchShorts(searchCondition, pageable, appUser);
 
         return ResponseEntity.ok(searchShortsResponses);
+    }
+
+    @GetMapping("/{shortsId}")
+    public ResponseEntity<FindShortsResponse> findOne(@PathVariable Long shortsId, @Authenticated AppUser appUser) {
+        return ResponseEntity.ok(shortsService.findOne(shortsId, appUser));
     }
 
     @PostMapping("/{shortsId}/bookmarks")

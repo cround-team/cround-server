@@ -31,7 +31,7 @@ public class ShortsQueryRepository {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public Slice<Shorts> searchByKeywordAndPlatforms(SearchCondition searchCondition, Pageable pageable) {
+    public Slice<Shorts> searchByCondition(SearchCondition searchCondition, Pageable pageable) {
 
         JPAQuery<Shorts> query = jpaQueryFactory
                 .select(shorts)

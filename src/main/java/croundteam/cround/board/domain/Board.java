@@ -93,7 +93,7 @@ public class Board extends BaseTime {
     }
 
     public String getContent() {
-        return content.getValue();
+        return content.getContent();
     }
 
     public String getProfileImage() {
