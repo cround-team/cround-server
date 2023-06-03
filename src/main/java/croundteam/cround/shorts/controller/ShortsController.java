@@ -2,17 +2,25 @@ package croundteam.cround.shorts.controller;
 
 import croundteam.cround.board.service.dto.BookmarkResponse;
 import croundteam.cround.board.service.dto.LikeResponse;
+import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.token.support.Login;
+import croundteam.cround.security.token.support.TokenProvider;
 import croundteam.cround.shorts.service.ShortsService;
 import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.validation.Valid;
 import java.net.URI;
+
+import static croundteam.cround.security.token.support.TokenProvider.AUTHORIZATION;
 
 @Slf4j
 @RestController
@@ -21,6 +29,7 @@ import java.net.URI;
 public class ShortsController {
 
     private final ShortsService shortsService;
+    private final TokenProvider tokenProvider;
 
     @PostMapping
     public ResponseEntity<Void> saveShorts(
@@ -29,6 +38,15 @@ public class ShortsController {
         Long shortsId = shortsService.shortsSaveRequest(member, shortsSaveRequest);
 
         return ResponseEntity.created(URI.create("/api/shorts/" + shortsId)).build();
+    }
+
+    @GetMapping
+    public void searchShorts(SearchCondition searchCondition, Pageable pageable) {
+        String token = getAuthorizationHeader();
+        String email = extractEmailBy(token);
+
+
+
     }
 
     @PostMapping("/{shortsId}/bookmarks")
@@ -61,4 +79,16 @@ public class ShortsController {
         return ResponseEntity.ok(likeResponse);
     }
 
+    private String extractEmailBy(String token) {
+        if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
+            return tokenProvider.getSubject(token);
+        }
+        return null;
+    }
+
+    private static String getAuthorizationHeader() {
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                .getRequest()
+                .getHeader(AUTHORIZATION);
+    }
 }

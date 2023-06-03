@@ -11,6 +11,7 @@ import croundteam.cround.creator.repository.CreatorQueryRepository;
 import croundteam.cround.creator.repository.CreatorRepository;
 import croundteam.cround.creator.repository.CreatorTagRepository;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
+import croundteam.cround.creator.service.dto.FindCreatorResponse;
 import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.creator.service.dto.SearchCreatorResponses;
 import croundteam.cround.member.domain.Member;

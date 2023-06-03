@@ -1,7 +1,7 @@
 package croundteam.cround.creator.controller;
 
 import croundteam.cround.creator.service.CreatorService;
-import croundteam.cround.creator.service.FindCreatorResponse;
+import croundteam.cround.creator.service.dto.FindCreatorResponse;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
 import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.creator.service.dto.SearchCreatorResponses;
