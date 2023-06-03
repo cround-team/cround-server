@@ -56,7 +56,7 @@ public class CreatorQueryRepository {
     }
 
     private List<Creator> sort(JPAQuery<Creator> query, SearchCondition searchCondition) {
-        CreatorSortCondition type = searchCondition.getSortType();
+        CreatorSortCondition type = searchCondition.getSortTypeByCreator();
 
         switch (type) {
             case LATEST:
