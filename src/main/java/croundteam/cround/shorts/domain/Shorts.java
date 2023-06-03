@@ -35,7 +35,7 @@ public class Shorts extends BaseTime {
     private PlatformType platformType;
 
     @Embedded
-    private ShortsForm shortForm;
+    private ThumbnailUrl shortForm;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
@@ -48,7 +48,7 @@ public class Shorts extends BaseTime {
     private ShortsBookmarks shortsBookmarks;
 
     @Builder
-    public Shorts(PlatformType platformType, Title title, Content content, ShortsForm shortForm, Creator creator) {
+    public Shorts(PlatformType platformType, Title title, Content content, ThumbnailUrl shortForm, Creator creator) {
         this.platformType = platformType;
         this.title = title;
         this.content = content;
@@ -61,7 +61,7 @@ public class Shorts extends BaseTime {
                 .title(Title.create(shortsSaveRequest.getTitle()))
                 .content(Content.create(shortsSaveRequest.getContent()))
                 .platformType(PlatformType.create(shortsSaveRequest.getPlatformType()))
-                .shortForm(ShortsForm.create(shortsSaveRequest.getShortsUrl()))
+                .shortForm(ThumbnailUrl.create(shortsSaveRequest.getShortsUrl()))
                 .creator(creator)
                 .build();
     }
