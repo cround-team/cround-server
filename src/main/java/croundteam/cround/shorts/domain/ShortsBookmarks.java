@@ -6,6 +6,8 @@ import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
@@ -41,5 +43,9 @@ public class ShortsBookmarks {
 
     public int getShortsBookmarks() {
         return shortsBookmarks.size();
+    }
+
+    public boolean isBookmarkedBy(Member member) {
+        return shortsBookmarks.contains(member);
     }
 }

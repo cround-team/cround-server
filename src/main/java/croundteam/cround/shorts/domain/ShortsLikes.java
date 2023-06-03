@@ -22,7 +22,6 @@ public class ShortsLikes {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shorts", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ShortsLike> shortsLikes = new ArrayList<>();
 
-
     public void addLike(Shorts shorts, Member member) {
         ShortsLike like = ShortsLike.of(shorts, member);
         validateLike(like);
@@ -38,6 +37,11 @@ public class ShortsLikes {
         if(shortsLikes.contains(like)) {
             throw new InvalidLikeException(ErrorCode.DUPLICATE_LIKE);
         }
+    }
+
+    public boolean isLikedBy(Shorts shorts, Member member) {
+        ShortsLike shortsLike = ShortsLike.of(shorts, member);
+        return shortsLikes.contains(shortsLike);
     }
 
     public int getShortsLikes() {

@@ -40,10 +40,10 @@ public class CreatorQueryRepository {
                         filterByPlatform(searchCondition.getFilter()), // 필터 플랫폼
                         containsKeyword(searchCondition.getKeyword())) // 검색 조건
 //                        containsKeyword(searchCondition.getKeyword()), containsTagIds(tagIds)) // 검색 조건 and 연산
-                .limit(searchCondition.getPage() + 1);
+                .limit(searchCondition.getSize() + 1);
         List<Creator> fetch = sort(query, searchCondition);            // 정렬
 
-        return convertToSliceFromCreator(searchCondition.getPage(), fetch, pageable);
+        return convertToSliceFromCreator(searchCondition.getSize(), fetch, pageable);
     }
 
     private Slice<Creator> convertToSliceFromCreator(int page, List<Creator> creators, Pageable pageable) {
@@ -56,7 +56,7 @@ public class CreatorQueryRepository {
     }
 
     private List<Creator> sort(JPAQuery<Creator> query, SearchCondition searchCondition) {
-        CreatorSortCondition type = searchCondition.getSortType();
+        CreatorSortCondition type = searchCondition.getSortTypeByCreator();
 
         switch (type) {
             case LATEST:
@@ -80,7 +80,7 @@ public class CreatorQueryRepository {
 
         BooleanBuilder booleanBuilder = new BooleanBuilder();
         for (String platform : platforms) {
-            booleanBuilder.and(creator.platform.platformHeadType.platformName.eq(PlatformName.from(platform)));
+            booleanBuilder.or(creator.platform.platformHeadType.platformName.eq(PlatformName.from(platform)));
         }
         return booleanBuilder;
     }

@@ -2,12 +2,17 @@ package croundteam.cround.shorts.controller;
 
 import croundteam.cround.board.service.dto.BookmarkResponse;
 import croundteam.cround.board.service.dto.LikeResponse;
+import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.member.service.dto.LoginMember;
+import croundteam.cround.security.token.support.AppUser;
+import croundteam.cround.security.token.support.Authenticated;
 import croundteam.cround.security.token.support.Login;
 import croundteam.cround.shorts.service.ShortsService;
+import croundteam.cround.shorts.service.dto.SearchShortsResponses;
 import croundteam.cround.shorts.service.dto.ShortsSaveRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +34,17 @@ public class ShortsController {
         Long shortsId = shortsService.shortsSaveRequest(member, shortsSaveRequest);
 
         return ResponseEntity.created(URI.create("/api/shorts/" + shortsId)).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<SearchShortsResponses> searchShorts(
+            SearchCondition searchCondition,
+            Pageable pageable,
+            @Authenticated AppUser appUser
+    ) {
+        SearchShortsResponses searchShortsResponses = shortsService.searchShorts(searchCondition, pageable, appUser);
+
+        return ResponseEntity.ok(searchShortsResponses);
     }
 
     @PostMapping("/{shortsId}/bookmarks")
@@ -60,5 +76,4 @@ public class ShortsController {
         LikeResponse likeResponse = shortsService.unlikeShorts(loginMember, shortsId);
         return ResponseEntity.ok(likeResponse);
     }
-
 }

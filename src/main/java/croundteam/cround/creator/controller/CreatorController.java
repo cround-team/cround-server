@@ -1,11 +1,13 @@
 package croundteam.cround.creator.controller;
 
 import croundteam.cround.creator.service.CreatorService;
-import croundteam.cround.creator.service.FindCreatorResponse;
+import croundteam.cround.creator.service.dto.FindCreatorResponse;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
 import croundteam.cround.creator.service.dto.SearchCondition;
 import croundteam.cround.creator.service.dto.SearchCreatorResponses;
 import croundteam.cround.member.service.dto.LoginMember;
+import croundteam.cround.security.token.support.AppUser;
+import croundteam.cround.security.token.support.Authenticated;
 import croundteam.cround.security.token.support.Login;
 import croundteam.cround.security.token.support.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -45,23 +47,7 @@ public class CreatorController {
     }
 
     @GetMapping("/{creatorId}")
-    public ResponseEntity<FindCreatorResponse> findOne(@PathVariable Long creatorId) {
-        String token = getAuthorizationHeader();
-        String email = extractEmailBy(token);
-
-        return ResponseEntity.ok(creatorService.findOne(email, creatorId));
-    }
-
-    private static String getAuthorizationHeader() {
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
-                .getRequest()
-                .getHeader(AUTHORIZATION);
-    }
-
-    private String extractEmailBy(String token) {
-        if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
-            return tokenProvider.getSubject(token);
-        }
-        return null;
+    public ResponseEntity<FindCreatorResponse> findOne(@PathVariable Long creatorId, @Authenticated AppUser appUser) {
+        return ResponseEntity.ok(creatorService.findOne(appUser, creatorId));
     }
 }

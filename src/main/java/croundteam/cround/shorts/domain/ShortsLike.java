@@ -20,11 +20,11 @@ public class ShortsLike {
     @Column(name = "like_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shorts_id", foreignKey = @ForeignKey(name = "fk_shorts_like_to_board"))
     private Shorts shorts;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_shorts_like_to_member"))
     private Member member;
 
