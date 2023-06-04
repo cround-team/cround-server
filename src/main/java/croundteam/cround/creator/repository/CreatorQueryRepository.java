@@ -57,8 +57,8 @@ public class CreatorQueryRepository {
             case FOLLOW:
                 return query
                         .leftJoin(creator.followers.followers, follow)
-                        .groupBy(creator.id)
-                        .orderBy(follow.id.count().desc(), creator.id.desc())
+                        .groupBy(creator)
+                        .orderBy(follow.id.sum().desc(), creator.id.desc())
                         .fetch();
         }
         throw new InvalidSortTypeException(ErrorCode.INVALID_SORT_TYPE);

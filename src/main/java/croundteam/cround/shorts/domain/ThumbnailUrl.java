@@ -21,7 +21,7 @@ public class ThumbnailUrl {
         return new ThumbnailUrl(shortsUrl);
     }
 
-    public String getUrl() {
+    public String getThumbnailUrl() {
         return url;
     }
 }

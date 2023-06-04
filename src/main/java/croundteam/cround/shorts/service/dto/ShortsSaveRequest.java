@@ -12,4 +12,5 @@ public class ShortsSaveRequest {
     private String title;
     private String content;
     private String shortsUrl;
+    private String thumbnailUrl;
 }
