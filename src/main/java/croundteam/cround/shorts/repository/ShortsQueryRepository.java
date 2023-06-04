@@ -9,6 +9,8 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.repository.RepositorySupport;
 import croundteam.cround.creator.domain.platform.PlatformName;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
+import croundteam.cround.shorts.domain.QShortsBookmark;
+import croundteam.cround.shorts.domain.QShortsLike;
 import croundteam.cround.shorts.domain.Shorts;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -21,6 +23,8 @@ import java.util.Objects;
 import static croundteam.cround.common.dto.SearchCondition.ContentSortCondition;
 import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.shorts.domain.QShorts.shorts;
+import static croundteam.cround.shorts.domain.QShortsBookmark.*;
+import static croundteam.cround.shorts.domain.QShortsLike.*;
 
 @Repository
 public class ShortsQueryRepository {
@@ -57,11 +61,15 @@ public class ShortsQueryRepository {
                         .fetch();
             case LIKE:
                 return query
-                        .orderBy(shorts.shortsLikes.shortsLikes.size().desc(), shorts.id.desc())
+                        .leftJoin(shorts.shortsLikes.shortsLikes, shortsLike)
+                        .groupBy(shorts)
+                        .orderBy(shortsLike.shorts.id.sum().desc(), shorts.id.desc())
                         .fetch();
             case BOOKMARK:
                 return query
-                        .orderBy(shorts.shortsBookmarks.shortsBookmarks.size().desc(), shorts.id.desc())
+                        .leftJoin(shorts.shortsBookmarks.shortsBookmarks, shortsBookmark)
+                        .groupBy(shorts)
+                        .orderBy(shortsBookmark.id.sum().desc(), shorts.id.desc())
                         .fetch();
         }
         throw new InvalidSortTypeException(ErrorCode.INVALID_SORT_TYPE);
