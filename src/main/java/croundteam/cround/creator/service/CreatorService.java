@@ -3,7 +3,6 @@ package croundteam.cround.creator.service;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.tag.CreatorTag;
-import croundteam.cround.creator.domain.tag.CreatorTags;
 import croundteam.cround.creator.exception.DuplicateCreatorPlatformActivityNameException;
 import croundteam.cround.creator.exception.IncorrectSourceException;
 import croundteam.cround.creator.exception.NotExistCreatorException;
@@ -41,7 +40,7 @@ public class CreatorService {
 
     @Transactional
     public Long createCreator(LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
-        validateCreator(creatorSaveRequest);
+        validateDuplicateActivityName(creatorSaveRequest.getPlatformActivityName());
 
         Member member = findMemberByEmail(loginMember.getEmail());
         validateSameSource(loginMember, member);
@@ -67,6 +66,17 @@ public class CreatorService {
         creator.addTags(creatorTags);
 
         return new FindCreatorResponse(creator, member);
+    }
+
+    public void validateDuplicateActivityName(String platformActivityName) {
+        if(creatorRepository.existsByPlatformPlatformActivityNameName(platformActivityName)) {
+            throw new DuplicateCreatorPlatformActivityNameException(ErrorCode.DUPLICATE_PLATFORM_ACTIVITY_NAME);
+        }
+    }
+
+    public Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(
+                () -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
     }
 
     private Member getLoginMember(AppUser appUser) {
@@ -106,16 +116,5 @@ public class CreatorService {
         if (!loginMember.getEmail().equals(member.getEmail())) {
             throw new IncorrectSourceException(ErrorCode.INCORRECT_SOURCE);
         }
-    }
-
-    private void validateCreator(CreatorSaveRequest creatorSaveRequest) {
-        if(creatorRepository.existsByPlatformPlatformActivityNameName(creatorSaveRequest.getPlatformActivityName())) {
-            throw new DuplicateCreatorPlatformActivityNameException(ErrorCode.DUPLICATE_PLATFORM_ACTIVITY_NAME);
-        }
-    }
-
-    private Member findMemberByEmail(String email) {
-        return memberRepository.findByEmail(email).orElseThrow(
-                () -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
     }
 }

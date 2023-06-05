@@ -1,6 +1,7 @@
 package croundteam.cround.creator.controller;
 
 import croundteam.cround.creator.service.CreatorService;
+import croundteam.cround.creator.service.dto.ActivityNameValidationRequest;
 import croundteam.cround.creator.service.dto.FindCreatorResponse;
 import croundteam.cround.creator.service.dto.CreatorSaveRequest;
 import croundteam.cround.common.dto.SearchCondition;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
@@ -43,7 +45,18 @@ public class CreatorController {
 
     @GetMapping("/{creatorId}")
     public ResponseEntity<FindCreatorResponse> findOne(@PathVariable Long creatorId, @Authenticated AppUser appUser) {
-        System.out.println("=========================");
         return ResponseEntity.ok(creatorService.findOne(appUser, creatorId));
     }
+
+    @PostMapping("/validations/nickname")
+    public ResponseEntity<Void> validateNickname(
+            @RequestBody @Valid final ActivityNameValidationRequest activityNameValidationRequest,
+            @Login LoginMember loginMember
+    ) {
+        creatorService.findMemberByEmail(loginMember.getEmail());
+        creatorService.validateDuplicateActivityName(activityNameValidationRequest.getPlatformActivityName());
+
+        return ResponseEntity.ok().build();
+    }
+
 }
