@@ -1,6 +1,5 @@
 package croundteam.cround.security.support;
 
-import croundteam.cround.member.service.dto.LoginMember;
 import croundteam.cround.security.token.TokenProvider;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

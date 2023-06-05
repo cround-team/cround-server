@@ -1,7 +1,9 @@
 package croundteam.cround.common.dto;
 
 import lombok.*;
+import org.springframework.util.StringUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,8 +21,8 @@ public class SearchCondition {
     private int size = DEFAULT_PAGE_SIZE;
 
     public List<String> getFilter() {
-        if(Objects.isNull(filter) || filter.size() == 0) {
-            return null;
+        if(Objects.isNull(filter) || filter.isEmpty()) {
+            return Collections.emptyList();
         }
         return filter;
     }
@@ -39,7 +41,7 @@ public class SearchCondition {
         LATEST, FOLLOW, REVIEW;
 
         public static CreatorSortCondition getMatchedSortCondition(String sort) {
-            if(Objects.isNull(sort) || sort.isBlank()) {
+            if(!StringUtils.hasText(sort)) {
                 return LATEST;
             }
             return CreatorSortCondition.valueOf(sort.toUpperCase());
@@ -52,7 +54,7 @@ public class SearchCondition {
         LATEST, LIKE, BOOKMARK;
 
         public static ContentSortCondition getMatchedSortCondition(String sort) {
-            if(Objects.isNull(sort) || sort.isBlank()) {
+            if(!StringUtils.hasText(sort)) {
                 return LATEST;
             }
             return ContentSortCondition.valueOf(sort.toUpperCase());

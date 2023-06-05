@@ -1,7 +1,9 @@
 package croundteam.cround.board.domain;
 
+import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.InvalidLikeException;
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.like.domain.BoardLike;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
 import lombok.Getter;

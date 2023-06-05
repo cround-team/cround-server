@@ -1,6 +1,7 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.service.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.BoardSaveRequest;
+import croundteam.cround.bookmark.domain.BoardBookmarks;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
@@ -30,7 +31,7 @@ public class Board extends BaseTime {
     @Embedded
     private Content content;
 
-    @Embedded
+    @Enumerated(EnumType.STRING)
     private PlatformType platformType;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -44,7 +45,7 @@ public class Board extends BaseTime {
     private BoardBookmarks boardBookmarks;
 
     @Builder
-    public Board(PlatformType platformType, Title title, Content content, Creator creator) {
+    public Board(Title title, Content content, PlatformType platformType, Creator creator) {
         this.platformType = platformType;
         this.title = title;
         this.content = content;
@@ -85,7 +86,7 @@ public class Board extends BaseTime {
     }
 
     public String getPlatformType() {
-        return platformType.getPlatformName();
+        return platformType.getPlatformType();
     }
 
     public String getTitle() {
@@ -100,8 +101,8 @@ public class Board extends BaseTime {
         return creator.getProfileImage();
     }
 
-    public String getCreatorActivityName() {
-        return creator.getActivityName();
+    public String getCreatorNickname() {
+        return creator.getNickname();
     }
 
     public boolean isLikedBy(Member member) {

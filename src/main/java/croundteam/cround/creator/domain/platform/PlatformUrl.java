@@ -3,7 +3,6 @@ package croundteam.cround.creator.domain.platform;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.exception.InvalidUrlFormatException;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
@@ -13,7 +12,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 
 @Embeddable
-@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlatformUrl {
 
@@ -25,6 +23,10 @@ public class PlatformUrl {
         this.url = url;
     }
 
+    public static PlatformUrl create(String url) {
+        return new PlatformUrl(url);
+    }
+
     private void validateUrl(String url) {
         try {
             new URL(url).toURI();
@@ -33,7 +35,7 @@ public class PlatformUrl {
         }
     }
 
-    public static PlatformUrl create(String url) {
-        return new PlatformUrl(url);
+    public String getPlatformUrl() {
+        return url;
     }
 }
