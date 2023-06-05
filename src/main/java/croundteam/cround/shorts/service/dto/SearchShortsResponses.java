@@ -19,6 +19,6 @@ public class SearchShortsResponses {
     public SearchShortsResponses(Slice<Shorts> shorts, Member member) {
         this.pages = shorts.map(s -> SearchShortsResponse.from(s, member)).getContent();
         this.hasNext = shorts.hasNext();
-        this.pageCount = shorts.getNumberOfElements();
+        this.pageCount = shorts.getContent().size();
     }
 }

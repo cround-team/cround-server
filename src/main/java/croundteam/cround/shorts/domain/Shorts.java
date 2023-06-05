@@ -128,7 +128,7 @@ public class Shorts extends BaseTime {
         if(Objects.isNull(member)) {
             return false;
         }
-        return shortsBookmarks.isBookmarkedBy(member);
+        return shortsBookmarks.isBookmarkedBy(this, member);
     }
 
     public String getProfileImage() {

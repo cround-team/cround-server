@@ -9,8 +9,6 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.common.repository.RepositorySupport;
 import croundteam.cround.creator.domain.platform.PlatformName;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
-import croundteam.cround.shorts.domain.QShortsBookmark;
-import croundteam.cround.shorts.domain.QShortsLike;
 import croundteam.cround.shorts.domain.Shorts;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -23,8 +21,8 @@ import java.util.Objects;
 import static croundteam.cround.common.dto.SearchCondition.ContentSortCondition;
 import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.shorts.domain.QShorts.shorts;
-import static croundteam.cround.shorts.domain.QShortsBookmark.*;
-import static croundteam.cround.shorts.domain.QShortsLike.*;
+import static croundteam.cround.shorts.domain.QShortsBookmark.shortsBookmark;
+import static croundteam.cround.shorts.domain.QShortsLike.shortsLike;
 
 @Repository
 public class ShortsQueryRepository {

@@ -1,6 +1,5 @@
 package croundteam.cround.member.domain.follow;
 
-import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
@@ -18,19 +17,19 @@ import javax.persistence.*;
 @Table(uniqueConstraints = @UniqueConstraint(
         name = "follow_source_and_target_composite_unique",
         columnNames= {"source_id", "target_id"}))
-@EqualsAndHashCode(of = {"source", "target"}, callSuper = false)
-public class Follow extends BaseTime {
+@EqualsAndHashCode(of = {"source", "target"})
+public class Follow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "follow_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "source_id", foreignKey = @ForeignKey(name = "fk_follow_to_source"))
     private Member source;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "target_id", foreignKey = @ForeignKey(name = "fk_follow_to_target"))
     private Creator target;
 

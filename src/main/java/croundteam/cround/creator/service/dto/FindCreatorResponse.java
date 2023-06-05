@@ -2,7 +2,6 @@ package croundteam.cround.creator.service.dto;
 
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
-import croundteam.cround.creator.domain.tag.CreatorTags;
 import croundteam.cround.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +24,7 @@ public class FindCreatorResponse {
     private List<String> tags;
     private String platformUrl;
 
-    public FindCreatorResponse(Creator creator, Member member, CreatorTags creatorTags) {
+    public FindCreatorResponse(Creator creator, Member member) {
         this.profileImage = creator.getProfileImage();
         this.platformActivityName = creator.getActivityName();
         this.platformHeadTheme = creator.getPlatformTheme();
@@ -35,7 +34,7 @@ public class FindCreatorResponse {
         this.platformHeadType = creator.getPlatformType();
         this.isFollowed = creator.isFollowedBy(member);
         this.description = creator.getDescription();
-        this.tags = creatorTags.castTagsFromCreatorTags();
+        this.tags = creator.getTags();
         this.platformUrl = creator.getPlatformUrl();
     }
 }

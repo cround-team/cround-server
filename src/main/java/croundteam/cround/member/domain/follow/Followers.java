@@ -1,6 +1,7 @@
 package croundteam.cround.member.domain.follow;
 
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.InvalidFollowException;
 import lombok.AccessLevel;
@@ -42,7 +43,8 @@ public class Followers {
         return followers.size();
     }
 
-    public boolean isFollowedBy(Member member) {
-        return followers.contains(member);
+    public boolean isFollowedBy(Creator creator, Member member) {
+        Follow follow = Follow.of(member, creator);
+        return followers.contains(follow);
     }
 }

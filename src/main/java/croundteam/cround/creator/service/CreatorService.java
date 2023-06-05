@@ -64,9 +64,9 @@ public class CreatorService {
         Creator creator = findCreatorWithJoinById(creatorId);
 
         List<CreatorTag> creatorTags = creatorTagRepository.findCreatorTagById(creatorId);
-        CreatorTags tags = CreatorTags.create(creatorTags);
+        creator.addTags(creatorTags);
 
-        return new FindCreatorResponse(creator, member, tags);
+        return new FindCreatorResponse(creator, member);
     }
 
     private Member getLoginMember(AppUser appUser) {

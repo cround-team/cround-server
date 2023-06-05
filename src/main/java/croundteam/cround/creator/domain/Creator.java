@@ -5,6 +5,7 @@ import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.platform.ActivityPlatforms;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.platform.PlatformType;
+import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.creator.domain.tag.CreatorTags;
 import croundteam.cround.creator.domain.tag.Tags;
 import croundteam.cround.member.domain.Member;
@@ -48,10 +49,10 @@ public class Creator extends BaseTime {
     private CreatorTags creatorTags;
 
     @Embedded
-    private Followers followers;
+    private ActivityPlatforms activityPlatforms;
 
     @Embedded
-    private ActivityPlatforms activityPlatforms;
+    private Followers followers;
 
     @Embedded
     private Boards boards;
@@ -94,6 +95,10 @@ public class Creator extends BaseTime {
         boards.add(board);
     }
 
+    public void addTags(List<CreatorTag> creatorTags) {
+        this.creatorTags = CreatorTags.create(creatorTags);
+    }
+
     public void addShorts(Shorts shorts) {
         shortClass.add(shorts);
     }
@@ -114,7 +119,7 @@ public class Creator extends BaseTime {
         if(Objects.isNull(member)) {
             return false;
         }
-        return followers.isFollowedBy(member);
+        return followers.isFollowedBy(this, member);
     }
 
     public String getActivityName() {
@@ -147,5 +152,9 @@ public class Creator extends BaseTime {
 
     public String getPlatformUrl() {
         return platform.getPlatformUrl();
+    }
+
+    public List<String> getTags() {
+        return creatorTags.castTagsFromCreatorTags();
     }
 }

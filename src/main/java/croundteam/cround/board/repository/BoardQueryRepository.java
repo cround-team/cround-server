@@ -72,7 +72,7 @@ public class BoardQueryRepository {
     }
 
     private BooleanBuilder filterByPlatform(List<String> platforms) {
-        if (Objects.isNull(platforms)) {
+        if (platforms.isEmpty()) {
             return null;
         }
         BooleanBuilder booleanBuilder = new BooleanBuilder();

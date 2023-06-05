@@ -52,6 +52,7 @@ public class ShortsService {
         Member member = getLoginMember(appUser);
 
         Slice<Shorts> shorts = shortsQueryRepository.searchByCondition(searchCondition, pageable);
+        System.out.println("=====================");
         return new SearchShortsResponses(shorts, member);
     }
 

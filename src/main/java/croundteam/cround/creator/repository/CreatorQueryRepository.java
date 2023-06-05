@@ -80,7 +80,6 @@ public class CreatorQueryRepository {
         if(!StringUtils.hasText(keyword)) {
             return null;
         }
-
         return new BooleanBuilder()
                 .or(containActivityName(keyword))
                 .or(containTags(keyword));
@@ -93,7 +92,7 @@ public class CreatorQueryRepository {
                 .where(tag.tagName.name.contains(keyword))
                 .fetch();
 
-        if(Objects.isNull(tagIds) || tagIds.size() < 1) {
+        if(Objects.isNull(tagIds) || tagIds.isEmpty()) {
             return null;
         }
         return creator.creatorTags.creatorTags.any().id.in(tagIds);

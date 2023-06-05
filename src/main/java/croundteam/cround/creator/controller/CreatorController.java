@@ -43,6 +43,7 @@ public class CreatorController {
 
     @GetMapping("/{creatorId}")
     public ResponseEntity<FindCreatorResponse> findOne(@PathVariable Long creatorId, @Authenticated AppUser appUser) {
+        System.out.println("=========================");
         return ResponseEntity.ok(creatorService.findOne(appUser, creatorId));
     }
 }
