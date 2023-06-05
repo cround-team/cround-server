@@ -2,9 +2,11 @@ package croundteam.cround.member.domain;
 
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.member.domain.follow.Followings;
-import croundteam.cround.member.domain.interest.InterestPlatforms;
-import lombok.*;
+import croundteam.cround.follow.domain.Followings;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -27,14 +29,14 @@ public class Member extends BaseTime {
     @Column(length = 20)
     private String username;
 
-    @Column(length = 20)
-    private String nickname;
+    @Embedded
+    private Nickname nickname;
 
     @Column(length = 128)
     private String password;
 
     @Embedded
-    private InterestPlatforms interest;
+    private InterestPlatforms interestPlatforms;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -46,14 +48,13 @@ public class Member extends BaseTime {
     private Followings followings;
 
     @Builder
-    public Member(Long id, String email, String username, String nickname, String password, InterestPlatforms interest,
-                  AuthProvider authProvider) {
-        this.id = id;
+    public Member(String email, String username, Nickname nickname, String password,
+                  InterestPlatforms interestPlatforms, AuthProvider authProvider) {
         this.email = email;
         this.username = username;
         this.nickname = nickname;
         this.password = password;
-        this.interest = interest;
+        this.interestPlatforms = interestPlatforms;
         this.role = Role.USER;
         this.authProvider = authProvider;
     }
@@ -71,7 +72,7 @@ public class Member extends BaseTime {
         followings.unfollow(this, target);
     }
 
-    public String getRoleName() {
-        return role.getName();
+    public String getNickname() {
+        return nickname.getName();
     }
 }

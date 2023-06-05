@@ -1,8 +1,6 @@
 package croundteam.cround.member.domain;
 
-import croundteam.cround.creator.domain.platform.PlatformType;
-import croundteam.cround.member.domain.interest.InterestPlatforms;
-import croundteam.cround.member.repository.MemberRepository;
+import croundteam.cround.member.infrastructure.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,7 +17,7 @@ class MemberTest {
 
     @Test
     void member_save() {
-        List<PlatformType> platformTypes = Arrays.asList(PlatformType.create("YOUTUBE"), PlatformType.create("TIKTOK"));
+        List<PlatformTypeTemp> platformTypes = Arrays.asList(PlatformTypeTemp.create("YOUTUBE"), PlatformTypeTemp.create("TIKTOK"));
         InterestPlatforms interest = InterestPlatforms.create(platformTypes);
         InterestPlatforms emptyInterest = InterestPlatforms.create(Collections.emptyList());
 
