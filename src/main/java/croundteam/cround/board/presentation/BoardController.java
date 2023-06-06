@@ -28,10 +28,10 @@ public class BoardController {
 
     @PostMapping
     public ResponseEntity<Void> saveBoard(
-            @Login LoginMember member,
+            @Login LoginMember loginMember,
             @RequestBody @Valid BoardSaveRequest boardSaveRequest
     ) {
-        Long boardId = boardService.saveBoard(member, boardSaveRequest);
+        Long boardId = boardService.saveBoard(loginMember, boardSaveRequest);
         return ResponseEntity.created(URI.create("/api/boards/" + boardId)).build();
     }
 

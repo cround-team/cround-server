@@ -15,9 +15,4 @@ public final class ValidationMessages {
     public static final String MEMBER_PASSWORD_FORMAT = "^(?=.*[a-zA-Z])(?=.*\\d)(?=.*[@#$%^&+=])(?!.*\\s).{8,20}$";
     public static final String MEMBER_NICKNAME_FORMAT = "^[a-zA-Z가-힣0-9]{2,6}$";
 
-    public static final String CREATOR_ACTIVITY_NAME_MESSAGE = "닉네임은 2~6글자로 영어, 한글, 숫자만 가능합니다.";
-
-    public static final String CREATOR_ACTIVITY_NAME_FORMAT = "^[a-zA-Z가-힣0-9]{2,6}$";
-
-
 }

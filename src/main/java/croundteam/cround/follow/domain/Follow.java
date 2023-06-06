@@ -31,12 +31,8 @@ public class Follow {
     @JoinColumn(name = "target_id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Creator target;
 
-    private Follow(Member source, Creator target) {
+    public Follow(Member source, Creator target) {
         this.source = source;
         this.target = target;
-    }
-
-    public static Follow of(Member source, Creator target) {
-        return new Follow(source, target);
     }
 }

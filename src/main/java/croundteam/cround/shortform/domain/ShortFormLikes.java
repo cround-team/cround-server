@@ -4,7 +4,6 @@ import croundteam.cround.board.exception.InvalidLikeException;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.like.domain.ShortFormLike;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.shortform.domain.ShortForm;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,13 +24,13 @@ public class ShortFormLikes {
     private List<ShortFormLike> shortFormLikes = new ArrayList<>();
 
     public void addLike(ShortForm shortForm, Member member) {
-        ShortFormLike like = ShortFormLike.of(shortForm, member);
+        ShortFormLike like = new ShortFormLike(shortForm, member);
         validateLike(like);
         shortFormLikes.add(like);
     }
 
     public void removeLike(ShortForm shortForm, Member member) {
-        ShortFormLike like = ShortFormLike.of(shortForm, member);
+        ShortFormLike like = new ShortFormLike(shortForm, member);
         shortFormLikes.remove(like);
     }
 
@@ -42,7 +41,7 @@ public class ShortFormLikes {
     }
 
     public boolean isLikedBy(ShortForm shorts, Member member) {
-        ShortFormLike shortsLike = ShortFormLike.of(shorts, member);
+        ShortFormLike shortsLike = new ShortFormLike(shorts, member);
         return shortFormLikes.contains(shortsLike);
     }
 

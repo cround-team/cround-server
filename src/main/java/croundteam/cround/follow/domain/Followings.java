@@ -22,14 +22,14 @@ public class Followings {
     private List<Follow> followings = new ArrayList<>();
 
     public void follow(Member member, Creator target) {
-        Follow follow = Follow.of(member, target);
+        Follow follow = new Follow(member, target);
         validateFollow(follow);
         followings.add(follow);
         target.addFollow(follow);
     }
 
     public void unfollow(Member member, Creator target) {
-        Follow follow = Follow.of(member, target);
+        Follow follow = new Follow(member, target);
         followings.remove(follow);
         target.removeFollow(follow);
     }

@@ -8,7 +8,6 @@ import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.infrastructure.MemberRepository;
 import croundteam.cround.follow.application.dto.FollowRequest;
-import croundteam.cround.follow.application.dto.FollowResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,24 +23,19 @@ public class FollowService {
     private final CreatorRepository creatorRepository;
 
     @Transactional
-    public FollowResponse followCreator(FollowRequest followRequest) {
+    public void followCreator(FollowRequest followRequest) {
         Member source = findMemberById(followRequest.getSourceId());
         Creator target = findCreatorById(followRequest.getTargetId());
 
         source.follow(target);
-
-        return new FollowResponse(source.getId(), target.getMemberId());
-
     }
 
     @Transactional
-    public FollowResponse unfollowCreator(FollowRequest followRequest) {
+    public void unfollowCreator(FollowRequest followRequest) {
         Member source = findMemberById(followRequest.getSourceId());
         Creator target = findCreatorById(followRequest.getTargetId());
 
         source.unfollow(target);
-
-        return new FollowResponse(source.getId(), target.getMemberId());
     }
 
     private Creator findCreatorById(Long targetId) {

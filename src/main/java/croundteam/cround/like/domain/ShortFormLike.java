@@ -29,12 +29,8 @@ public class ShortFormLike {
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_short_form_like_to_member"))
     private Member member;
 
-    private ShortFormLike(ShortForm shortForm, Member member) {
+    public ShortFormLike(ShortForm shortForm, Member member) {
         this.shortForm = shortForm;
         this.member = member;
-    }
-
-    public static ShortFormLike of(ShortForm shortForm, Member member) {
-        return new ShortFormLike(shortForm, member);
     }
 }

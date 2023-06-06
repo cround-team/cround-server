@@ -28,17 +28,16 @@ public class ShortFormController {
 
     @PostMapping
     public ResponseEntity<Void> saveShortForm(
-            @Login LoginMember member,
+            @Login LoginMember loginMember,
             @RequestBody @Valid ShortFormSaveRequest shortFormSaveRequest) {
-        Long shortFormId = shortFormService.saveShortForm(member, shortFormSaveRequest);
+        Long shortFormId = shortFormService.saveShortForm(loginMember, shortFormSaveRequest);
 
         return ResponseEntity.created(URI.create("/api/shorts/" + shortFormId)).build();
     }
 
     @GetMapping
     public ResponseEntity<SearchShortFormResponses> searchShortForms(
-            SearchCondition searchCondition,
-            Pageable pageable,
+            SearchCondition searchCondition, Pageable pageable,
             @Authenticated AppUser appUser
     ) {
         SearchShortFormResponses searchShortFormResponses = shortFormService.searchShortForm(searchCondition, pageable, appUser);

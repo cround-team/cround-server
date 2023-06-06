@@ -22,11 +22,11 @@ public class BoardLike {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "board_id", foreignKey = @ForeignKey(name = "fk_boardlike_to_board"))
+    @JoinColumn(name = "board_id", foreignKey = @ForeignKey(name = "fk_board_like_to_board"))
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_boardlike_to_member"))
+    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_board_like_to_member"))
     private Member member;
 
     public BoardLike(Board board, Member member) {

@@ -11,7 +11,4 @@ public final class ConstantFixtures {
     public static final int CREATOR_TAG_MAX_LENGTH = 20;
     public static final int CREATOR_TAGS_MIN_SIZE = 1;
     public static final int CREATOR_PLATFORM_THEME_LENGTH_MAX_SIZE = 10;
-
-    public static final int DEFAULT_PAGE_SIZE = 12;
-
 }

@@ -53,7 +53,6 @@ public class BoardService {
         return new SearchBoardsResponses(boards, member);
     }
 
-
     public FindBoardResponse findOne(Long boardId) {
         Board board = findBoardWithJoinById(boardId);
         return FindBoardResponse.from(board);

@@ -24,7 +24,7 @@ public class AuthController {
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid final MemberLoginRequest memberLoginRequest) {
         TokenResponse tokenResponse = authService.login(memberLoginRequest);
-        ResponseCookie responseCookie = CookieUtils.create(tokenResponse.excludeBearerInRefreshToken());
+        ResponseCookie responseCookie = createResponseCookie(tokenResponse);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
@@ -36,10 +36,14 @@ public class AuthController {
             @PathVariable final String provider,
             @RequestParam final String code) {
         TokenResponse tokenResponse = authService.loginByOAuth(provider, code);
-        ResponseCookie responseCookie = CookieUtils.create(tokenResponse.excludeBearerInRefreshToken());
+        ResponseCookie responseCookie = createResponseCookie(tokenResponse);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
                 .body(LoginResponse.create(tokenResponse.getAccessToken()));
+    }
+
+    private static ResponseCookie createResponseCookie(TokenResponse tokenResponse) {
+        return CookieUtils.create(tokenResponse.excludeBearerInRefreshToken());
     }
 }
