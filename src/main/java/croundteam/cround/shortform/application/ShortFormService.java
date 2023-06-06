@@ -37,7 +37,6 @@ public class ShortFormService {
     @Transactional
     public Long saveShortForm(LoginMember loginMember, ShortFormSaveRequest shortFormSaveRequest) {
         Creator creator = findCreatorByEmail(loginMember.getEmail());
-
         ShortForm shortForm = shortFormSaveRequest.toEntity();
         shortForm.addCreator(creator);
 
