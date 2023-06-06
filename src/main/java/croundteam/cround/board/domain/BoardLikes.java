@@ -1,6 +1,5 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.InvalidLikeException;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.like.domain.BoardLike;
@@ -9,7 +8,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Embeddable;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +29,15 @@ public class BoardLikes {
         boardLikes.add(like);
     }
 
+    public void unlike(Board board, Member member) {
+        BoardLike like = new BoardLike(board, member);
+        boardLikes.remove(like);
+    }
+
     private void validateLike(BoardLike like) {
         if(boardLikes.contains(like)) {
             throw new InvalidLikeException(ErrorCode.DUPLICATE_LIKE);
         }
-    }
-
-    public void unlike(Board board, Member member) {
-        BoardLike like = new BoardLike(board, member);
-        boardLikes.remove(like);
     }
 
     public int getLikeCount() {

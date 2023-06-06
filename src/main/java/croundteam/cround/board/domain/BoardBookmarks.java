@@ -1,7 +1,8 @@
-package croundteam.cround.bookmark.domain;
+package croundteam.cround.board.domain;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.InvalidBookmarkException;
+import croundteam.cround.bookmark.domain.BoardBookmark;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;

@@ -54,7 +54,7 @@ public class CreatorService {
     }
 
     public SearchCreatorResponses searchCreatorsByCondition(SearchCondition searchCondition, Pageable pageable) {
-        Slice<Creator> creators = creatorQueryRepository.searchByKeywordAndPlatforms(searchCondition, pageable);
+        Slice<Creator> creators = creatorQueryRepository.searchByCondition(searchCondition, pageable);
         return new SearchCreatorResponses(creators);
     }
 

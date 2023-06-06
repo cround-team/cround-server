@@ -32,7 +32,7 @@ public class CreatorQueryRepository {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public Slice<Creator> searchByKeywordAndPlatforms(SearchCondition searchCondition, Pageable pageable) {
+    public Slice<Creator> searchByCondition(SearchCondition searchCondition, Pageable pageable) {
         JPAQuery<Creator> query = jpaQueryFactory
                 .selectFrom(creator)
                 .where(

@@ -29,12 +29,8 @@ public class ShortFormBookmark {
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_short_form_bookmark_to_member"))
     private Member member;
 
-    private ShortFormBookmark(ShortForm shortForm, Member member) {
+    public ShortFormBookmark(ShortForm shortForm, Member member) {
         this.shortForm = shortForm;
         this.member = member;
-    }
-
-    public static ShortFormBookmark of(ShortForm shortForm, Member member) {
-        return new ShortFormBookmark(shortForm, member);
     }
 }

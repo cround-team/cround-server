@@ -10,12 +10,12 @@ import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.infrastructure.MemberRepository;
 import croundteam.cround.security.support.AppUser;
 import croundteam.cround.security.support.LoginMember;
-import croundteam.cround.shortform.domain.ShortForm;
-import croundteam.cround.shortform.infrastructure.ShortFormQueryRepository;
-import croundteam.cround.shortform.infrastructure.ShortFormRepository;
 import croundteam.cround.shortform.application.dto.FindShortFormResponse;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
 import croundteam.cround.shortform.application.dto.ShortFormSaveRequest;
+import croundteam.cround.shortform.domain.ShortForm;
+import croundteam.cround.shortform.infrastructure.ShortFormQueryRepository;
+import croundteam.cround.shortform.infrastructure.ShortFormRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -35,10 +35,11 @@ public class ShortFormService {
     private final MemberRepository memberRepository;
 
     @Transactional
-    public Long saveShortForm(LoginMember member, ShortFormSaveRequest shortFormSaveRequest) {
-        Creator creator = findCreatorByEmail(member.getEmail());
-        ShortForm shortForm = ShortForm.of(creator, shortFormSaveRequest);
-        creator.addShorts(shortForm);
+    public Long saveShortForm(LoginMember loginMember, ShortFormSaveRequest shortFormSaveRequest) {
+        Creator creator = findCreatorByEmail(loginMember.getEmail());
+
+        ShortForm shortForm = shortFormSaveRequest.toEntity();
+        shortForm.addCreator(creator);
 
         ShortForm saveShortForm = shortFormRepository.save(shortForm);
 
@@ -47,8 +48,8 @@ public class ShortFormService {
 
     public SearchShortFormResponses searchShortForm(SearchCondition searchCondition, Pageable pageable, AppUser appUser) {
         Member member = getLoginMember(appUser);
-
         Slice<ShortForm> shortForms = shortFormQueryRepository.searchByCondition(searchCondition, pageable);
+
         return new SearchShortFormResponses(shortForms, member);
     }
 

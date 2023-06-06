@@ -2,12 +2,10 @@ package croundteam.cround.shortform.domain;
 
 import croundteam.cround.board.domain.Content;
 import croundteam.cround.board.domain.Title;
-import croundteam.cround.bookmark.domain.ShortFormBookmarks;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.shortform.application.dto.ShortFormSaveRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,15 +61,8 @@ public class ShortForm extends BaseTime {
         this.creator = creator;
     }
 
-    public static ShortForm of(Creator creator, ShortFormSaveRequest shortsSaveRequest) {
-        return ShortForm.builder()
-                .title(Title.create(shortsSaveRequest.getTitle()))
-                .content(Content.create(shortsSaveRequest.getContent()))
-                .platformType(PlatformType.create(shortsSaveRequest.getPlatformType()))
-                .thumbnailUrl(ThumbnailUrl.create(shortsSaveRequest.getThumbnailUrl()))
-                .shortFormUrl(ShortFormUrl.create(shortsSaveRequest.getShortFormUrl()))
-                .creator(creator)
-                .build();
+    public void addCreator(Creator creator) {
+        this.creator = creator;
     }
 
     public void bookmark(Member member) {
@@ -88,6 +79,20 @@ public class ShortForm extends BaseTime {
 
     public void unlike(Member member) {
         shortFormLikes.removeLike(this, member);
+    }
+
+    public boolean isLikedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return shortFormLikes.isLikedBy(this, member);
+    }
+
+    public boolean isBookmarkedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return shortsBookmarks.isBookmarkedBy(this, member);
     }
 
     public int getBookmarkCount() {
@@ -116,20 +121,6 @@ public class ShortForm extends BaseTime {
 
     public String getCreatorNickname() {
         return creator.getNickname();
-    }
-
-    public boolean isLikedBy(Member member) {
-        if(Objects.isNull(member)) {
-            return false;
-        }
-        return shortFormLikes.isLikedBy(this, member);
-    }
-
-    public boolean isBookmarkedBy(Member member) {
-        if(Objects.isNull(member)) {
-            return false;
-        }
-        return shortsBookmarks.isBookmarkedBy(this, member);
     }
 
     public String getProfileImage() {

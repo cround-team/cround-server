@@ -1,9 +1,9 @@
-package croundteam.cround.bookmark.domain;
+package croundteam.cround.shortform.domain;
 
 import croundteam.cround.board.exception.InvalidBookmarkException;
+import croundteam.cround.bookmark.domain.ShortFormBookmark;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.shortform.domain.ShortForm;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,14 +23,14 @@ public class ShortFormBookmarks {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shortForm", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<ShortFormBookmark> shortsBookmarks = new ArrayList<>();
 
-    public void addBookmark(ShortForm shorts, Member member) {
-        ShortFormBookmark bookmark = ShortFormBookmark.of(shorts, member);
+    public void addBookmark(ShortForm shortForm, Member member) {
+        ShortFormBookmark bookmark = new ShortFormBookmark(shortForm, member);
         validateBookmark(bookmark);
         shortsBookmarks.add(bookmark);
     }
 
     public void removeBookmark(ShortForm shortForm, Member member) {
-        ShortFormBookmark bookmark = ShortFormBookmark.of(shortForm, member);
+        ShortFormBookmark bookmark = new ShortFormBookmark(shortForm, member);
         shortsBookmarks.remove(bookmark);
     }
 
@@ -40,12 +40,12 @@ public class ShortFormBookmarks {
         }
     }
 
-    public int getBookmarkCount() {
-        return shortsBookmarks.size();
+    public boolean isBookmarkedBy(ShortForm shortForm, Member member) {
+        ShortFormBookmark bookmark = new ShortFormBookmark(shortForm, member);
+        return shortsBookmarks.contains(bookmark);
     }
 
-    public boolean isBookmarkedBy(ShortForm shortForm, Member member) {
-        ShortFormBookmark bookmark = ShortFormBookmark.of(shortForm, member);
-        return shortsBookmarks.contains(bookmark);
+    public int getBookmarkCount() {
+        return shortsBookmarks.size();
     }
 }

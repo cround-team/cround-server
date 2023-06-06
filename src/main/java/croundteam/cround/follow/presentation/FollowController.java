@@ -2,7 +2,6 @@ package croundteam.cround.follow.presentation;
 
 import croundteam.cround.follow.application.FollowService;
 import croundteam.cround.follow.application.dto.FollowRequest;
-import croundteam.cround.follow.application.dto.FollowResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,14 +16,14 @@ public class FollowController {
     }
 
     @PostMapping("/following")
-    public ResponseEntity<FollowResponse> followCreator(@RequestBody FollowRequest followRequest) {
-        FollowResponse followResponse = followService.followCreator(followRequest);
-        return ResponseEntity.ok(followResponse);
+    public ResponseEntity<Void> followCreator(@RequestBody FollowRequest followRequest) {
+        followService.followCreator(followRequest);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/following")
-    public ResponseEntity<FollowResponse> unfollowCreator(@RequestBody FollowRequest followRequest) {
-        FollowResponse followResponse = followService.unfollowCreator(followRequest);
-        return ResponseEntity.ok(followResponse);
+    public ResponseEntity<Void> unfollowCreator(@RequestBody FollowRequest followRequest) {
+        followService.unfollowCreator(followRequest);
+        return ResponseEntity.ok().build();
     }
 }

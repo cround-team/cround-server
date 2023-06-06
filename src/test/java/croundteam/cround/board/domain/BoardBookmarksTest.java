@@ -1,7 +1,6 @@
 package croundteam.cround.board.domain;
 
 import croundteam.cround.board.exception.InvalidBookmarkException;
-import croundteam.cround.bookmark.domain.BoardBookmarks;
 import croundteam.cround.member.domain.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

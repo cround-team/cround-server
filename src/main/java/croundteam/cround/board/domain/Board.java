@@ -1,7 +1,6 @@
 package croundteam.cround.board.domain;
 
 import croundteam.cround.board.application.dto.BoardSaveRequest;
-import croundteam.cround.bookmark.domain.BoardBookmarks;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
