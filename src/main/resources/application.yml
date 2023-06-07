@@ -5,4 +5,5 @@ spring:
     group:
       prod:
         - flyway
+        - rds
     include: security-common, oauth, aws
