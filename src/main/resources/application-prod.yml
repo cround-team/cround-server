@@ -1,4 +1,10 @@
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://cround-rds-instance.criwaghj07ww.ap-northeast-2.rds.amazonaws.com:3306/cround_database?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
+    password: croundmaster
+
   jpa:
     hibernate:
       ddl-auto: create

@@ -4,6 +4,5 @@ spring:
       - local
     group:
       prod:
-        - aws
         - flyway
-    include: security-common, oauth
+    include: security-common, oauth, aws
