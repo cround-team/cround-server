@@ -33,6 +33,7 @@ public enum ErrorCode {
     INVALID_PLATFORM_TYPE(HttpStatus.BAD_REQUEST, "존재하지 않는 플랫폼 유형입니다."),
     INVALID_URI_FORMAT(HttpStatus.BAD_REQUEST, "유효하지 않은 URL 입니다."),
     INVALID_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 Provider입니다."),
+    INVALID_IMAGE_EXTENSION(HttpStatus.BAD_REQUEST, "유효하지 않은 확장자입니다."),
     DUPLICATE_FOLLOW(HttpStatus.BAD_REQUEST, "이미 팔로우한 대상입니다."),
 
     /**

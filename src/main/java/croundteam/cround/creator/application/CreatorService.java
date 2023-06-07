@@ -11,6 +11,7 @@ import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.infrastructure.CreatorQueryRepository;
 import croundteam.cround.creator.infrastructure.CreatorRepository;
 import croundteam.cround.creator.infrastructure.CreatorTagRepository;
+import croundteam.cround.infra.S3Uploader;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.DuplicateNicknameException;
 import croundteam.cround.member.exception.NotExistMemberException;
@@ -24,8 +25,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_IMAGE_PATH_PREFIX;
 
 @Service
 @Slf4j
@@ -37,16 +41,20 @@ public class CreatorService {
     private final CreatorRepository creatorRepository;
     private final CreatorQueryRepository creatorQueryRepository;
     private final CreatorTagRepository creatorTagRepository;
+    private final S3Uploader s3Uploader;
 
     @Transactional
-    public Long createCreator(LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
+    public Long createCreator(MultipartFile file, LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
         validateDuplicateNickname(creatorSaveRequest.getNickname());
 
         Member member = findMemberByEmail(loginMember.getEmail());
         validateSameSource(loginMember, member);
 
+        String profileImage = s3Uploader.uploadImage(file, CREATOR_IMAGE_PATH_PREFIX);
+
         Creator creator = creatorSaveRequest.toEntity();
         creator.addMember(member);
+        creator.addProfileImage(profileImage);
 
         Creator saveCreator = creatorRepository.save(creator);
 
