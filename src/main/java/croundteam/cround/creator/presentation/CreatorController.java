@@ -13,8 +13,10 @@ import croundteam.cround.security.support.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -27,12 +29,13 @@ public class CreatorController {
 
     private final CreatorService creatorService;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> createCreator(
-            @Login LoginMember loginMember,
-            @RequestBody CreatorSaveRequest creatorSaveRequest
+            @RequestPart(value = "profileImage") MultipartFile file,
+            @RequestPart CreatorSaveRequest creatorSaveRequest,
+            @Login LoginMember loginMember
     ) {
-        Long creatorId = creatorService.createCreator(loginMember, creatorSaveRequest);
+        Long creatorId = creatorService.createCreator(file, loginMember, creatorSaveRequest);
         return ResponseEntity.created(URI.create("/api/creators/" + creatorId)).build();
     }
 

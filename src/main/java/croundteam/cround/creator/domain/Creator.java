@@ -89,6 +89,10 @@ public class Creator extends BaseTime {
         this.creatorTags = CreatorTags.create(creatorTags);
     }
 
+    public void addProfileImage(String profileImage) {
+        this.profileImage = ProfileImage.create(profileImage);
+    }
+
     public void addShorts(ShortForm shorts) {
         shortClass.add(shorts);
     }
