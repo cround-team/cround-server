@@ -25,4 +25,7 @@ public class Content {
         return new Content(value);
     }
 
+    public String getContent() {
+        return value;
+    }
 }

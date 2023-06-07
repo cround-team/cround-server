@@ -1,6 +1,6 @@
 package croundteam.cround.board.domain;
 
-import croundteam.cround.board.service.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.BoardSaveRequest;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -23,18 +24,18 @@ public class Board extends BaseTime {
     @Column(name = "board_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
-    private Creator creator;
-
-    @Embedded
-    private PlatformType platformType;
-
     @Embedded
     private Title title;
 
     @Embedded
     private Content content;
+
+    @Enumerated(EnumType.STRING)
+    private PlatformType platformType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creator_id")
+    private Creator creator;
 
     @Embedded
     private BoardLikes boardLikes;
@@ -43,7 +44,7 @@ public class Board extends BaseTime {
     private BoardBookmarks boardBookmarks;
 
     @Builder
-    public Board(PlatformType platformType, Title title, Content content, Creator creator) {
+    public Board(Title title, Content content, PlatformType platformType, Creator creator) {
         this.platformType = platformType;
         this.title = title;
         this.content = content;
@@ -84,7 +85,7 @@ public class Board extends BaseTime {
     }
 
     public String getPlatformType() {
-        return platformType.getPlatformName();
+        return platformType.getPlatformType();
     }
 
     public String getTitle() {
@@ -92,10 +93,28 @@ public class Board extends BaseTime {
     }
 
     public String getContent() {
-        return content.getValue();
+        return content.getContent();
     }
 
-    public String getAuthor() {
-        return creator.getActivityName();
+    public String getProfileImage() {
+        return creator.getProfileImage();
+    }
+
+    public String getCreatorNickname() {
+        return creator.getNickname();
+    }
+
+    public boolean isLikedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return boardLikes.isLikedBy(this, member);
+    }
+
+    public boolean isBookmarkedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return boardBookmarks.isBookmarkedBy(this, member);
     }
 }

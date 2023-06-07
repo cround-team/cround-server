@@ -1,6 +1,8 @@
 package croundteam.cround.board.domain;
 
+import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.InvalidBookmarkException;
+import croundteam.cround.bookmark.domain.BoardBookmark;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
 import lombok.AccessLevel;
@@ -41,5 +43,10 @@ public class BoardBookmarks {
 
     public int getBookmarkCount() {
         return boardBookmarks.size();
+    }
+
+    public boolean isBookmarkedBy(Board board, Member member) {
+        BoardBookmark bookmark = new BoardBookmark(board, member);
+        return boardBookmarks.contains(bookmark);
     }
 }

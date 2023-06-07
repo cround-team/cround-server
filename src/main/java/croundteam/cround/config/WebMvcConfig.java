@@ -1,7 +1,8 @@
 package croundteam.cround.config;
 
-import croundteam.cround.security.token.support.TokenProvider;
-import croundteam.cround.security.token.AuthenticationHandlerMethodArgumentResolver;
+import croundteam.cround.security.support.AuthenticatedArgumentResolver;
+import croundteam.cround.security.token.TokenProvider;
+import croundteam.cround.security.support.LoginMemberArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,11 +30,17 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(authenticationHandlerMethodArgumentResolver());
+        resolvers.add(loginMemberArgumentResolver());
+        resolvers.add(authenticatedArgumentResolver());
     }
 
     @Bean
-    public AuthenticationHandlerMethodArgumentResolver authenticationHandlerMethodArgumentResolver() {
-        return new AuthenticationHandlerMethodArgumentResolver(tokenProvider);
+    public LoginMemberArgumentResolver loginMemberArgumentResolver() {
+        return new LoginMemberArgumentResolver(tokenProvider);
+    }
+
+    @Bean
+    public AuthenticatedArgumentResolver authenticatedArgumentResolver() {
+        return new AuthenticatedArgumentResolver(tokenProvider);
     }
 }
