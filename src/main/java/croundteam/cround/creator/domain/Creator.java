@@ -1,15 +1,13 @@
 package croundteam.cround.creator.domain;
 
-import croundteam.cround.board.domain.Board;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.platform.PlatformType;
-import croundteam.cround.tag.domain.CreatorTag;
 import croundteam.cround.follow.domain.Follow;
 import croundteam.cround.follow.domain.Followers;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.Nickname;
-import croundteam.cround.shortform.domain.ShortForm;
+import croundteam.cround.tag.domain.CreatorTag;
 import croundteam.cround.tag.domain.Tags;
 import lombok.*;
 
@@ -55,12 +53,6 @@ public class Creator extends BaseTime {
     @Embedded
     private Followers followers;
 
-    @Embedded
-    private Boards boards;
-
-    @Embedded
-    private ShortForms shortClass;
-
     @Builder
     private Creator(Nickname nickname, Description description, Platform platform, ProfileImage profileImage,
                     Member member, Tags tags, ActivityPlatforms activityPlatforms) {
@@ -81,20 +73,12 @@ public class Creator extends BaseTime {
         this.member = member;
     }
 
-    public void addBoard(Board board) {
-        boards.add(board);
-    }
-
     public void addTags(List<CreatorTag> creatorTags) {
         this.creatorTags = CreatorTags.create(creatorTags);
     }
 
     public void addProfileImage(String profileImage) {
         this.profileImage = ProfileImage.create(profileImage);
-    }
-
-    public void addShorts(ShortForm shorts) {
-        shortClass.add(shorts);
     }
 
     public void addFollow(Follow follow) {
@@ -126,10 +110,6 @@ public class Creator extends BaseTime {
 
     public String getPlatformTheme() {
         return platform.getPlatformTheme();
-    }
-
-    public Long getMemberId() {
-        return member.getId();
     }
 
     public String getDescription() {

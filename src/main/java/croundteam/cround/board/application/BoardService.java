@@ -1,12 +1,12 @@
 package croundteam.cround.board.application;
 
+import croundteam.cround.board.application.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.FindBoardResponse;
+import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.NotExistBoardException;
 import croundteam.cround.board.infrastructure.BoardQueryRepository;
 import croundteam.cround.board.infrastructure.BoardRepository;
-import croundteam.cround.board.application.dto.BoardSaveRequest;
-import croundteam.cround.board.application.dto.FindBoardResponse;
-import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
@@ -39,7 +39,6 @@ public class BoardService {
     public Long saveBoard(LoginMember loginMember, BoardSaveRequest boardSaveRequest) {
         Creator creator = findCreatorByEmail(loginMember.getEmail());
         Board board = Board.of(creator, boardSaveRequest);
-        creator.addBoard(board);
 
         Board saveBoard = boardRepository.save(board);
 
