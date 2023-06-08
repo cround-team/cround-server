@@ -10,7 +10,9 @@ import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.review.application.dto.FindReviewResponses;
 import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import croundteam.cround.review.domain.Review;
+import croundteam.cround.review.domain.ReviewQueryRepository;
 import croundteam.cround.review.domain.ReviewRepository;
+import croundteam.cround.support.search.SimpleSearchCondition;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import java.util.List;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final ReviewQueryRepository reviewQueryRepository;
     private final CreatorRepository creatorRepository;
     private final MemberRepository memberRepository;
 
@@ -39,9 +42,9 @@ public class ReviewService {
         return saveReview.getId();
     }
 
-    public FindReviewResponses findReviews(Long creatorId) {
+    public FindReviewResponses findReviews(Long creatorId, SimpleSearchCondition searchCondition) {
         Creator creator = findCreatorById(creatorId);
-        List<Review> reviews = reviewRepository.findReviewsByCreatorId(creator.getId());
+        List<Review> reviews = reviewQueryRepository.findReviewsByCondition(creatorId, searchCondition);
 
         return new FindReviewResponses(reviews);
     }
@@ -51,7 +54,6 @@ public class ReviewService {
             throw new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER);
         });
     }
-
 
     private Creator findCreatorById(Long creatorId) {
         return creatorRepository.findById(creatorId).orElseThrow(() -> {
