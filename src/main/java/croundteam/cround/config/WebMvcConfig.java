@@ -1,8 +1,8 @@
 package croundteam.cround.config;
 
-import croundteam.cround.security.support.AuthenticatedArgumentResolver;
-import croundteam.cround.security.token.TokenProvider;
-import croundteam.cround.security.support.LoginMemberArgumentResolver;
+import croundteam.cround.support.annotation.AuthenticatedArgumentResolver;
+import croundteam.cround.support.TokenProvider;
+import croundteam.cround.support.annotation.LoginMemberArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,31 +1,35 @@
 package croundteam.cround.creator.application;
 
+import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.creator.application.dto.CreatorSaveRequest;
+import croundteam.cround.creator.application.dto.FindCreatorResponse;
+import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.creator.exception.IncorrectSourceException;
 import croundteam.cround.creator.exception.NotExistCreatorException;
-import croundteam.cround.creator.infrastructure.CreatorQueryRepository;
-import croundteam.cround.creator.infrastructure.CreatorRepository;
-import croundteam.cround.creator.infrastructure.CreatorTagRepository;
-import croundteam.cround.creator.application.dto.CreatorSaveRequest;
-import croundteam.cround.creator.application.dto.FindCreatorResponse;
-import croundteam.cround.common.dto.SearchCondition;
-import croundteam.cround.creator.application.dto.SearchCreatorResponses;
+import croundteam.cround.creator.domain.CreatorQueryRepository;
+import croundteam.cround.creator.domain.CreatorRepository;
+import croundteam.cround.creator.domain.CreatorTagRepository;
+import croundteam.cround.infra.S3Uploader;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.DuplicateNicknameException;
 import croundteam.cround.member.exception.NotExistMemberException;
-import croundteam.cround.member.infrastructure.MemberRepository;
-import croundteam.cround.security.support.LoginMember;
-import croundteam.cround.security.support.AppUser;
+import croundteam.cround.member.domain.MemberRepository;
+import croundteam.cround.support.vo.AppUser;
+import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_IMAGE_PATH_PREFIX;
 
 @Service
 @Slf4j
@@ -37,16 +41,20 @@ public class CreatorService {
     private final CreatorRepository creatorRepository;
     private final CreatorQueryRepository creatorQueryRepository;
     private final CreatorTagRepository creatorTagRepository;
+    private final S3Uploader s3Uploader;
 
     @Transactional
-    public Long createCreator(LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
+    public Long createCreator(MultipartFile file, LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
         validateDuplicateNickname(creatorSaveRequest.getNickname());
 
         Member member = findMemberByEmail(loginMember.getEmail());
         validateSameSource(loginMember, member);
 
+        String profileImage = s3Uploader.uploadImage(file, CREATOR_IMAGE_PATH_PREFIX);
+
         Creator creator = creatorSaveRequest.toEntity();
         creator.addMember(member);
+        creator.addProfileImage(profileImage);
 
         Creator saveCreator = creatorRepository.save(creator);
 

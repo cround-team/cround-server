@@ -1,7 +1,7 @@
 package croundteam.cround.security;
 
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.infrastructure.MemberRepository;
+import croundteam.cround.member.domain.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

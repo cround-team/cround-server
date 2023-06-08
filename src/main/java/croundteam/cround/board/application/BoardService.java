@@ -1,22 +1,22 @@
 package croundteam.cround.board.application;
 
+import croundteam.cround.board.application.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.FindBoardResponse;
+import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.NotExistBoardException;
 import croundteam.cround.board.domain.BoardQueryRepository;
 import croundteam.cround.board.domain.BoardRepository;
-import croundteam.cround.board.application.dto.BoardSaveRequest;
-import croundteam.cround.board.application.dto.FindBoardResponse;
-import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.NotExistCreatorException;
-import croundteam.cround.creator.infrastructure.CreatorRepository;
+import croundteam.cround.creator.domain.CreatorRepository;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
-import croundteam.cround.member.infrastructure.MemberRepository;
-import croundteam.cround.security.support.AppUser;
-import croundteam.cround.security.support.LoginMember;
+import croundteam.cround.member.domain.MemberRepository;
+import croundteam.cround.support.vo.AppUser;
+import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +39,6 @@ public class BoardService {
     public Long saveBoard(LoginMember loginMember, BoardSaveRequest boardSaveRequest) {
         Creator creator = findCreatorByEmail(loginMember.getEmail());
         Board board = Board.of(creator, boardSaveRequest);
-        creator.addBoard(board);
 
         Board saveBoard = boardRepository.save(board);
 

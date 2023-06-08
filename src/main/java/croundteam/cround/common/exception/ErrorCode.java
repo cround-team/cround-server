@@ -33,6 +33,7 @@ public enum ErrorCode {
     INVALID_PLATFORM_TYPE(HttpStatus.BAD_REQUEST, "존재하지 않는 플랫폼 유형입니다."),
     INVALID_URI_FORMAT(HttpStatus.BAD_REQUEST, "유효하지 않은 URL 입니다."),
     INVALID_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 Provider입니다."),
+    INVALID_IMAGE_EXTENSION(HttpStatus.BAD_REQUEST, "유효하지 않은 확장자입니다."),
     DUPLICATE_FOLLOW(HttpStatus.BAD_REQUEST, "이미 팔로우한 대상입니다."),
 
     /**
@@ -52,7 +53,12 @@ public enum ErrorCode {
     NOT_EXIST_BOARD(HttpStatus.NOT_FOUND, "존재하지 않는 콘텐츠입니다."),
     NOT_EXIST_CREATOR(HttpStatus.NOT_FOUND, "존재하지 않는 크리에이터입니다."),
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
-    NOT_EXIST_SHORT_FORM(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다.");
+    NOT_EXIST_SHORT_FORM(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다."),
+
+    /**
+     *
+     */
+    UPLOAD_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 S3에 저장 실패 하였습니다.");
 
     private final HttpStatus status;
     private final String message;

@@ -4,7 +4,6 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import croundteam.cround.board.domain.Board;
 import croundteam.cround.common.dto.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
@@ -18,7 +17,7 @@ import java.util.List;
 
 import static croundteam.cround.board.domain.QBoard.board;
 import static croundteam.cround.common.dto.SearchCondition.ContentSortCondition;
-import static croundteam.cround.common.infrastructure.RepositorySupport.convertToSliceFrom;
+import static croundteam.cround.support.RepositorySupport.convertToSliceFrom;
 
 @Repository
 public class BoardQueryRepository {

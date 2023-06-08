@@ -2,8 +2,8 @@ package croundteam.cround.bookmark.presentation;
 
 import croundteam.cround.bookmark.application.BookmarkService;
 import croundteam.cround.bookmark.application.dto.BookmarkResponse;
-import croundteam.cround.security.support.Login;
-import croundteam.cround.security.support.LoginMember;
+import croundteam.cround.support.annotation.Login;
+import croundteam.cround.support.vo.LoginMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

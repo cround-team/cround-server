@@ -1,18 +1,18 @@
 package croundteam.cround.member.application;
 
-import croundteam.cround.common.dto.TokenResponse;
+import croundteam.cround.member.application.dto.TokenResponse;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.exception.PasswordMisMatchException;
-import croundteam.cround.member.infrastructure.MemberRepository;
+import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.application.dto.MemberLoginRequest;
-import croundteam.cround.security.BCryptEncoder;
-import croundteam.cround.security.oauth2.OAuthAttributes;
+import croundteam.cround.support.BCryptEncoder;
+import croundteam.cround.support.vo.OAuthAttributes;
 import croundteam.cround.security.token.OAuthTokenResponse;
 import croundteam.cround.security.token.RefreshToken;
 import croundteam.cround.security.token.RefreshTokenRepository;
-import croundteam.cround.security.token.TokenProvider;
+import croundteam.cround.support.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;

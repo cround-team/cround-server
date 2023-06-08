@@ -1,10 +1,10 @@
 package croundteam.cround.shortform.presentation;
 
 import croundteam.cround.common.dto.SearchCondition;
-import croundteam.cround.security.support.AppUser;
-import croundteam.cround.security.support.Authenticated;
-import croundteam.cround.security.support.Login;
-import croundteam.cround.security.support.LoginMember;
+import croundteam.cround.support.vo.AppUser;
+import croundteam.cround.support.annotation.Authenticated;
+import croundteam.cround.support.annotation.Login;
+import croundteam.cround.support.vo.LoginMember;
 import croundteam.cround.shortform.application.ShortFormService;
 import croundteam.cround.shortform.application.dto.FindShortFormResponse;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -28,9 +29,10 @@ public class ShortFormController {
 
     @PostMapping
     public ResponseEntity<Void> saveShortForm(
+            @RequestPart(value = "profileImage") MultipartFile file,
             @Login LoginMember loginMember,
-            @RequestBody @Valid ShortFormSaveRequest shortFormSaveRequest) {
-        Long shortFormId = shortFormService.saveShortForm(loginMember, shortFormSaveRequest);
+            @RequestPart @Valid ShortFormSaveRequest shortFormSaveRequest) {
+        Long shortFormId = shortFormService.saveShortForm(file, loginMember, shortFormSaveRequest);
 
         return ResponseEntity.created(URI.create("/api/shorts/" + shortFormId)).build();
     }
