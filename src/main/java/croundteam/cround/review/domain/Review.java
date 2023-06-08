@@ -1,7 +1,11 @@
 package croundteam.cround.review.domain;
 
+import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.review.exception.ExceedRatingRangeException;
+import croundteam.cround.review.exception.InvalidContentLengthException;
+import croundteam.cround.review.service.dto.ReviewSaveRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,9 +51,33 @@ public class Review {
 
     @Builder
     public Review(String content, int rating, Creator creator, Member member) {
+        validateRatingRange(rating);
+        validateContentSize(content);
+
         this.content = content;
         this.rating = rating;
         this.creator = creator;
         this.member = member;
+    }
+
+    public static Review create(ReviewSaveRequest reviewSaveRequest, Creator creator, Member member) {
+        return Review.builder()
+                .content(reviewSaveRequest.getContent())
+                .rating(reviewSaveRequest.getRating())
+                .creator(creator)
+                .member(member)
+                .build();
+    }
+
+    private void validateContentSize(String content) {
+        if (content.isBlank() || content.length() > MAXIMUM_CONTENT_LENGTH) {
+            throw new InvalidContentLengthException(ErrorCode.INVALID_CONTENT_LENGTH);
+        }
+    }
+
+    private void validateRatingRange(int rating) {
+        if (rating > MAXIMUM_RATING && rating < MINIMUM_RATING) {
+            throw new ExceedRatingRangeException(ErrorCode.EXCEED_RATING_RANGE);
+        }
     }
 }

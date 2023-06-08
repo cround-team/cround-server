@@ -24,6 +24,7 @@ public enum ErrorCode {
     EXCEED_TAGS_SIZE(HttpStatus.BAD_REQUEST, "태그는 최소 1개, 최대 7개까지 설정할 수 있습니다."),
     EXCEED_TAG_LENGTH(HttpStatus.BAD_REQUEST, "태그는 최대 20글자까지 입력할 수 있습니다."),
     EXCEED_THEME_LENGTH(HttpStatus.BAD_REQUEST, "대표 테마는 최대 10글자까지 입력 가능합니다."),
+    EXCEED_RATING_RANGE(HttpStatus.BAD_REQUEST, "별점은 1~5개만 가능합니다."),
 
     EMPTY_DESCRIPTION(HttpStatus.BAD_REQUEST, "소개는 공백일 수 없습니다."),
 
@@ -34,6 +35,7 @@ public enum ErrorCode {
     INVALID_URI_FORMAT(HttpStatus.BAD_REQUEST, "유효하지 않은 URL 입니다."),
     INVALID_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 Provider입니다."),
     INVALID_IMAGE_EXTENSION(HttpStatus.BAD_REQUEST, "유효하지 않은 확장자입니다."),
+    INVALID_CONTENT_LENGTH(HttpStatus.BAD_REQUEST, "후기는 최소 1글자 이상, 최대 1000글자까지 가능합니다."),
     DUPLICATE_FOLLOW(HttpStatus.BAD_REQUEST, "이미 팔로우한 대상입니다."),
 
     /**
@@ -56,7 +58,7 @@ public enum ErrorCode {
     NOT_EXIST_SHORT_FORM(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다."),
 
     /**
-     *
+     * 500 INTERNAL SERVER ERROR
      */
     UPLOAD_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 S3에 저장 실패 하였습니다.");
 
