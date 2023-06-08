@@ -28,4 +28,9 @@ public class ReviewController {
         Long reviewId = reviewService.saveReview(creatorId, loginMember, reviewSaveRequest);
         return ResponseEntity.created(URI.create("/api/creators/" + creatorId + "/reviews/" + reviewId)).build();
     }
+
+    @GetMapping("/{creatorId}/reviews")
+    public void findReviews(@PathVariable Long creatorId) {
+
+    }
 }

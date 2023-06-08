@@ -21,7 +21,7 @@ class PlatformNameTest {
             "PODCAST, 팟캐스트"
     })
     void platformName(PlatformType actual, String expect) {
-        assertThat(actual.getPlatformType()).isEqualTo(expect);
+        assertThat(actual.getType()).isEqualTo(expect);
     }
 
     @Test
@@ -33,8 +33,8 @@ class PlatformNameTest {
         PlatformType platformName1 = PlatformType.create(youtube1);
         PlatformType platformName2 = PlatformType.create(youtube2);
 
-        assertThat(platformName1.getPlatformType()).isEqualTo("유튜브");
-        assertThat(platformName2.getPlatformType()).isEqualTo("유튜브");
+        assertThat(platformName1.getType()).isEqualTo("유튜브");
+        assertThat(platformName2.getType()).isEqualTo("유튜브");
     }
 
     @Test
