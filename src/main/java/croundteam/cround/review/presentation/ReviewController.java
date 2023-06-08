@@ -1,6 +1,7 @@
 package croundteam.cround.review.presentation;
 
 import croundteam.cround.review.application.ReviewService;
+import croundteam.cround.review.application.dto.FindReviewResponses;
 import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import croundteam.cround.support.annotation.Login;
 import croundteam.cround.support.vo.LoginMember;
@@ -30,7 +31,8 @@ public class ReviewController {
     }
 
     @GetMapping("/{creatorId}/reviews")
-    public void findReviews(@PathVariable Long creatorId) {
-
+    public ResponseEntity<FindReviewResponses> findReviews(@PathVariable Long creatorId) {
+        FindReviewResponses findReviewResponses = reviewService.findReviews(creatorId);
+        return ResponseEntity.ok(findReviewResponses);
     }
 }

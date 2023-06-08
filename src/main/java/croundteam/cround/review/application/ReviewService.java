@@ -7,13 +7,16 @@ import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.NotExistMemberException;
+import croundteam.cround.review.application.dto.FindReviewResponses;
+import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import croundteam.cround.review.domain.Review;
 import croundteam.cround.review.domain.ReviewRepository;
-import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,6 +37,13 @@ public class ReviewService {
 
         Review saveReview = reviewRepository.save(review);
         return saveReview.getId();
+    }
+
+    public FindReviewResponses findReviews(Long creatorId) {
+        Creator creator = findCreatorById(creatorId);
+        List<Review> reviews = reviewRepository.findReviewsByCreatorId(creator.getId());
+
+        return new FindReviewResponses(reviews);
     }
 
     private Member findMemberByEmail(String email) {

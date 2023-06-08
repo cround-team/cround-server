@@ -78,4 +78,20 @@ public class Review {
             throw new ExceedRatingRangeException(ErrorCode.EXCEED_RATING_RANGE);
         }
     }
+
+    public Long getMemberId() {
+        return member.getId();
+    }
+
+    public String getWriter() {
+        return member.getNickname();
+    }
+
+    public int getReviewCount() {
+        return creator.getReviewCount();
+    }
+
+    public double getAvgRating() {
+        return creator.getAvgRating();
+    }
 }
