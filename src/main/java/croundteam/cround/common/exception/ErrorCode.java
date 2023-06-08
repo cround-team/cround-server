@@ -53,7 +53,12 @@ public enum ErrorCode {
     NOT_EXIST_BOARD(HttpStatus.NOT_FOUND, "존재하지 않는 콘텐츠입니다."),
     NOT_EXIST_CREATOR(HttpStatus.NOT_FOUND, "존재하지 않는 크리에이터입니다."),
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
-    NOT_EXIST_SHORT_FORM(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다.");
+    NOT_EXIST_SHORT_FORM(HttpStatus.NOT_FOUND, "존재하지 않는 숏클래스입니다."),
+
+    /**
+     *
+     */
+    UPLOAD_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 S3에 저장 실패 하였습니다.");
 
     private final HttpStatus status;
     private final String message;
