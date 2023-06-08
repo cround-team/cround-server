@@ -5,7 +5,7 @@ import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.review.exception.ExceedRatingRangeException;
 import croundteam.cround.review.exception.InvalidContentLengthException;
-import croundteam.cround.review.service.dto.ReviewSaveRequest;
+import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

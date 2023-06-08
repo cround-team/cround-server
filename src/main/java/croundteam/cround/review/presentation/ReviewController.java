@@ -1,7 +1,7 @@
-package croundteam.cround.review.domain;
+package croundteam.cround.review.presentation;
 
-import croundteam.cround.review.service.ReviewService;
-import croundteam.cround.review.service.dto.ReviewSaveRequest;
+import croundteam.cround.review.application.ReviewService;
+import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import croundteam.cround.support.annotation.Login;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package croundteam.cround.review.service;
+package croundteam.cround.review.application;
 
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
@@ -9,7 +9,7 @@ import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.review.domain.Review;
 import croundteam.cround.review.domain.ReviewRepository;
-import croundteam.cround.review.service.dto.ReviewSaveRequest;
+import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

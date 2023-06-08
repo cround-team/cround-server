@@ -1,4 +1,4 @@
-package croundteam.cround.review.service.dto;
+package croundteam.cround.review.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
