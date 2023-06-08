@@ -86,12 +86,4 @@ public class Review {
     public String getWriter() {
         return member.getNickname();
     }
-
-    public int getReviewCount() {
-        return creator.getReviewCount();
-    }
-
-    public double getAvgRating() {
-        return creator.getAvgRating();
-    }
 }

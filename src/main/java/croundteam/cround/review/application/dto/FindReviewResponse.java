@@ -14,8 +14,6 @@ public class FindReviewResponse {
     private String nickname;
     private int rating;
     private String content;
-    private int reviewCount;
-    private double avgRating;
     private LocalDateTime createdAt;
 
     public FindReviewResponse(Review review) {
@@ -23,8 +21,6 @@ public class FindReviewResponse {
         this.nickname = review.getWriter();
         this.rating = review.getRating();
         this.content = review.getContent();
-        this.reviewCount = review.getReviewCount();
-        this.avgRating = review.getAvgRating();
         this.createdAt = review.getCreatedAt();
     }
 }
