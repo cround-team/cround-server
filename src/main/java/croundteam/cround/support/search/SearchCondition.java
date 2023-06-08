@@ -1,4 +1,4 @@
-package croundteam.cround.common.dto;
+package croundteam.cround.support.search;
 
 import lombok.*;
 import org.springframework.util.StringUtils;
@@ -7,12 +7,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PAGE_SIZE;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Getter @Setter
 public class SearchCondition {
-    private final int DEFAULT_PAGE_SIZE = 5;
 
     private String keyword;
     private List<String> filter;

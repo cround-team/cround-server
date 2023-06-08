@@ -74,7 +74,7 @@ public class AuthService {
     }
 
     private RefreshToken createRefreshToken(TokenResponse tokenResponse, Long memberId) {
-        return new RefreshToken(tokenResponse.excludeBearerInRefreshToken(), memberId);
+        return new RefreshToken(tokenResponse.extractByRefreshToken(), memberId);
     }
 
     private TokenResponse issueToken(Member member) {

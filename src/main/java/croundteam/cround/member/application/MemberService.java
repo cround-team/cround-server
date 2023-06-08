@@ -4,9 +4,11 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.DuplicateEmailException;
 import croundteam.cround.member.exception.DuplicateNicknameException;
+import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.exception.PasswordMisMatchException;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.application.dto.MemberSaveRequest;
+import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,17 @@ public class MemberService {
         Member saveMember = memberRepository.save(member);
 
         return saveMember.getId();
+    }
+
+    public void findOwnLikes(LoginMember loginMember) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+
+    }
+
+    private Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(() -> {
+            throw new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER);
+        });
     }
 
     public void validateDuplicateEmail(String email) {

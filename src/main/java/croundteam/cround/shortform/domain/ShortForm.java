@@ -120,7 +120,7 @@ public class ShortForm extends BaseTime {
     }
 
     public String getPlatformType() {
-        return platformType.name();
+        return platformType.getType();
     }
 
     public String getCreatorNickname() {

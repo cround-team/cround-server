@@ -39,7 +39,7 @@ public class Platform {
     }
 
     public String getPlatformType() {
-        return platformHeadType.getPlatformType();
+        return platformHeadType.getType();
     }
 
     public String getPlatformUrl() {

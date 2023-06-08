@@ -85,7 +85,7 @@ public class Board extends BaseTime {
     }
 
     public String getPlatformType() {
-        return platformType.getPlatformType();
+        return platformType.getType();
     }
 
     public String getTitle() {

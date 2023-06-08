@@ -20,7 +20,7 @@ public class FindCreatorResponse {
     private String platformUrl;
     private List<String> tags;
     private List<PlatformType> activityPlatforms;
-    private int reviewsCount;
+    private String avgRating;
     private int followersCount;
     private boolean isFollowed;
 
@@ -29,7 +29,7 @@ public class FindCreatorResponse {
         this.creatorNickname = creator.getNickname();
         this.platformHeadTheme = creator.getPlatformTheme();
         this.activityPlatforms = creator.getActivityPlatforms();
-        this.reviewsCount = 5; // 리뷰 평점
+        this.avgRating = String.format("%.1f", creator.getAvgRating()); // 리뷰 평점
         this.followersCount = creator.getFollowersCount();
         this.platformHeadType = creator.getPlatformType();
         this.isFollowed = creator.isFollowedBy(member);

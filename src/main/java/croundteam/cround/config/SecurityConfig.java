@@ -66,7 +66,8 @@ public class SecurityConfig {
                 .antMatchers(
                         HttpMethod.GET, "/auth/kakao/login",
                         "/api/boards", "/api/boards/{boardId}", "/api/creators", "/api/creators/{creatorId}",
-                        "/api/shorts", "/api/shorts/{shortsId}")
+                        "/api/shorts", "/api/shorts/{shortsId}",
+                        "/api/creators/{creatorId}/reviews")
                 .permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login", "/api/members",
                         "/api/members/validations/email", "/api/members/validations/nickname").permitAll()

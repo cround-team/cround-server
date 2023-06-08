@@ -36,7 +36,7 @@ public enum PlatformType {
         }
     }
 
-    public String getPlatformType() {
+    public String getType() {
         return type;
     }
 }

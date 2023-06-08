@@ -28,7 +28,7 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
-                .body(LoginResponse.create(tokenResponse.getAccessToken()));
+                .body(LoginResponse.create(tokenResponse.extractByAccessToken()));
     }
 
     @GetMapping("/auth/{provider}/login")
@@ -40,10 +40,10 @@ public class AuthController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
-                .body(LoginResponse.create(tokenResponse.getAccessToken()));
+                .body(LoginResponse.create(tokenResponse.extractByAccessToken()));
     }
 
     private static ResponseCookie createResponseCookie(TokenResponse tokenResponse) {
-        return CookieUtils.create(tokenResponse.excludeBearerInRefreshToken());
+        return CookieUtils.create(tokenResponse.extractByRefreshToken());
     }
 }
