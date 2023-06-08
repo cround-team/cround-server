@@ -8,9 +8,14 @@ import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.exception.PasswordMisMatchException;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.application.dto.MemberSaveRequest;
+import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
+import croundteam.cround.shortform.domain.ShortForm;
+import croundteam.cround.shortform.domain.ShortFormQueryRepository;
+import croundteam.cround.support.search.SimpleSearchCondition;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final ShortFormQueryRepository shortFormQueryRepository;
 
     @Transactional
     public Long saveMember(final MemberSaveRequest memberSaveRequest) {
@@ -34,9 +40,14 @@ public class MemberService {
         return saveMember.getId();
     }
 
-    public void findOwnLikes(LoginMember loginMember) {
+    public SearchShortFormResponses findShortFormOwnBookmarks(
+            LoginMember loginMember,
+            SimpleSearchCondition searchCondition
+    ) {
         Member member = findMemberByEmail(loginMember.getEmail());
+        Slice<ShortForm> shortForms = shortFormQueryRepository.findOwnBookmarkBy(member.getId(), searchCondition);
 
+        return new SearchShortFormResponses(shortForms, member);
     }
 
     private Member findMemberByEmail(String email) {
