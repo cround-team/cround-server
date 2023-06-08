@@ -43,7 +43,7 @@ public class MemberController {
     }
 
     @GetMapping("/me/boards/bookmarks")
-    public ResponseEntity<SearchBoardsResponses> findBoardsOwnBookmarks(
+    public ResponseEntity<SearchBoardsResponses> findBoardOwnBookmarks(
             @Login LoginMember loginMember,
             SimpleSearchCondition searchCondition
     ) {

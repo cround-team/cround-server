@@ -1,5 +1,8 @@
 package croundteam.cround.member.application;
 
+import croundteam.cround.board.application.dto.SearchBoardsResponses;
+import croundteam.cround.board.domain.Board;
+import croundteam.cround.board.domain.BoardQueryRepository;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.DuplicateEmailException;
@@ -27,6 +30,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final ShortFormQueryRepository shortFormQueryRepository;
+    private final BoardQueryRepository boardQueryRepository;
 
     @Transactional
     public Long saveMember(final MemberSaveRequest memberSaveRequest) {
@@ -48,6 +52,16 @@ public class MemberService {
         Slice<ShortForm> shortForms = shortFormQueryRepository.findOwnBookmarkBy(member.getId(), searchCondition);
 
         return new SearchShortFormResponses(shortForms, member);
+    }
+
+    public SearchBoardsResponses findBoardsOwnBookmarks(
+            LoginMember loginMember,
+            SimpleSearchCondition searchCondition
+    ) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Slice<Board> boards = boardQueryRepository.findOwnBookmarkBy(member.getId(), searchCondition);
+
+        return new SearchBoardsResponses(boards, member);
     }
 
     private Member findMemberByEmail(String email) {
