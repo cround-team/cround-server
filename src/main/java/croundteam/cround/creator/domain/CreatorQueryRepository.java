@@ -4,10 +4,13 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import croundteam.cround.board.domain.Board;
+import croundteam.cround.follow.domain.QFollow;
 import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
+import croundteam.cround.support.search.SimpleSearchCondition;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
@@ -16,6 +19,8 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Objects;
 
+import static croundteam.cround.board.domain.QBoard.board;
+import static croundteam.cround.bookmark.domain.QBoardBookmark.boardBookmark;
 import static croundteam.cround.support.search.SearchCondition.CreatorSortCondition;
 import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
@@ -65,6 +70,19 @@ public class CreatorQueryRepository {
                         .fetch();
         }
         throw new InvalidSortTypeException(ErrorCode.INVALID_SORT_TYPE);
+    }
+
+    public Slice<Creator> findOwnFollowingBy(Long memberId, SimpleSearchCondition searchCondition) {
+        List<Creator> creators = jpaQueryFactory
+                .select(creator)
+                .from(creator, creator)
+                .join(creator.followers.followers, follow)
+                .groupBy(creator.id)
+                .where(follow.source.id.eq(memberId), ltCursorId(searchCondition.getCursorId()))
+                .orderBy(follow.id.desc())
+                .limit(searchCondition.getSize() + 1)
+                .fetch();
+        return convertToSliceFrom(searchCondition.getSize(), creators, Pageable.unpaged());
     }
 
     private BooleanBuilder filterByPlatform(List<String> platforms) {
