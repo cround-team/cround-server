@@ -5,7 +5,7 @@ import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.DuplicateEmailException;
 import croundteam.cround.member.exception.DuplicateNicknameException;
 import croundteam.cround.member.exception.PasswordMisMatchException;
-import croundteam.cround.member.infrastructure.MemberRepository;
+import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.application.dto.MemberSaveRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -2,7 +2,7 @@ package croundteam.cround.config;
 
 import croundteam.cround.security.CustomAccessDeniedHandler;
 import croundteam.cround.security.CustomAuthenticationEntryPoint;
-import croundteam.cround.security.token.TokenAuthenticationFilter;
+import croundteam.cround.security.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,10 +1,10 @@
 package croundteam.cround.shortform.presentation;
 
 import croundteam.cround.common.dto.SearchCondition;
-import croundteam.cround.security.support.AppUser;
-import croundteam.cround.security.support.Authenticated;
-import croundteam.cround.security.support.Login;
-import croundteam.cround.security.support.LoginMember;
+import croundteam.cround.support.vo.AppUser;
+import croundteam.cround.support.annotation.Authenticated;
+import croundteam.cround.support.annotation.Login;
+import croundteam.cround.support.vo.LoginMember;
 import croundteam.cround.shortform.application.ShortFormService;
 import croundteam.cround.shortform.application.dto.FindShortFormResponse;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static croundteam.cround.creator.domain.ActivityPlatforms.castToActivityPlatforms;
-import static croundteam.cround.tag.domain.Tags.castToTags;
+import static croundteam.cround.creator.domain.tag.Tags.castToTags;
 
 @Getter
 @NoArgsConstructor

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static croundteam.cround.common.fixtures.ValidationMessages.*;
-import static croundteam.cround.security.BCryptEncoder.encrypt;
+import static croundteam.cround.support.BCryptEncoder.encrypt;
 
 @Getter
 @NoArgsConstructor

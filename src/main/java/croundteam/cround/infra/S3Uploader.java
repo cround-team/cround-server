@@ -5,7 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.common.exception.UploadFailureException;
+import croundteam.cround.infra.exception.UploadFailureException;
 import croundteam.cround.creator.exception.InvalidImageExtensionException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

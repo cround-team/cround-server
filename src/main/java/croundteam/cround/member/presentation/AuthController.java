@@ -1,10 +1,10 @@
 package croundteam.cround.member.presentation;
 
-import croundteam.cround.common.dto.TokenResponse;
+import croundteam.cround.member.application.dto.TokenResponse;
 import croundteam.cround.member.application.AuthService;
 import croundteam.cround.member.application.dto.LoginResponse;
 import croundteam.cround.member.application.dto.MemberLoginRequest;
-import croundteam.cround.security.CookieUtils;
+import croundteam.cround.support.CookieUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;

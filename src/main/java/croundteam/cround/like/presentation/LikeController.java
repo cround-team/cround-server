@@ -2,8 +2,8 @@ package croundteam.cround.like.presentation;
 
 import croundteam.cround.like.application.LikeService;
 import croundteam.cround.like.application.dto.LikeResponse;
-import croundteam.cround.security.support.Login;
-import croundteam.cround.security.support.LoginMember;
+import croundteam.cround.support.annotation.Login;
+import croundteam.cround.support.vo.LoginMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
