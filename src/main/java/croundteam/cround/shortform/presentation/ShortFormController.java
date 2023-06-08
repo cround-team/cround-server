@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -28,9 +29,10 @@ public class ShortFormController {
 
     @PostMapping
     public ResponseEntity<Void> saveShortForm(
+            @RequestPart(value = "profileImage") MultipartFile file,
             @Login LoginMember loginMember,
-            @RequestBody @Valid ShortFormSaveRequest shortFormSaveRequest) {
-        Long shortFormId = shortFormService.saveShortForm(loginMember, shortFormSaveRequest);
+            @RequestPart @Valid ShortFormSaveRequest shortFormSaveRequest) {
+        Long shortFormId = shortFormService.saveShortForm(file, loginMember, shortFormSaveRequest);
 
         return ResponseEntity.created(URI.create("/api/shorts/" + shortFormId)).build();
     }

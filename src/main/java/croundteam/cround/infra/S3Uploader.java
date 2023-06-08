@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.common.exception.UploadFailureException;
 import croundteam.cround.creator.exception.InvalidImageExtensionException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -38,13 +39,19 @@ public class S3Uploader {
 
     private String upload(String imageUrl, MultipartFile file) {
         try {
-            ObjectMetadata metadata = new ObjectMetadata();
-            amazonS3.putObject(new PutObjectRequest(bucket, imageUrl, file.getInputStream(), metadata)
+            amazonS3.putObject(new PutObjectRequest(bucket, imageUrl, file.getInputStream(), createObjectMetadata(file))
                     .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UploadFailureException(ErrorCode.UPLOAD_FAILURE);
         }
         return amazonS3.getUrl(bucket, imageUrl).toString();
+    }
+
+    private ObjectMetadata createObjectMetadata(MultipartFile multipartFile) {
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(multipartFile.getSize());
+        objectMetadata.setContentType(multipartFile.getContentType());
+        return objectMetadata;
     }
 
     private String generateImageUrl(MultipartFile file, String dirPath) {

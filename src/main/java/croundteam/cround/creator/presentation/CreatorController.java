@@ -34,8 +34,8 @@ public class CreatorController {
     @PostMapping(consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> createCreator(
             @RequestPart(value = "profileImage") MultipartFile file,
-            @RequestPart CreatorSaveRequest creatorSaveRequest,
-            @Login LoginMember loginMember
+            @Login LoginMember loginMember,
+            @RequestPart CreatorSaveRequest creatorSaveRequest
     ) {
         Long creatorId = creatorService.createCreator(file, loginMember, creatorSaveRequest);
         return ResponseEntity.created(URI.create("/api/creators/" + creatorId)).build();

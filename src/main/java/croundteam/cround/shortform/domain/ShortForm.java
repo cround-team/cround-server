@@ -35,7 +35,7 @@ public class ShortForm extends BaseTime {
     private PlatformType platformType;
 
     @Embedded
-    private ThumbnailUrl thumbnailUrl;
+    private ThumbnailImage thumbnailUrl;
 
     @Embedded
     private ShortFormUrl shortFormUrl;
@@ -52,7 +52,7 @@ public class ShortForm extends BaseTime {
 
     @Builder
     public ShortForm(Title title, Content content, PlatformType platformType,
-                     ThumbnailUrl thumbnailUrl, ShortFormUrl shortFormUrl, Creator creator) {
+                     ThumbnailImage thumbnailUrl, ShortFormUrl shortFormUrl, Creator creator) {
         this.platformType = platformType;
         this.title = title;
         this.content = content;
@@ -63,6 +63,10 @@ public class ShortForm extends BaseTime {
 
     public void addCreator(Creator creator) {
         this.creator = creator;
+    }
+
+    public void addThumbnailImage(String thumbnailImage) {
+        this.thumbnailUrl = ThumbnailImage.create(thumbnailImage);
     }
 
     public void bookmark(Member member) {
@@ -103,8 +107,8 @@ public class ShortForm extends BaseTime {
         return shortFormLikes.getLikes();
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl.getThumbnailUrl();
+    public String getThumbnailImage() {
+        return thumbnailUrl.getThumbnailImage();
     }
 
     public String getTitle() {

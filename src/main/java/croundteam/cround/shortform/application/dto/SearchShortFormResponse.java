@@ -40,7 +40,7 @@ public class SearchShortFormResponse {
     public static SearchShortFormResponse from(ShortForm shorts, Member member) {
         return SearchShortFormResponse.builder()
                 .shortsId(shorts.getId())
-                .thumbnailUrl(shorts.getThumbnailUrl())
+                .thumbnailUrl(shorts.getThumbnailImage())
                 .title(shorts.getTitle())
                 .platformType(shorts.getPlatformType())
                 .profileImage(shorts.getProfileImage())
