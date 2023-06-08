@@ -1,34 +1,42 @@
 package croundteam.cround.creator.domain.platform;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.creator.exception.InvalidPlatformTypeException;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.Column;
 
-@Embeddable
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PlatformType {
+public enum PlatformType {
+    YOUTUBE("유튜브"),
+    INSTAGRAM("인스타그램"),
+    TIKTOK("틱톡"),
+    TWITCH("트위치"),
+    AFREECATV("아프리카TV"),
+    BLOG("블로그"),
+    PODCAST("팟캐스트"),
+    SPOON("스푼"),
+    ZEPETTO("제페토"),
+    EMOTICON("이모티콘"),
+    NFT("NFT");
 
-    @Enumerated(EnumType.STRING)
-    private PlatformName platformName;
+    @Column(name = "platform_type", nullable = false)
+    private String type;
 
-    private PlatformType(PlatformName platformName) {
-        this.platformName = platformName;
+    PlatformType(String type) {
+        this.type = type;
     }
 
     @JsonCreator
-    public static PlatformType from(String platformName) {
-        return new PlatformType(PlatformName.from(platformName));
+    public static PlatformType create(String platformType) {
+        try {
+            String type = platformType.trim().toUpperCase();
+            return PlatformType.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidPlatformTypeException(ErrorCode.INVALID_PLATFORM_TYPE);
+        }
     }
 
-    public static PlatformType from(PlatformName platformName) {
-        return new PlatformType(platformName);
-    }
-
-    public String getPlatformName() {
-        return platformName.getName();
+    public String getType() {
+        return type;
     }
 }

@@ -1,6 +1,8 @@
 package croundteam.cround.config;
 
-import croundteam.cround.security.token.TokenAuthenticationFilter;
+import croundteam.cround.security.CustomAccessDeniedHandler;
+import croundteam.cround.security.CustomAuthenticationEntryPoint;
+import croundteam.cround.security.TokenAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +21,9 @@ import java.util.List;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public TokenAuthenticationFilter tokenAuthenticationFilter() {
@@ -57,9 +62,15 @@ public class SecurityConfig {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**", "/h2-console/**", "/favicon.ico", "/error").permitAll()
-                .antMatchers("/login", "/cround/health", "/cround/login", "/oauth2/authorize/**", "/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/oauth2/kakao", "/auth/kakao/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/members", "/auth/login").permitAll()
+                .antMatchers("/cround/health").permitAll()
+                .antMatchers(
+                        HttpMethod.GET, "/auth/kakao/login",
+                        "/api/boards", "/api/boards/{boardId}", "/api/creators", "/api/creators/{creatorId}",
+                        "/api/shorts", "/api/shorts/{shortsId}",
+                        "/api/creators/{creatorId}/reviews")
+                .permitAll()
+                .antMatchers(HttpMethod.POST, "/auth/login", "/api/members",
+                        "/api/members/validations/email", "/api/members/validations/nickname").permitAll()
                 .anyRequest().authenticated();
 
         http
@@ -73,10 +84,10 @@ public class SecurityConfig {
 //                .deleteCookies("JSESSIONID")
 //                .logoutSuccessUrl("/");
 
-//        http
-//                .exceptionHandling()
-//                .authenticationEntryPoint(new JwtAuthenticationEntryPoint());
-//                .accessDeniedHandler(new JwtAccessDeniedHandler());
+        http
+                .exceptionHandling()
+                .authenticationEntryPoint(authenticationEntryPoint)
+                .accessDeniedHandler(accessDeniedHandler);
 
         http
                 .addFilterBefore((tokenAuthenticationFilter()), UsernamePasswordAuthenticationFilter.class);

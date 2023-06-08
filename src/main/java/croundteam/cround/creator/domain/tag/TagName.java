@@ -16,7 +16,7 @@ public class TagName {
     @Column(name = "tag_name", nullable = false)
     private String name;
 
-    public TagName(String name) {
+    private TagName(String name) {
         this.name = name;
     }
 

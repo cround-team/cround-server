@@ -1,29 +1,27 @@
 package croundteam.cround.creator.domain;
 
-import croundteam.cround.board.domain.Board;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.platform.Platform;
-import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.domain.follow.Follow;
-import croundteam.cround.member.domain.follow.Followers;
-import croundteam.cround.shorts.domain.Shorts;
+import croundteam.cround.creator.domain.platform.PlatformType;
+import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.creator.domain.tag.Tags;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import croundteam.cround.follow.domain.Follow;
+import croundteam.cround.follow.domain.Followers;
+import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.domain.Nickname;
+import croundteam.cround.review.domain.Review;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Entity
 @Getter
-@Table(uniqueConstraints = @UniqueConstraint(
-        name = "creator_member_unique",
-        columnNames="member_id"))
+@Table(uniqueConstraints = @UniqueConstraint(name = "creator_member_unique", columnNames = "member_id"),
+        indexes = @Index(name = "idx_creator_nickname", columnList = "nickname", unique = true))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString(of = {"id", "description", "profileImage", "platform"})
 public class Creator extends BaseTime {
 
     @Id
@@ -31,61 +29,72 @@ public class Creator extends BaseTime {
     @Column(name = "creator_id")
     private Long id;
 
-    @Column(name = "profile_image")
-    private String profileImage;
+    @Embedded
+    private Nickname nickname;
+
+    @Embedded
+    private Description description;
+
+    @Column(name = "review_count")
+    private int reviewCount;
+
+    @Column(name = "total_rating")
+    private int totalRating;
+
+    @Column(name = "avg_rating")
+    private double avgRating;
 
     @Embedded
     private Platform platform;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Embedded
+    private ProfileImage profileImage;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_creator_to_member"))
     private Member member;
 
     @Embedded
+    private CreatorTags creatorTags;
+
+    @Embedded
+    private ActivityPlatforms activityPlatforms;
+
+    @Embedded
     private Followers followers;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
-    private List<CreatorTag> creatorTags = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
-    private List<Board> boards = new ArrayList<>();
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
-    private List<Shorts> shorts = new ArrayList<>();
-
     @Builder
-    private Creator(String profileImage, Member member, Platform platform, Tags creatorTags) {
+    private Creator(Nickname nickname, Description description, Platform platform, ProfileImage profileImage,
+                    Member member, Tags tags, ActivityPlatforms activityPlatforms) {
+        this.nickname = nickname;
+        this.description = description;
+        this.platform = platform;
         this.profileImage = profileImage;
         this.member = member;
-        this.platform = platform;
-        this.creatorTags = castTagsToCreatorTags(creatorTags);
+        this.creatorTags = castCreatorTagsFromTags(tags);
+        this.activityPlatforms = activityPlatforms;
     }
 
-    private List<CreatorTag> castTagsToCreatorTags(Tags tags) {
-        return tags.toList().stream()
-                .map(tag -> CreatorTag.of(this, tag))
-                .collect(Collectors.toList());
+    private CreatorTags castCreatorTagsFromTags(Tags tags) {
+        return CreatorTags.create(this, tags);
     }
 
-    public static Creator of(String profileImage, Member member, Platform platform, Tags creatorTags) {
-        return Creator.builder()
-                .profileImage(profileImage)
-                .member(member)
-                .platform(platform)
-                .creatorTags(creatorTags)
-                .build();
+    public void addReview(Review review) {
+        reviewCount += 1;
+        totalRating += review.getRating();
+        avgRating = (double) totalRating / reviewCount;
     }
 
     public void addMember(Member member) {
         this.member = member;
     }
 
-    public void addBoard(Board board) {
-        boards.add(board);
+    public void addTags(List<CreatorTag> creatorTags) {
+        this.creatorTags = CreatorTags.create(creatorTags);
     }
 
-    public void addShorts(Shorts shorts) {
-
+    public void addProfileImage(String profileImage) {
+        this.profileImage = ProfileImage.create(profileImage);
     }
 
     public void addFollow(Follow follow) {
@@ -96,11 +105,46 @@ public class Creator extends BaseTime {
         followers.remove(follow);
     }
 
-    public String getActivityName() {
-        return platform.getPlatformActivityName();
+    public int getFollowersCount() {
+        return followers.getFollowersCount();
     }
 
-    public Long getMemberId() {
-        return member.getId();
+    public boolean isFollowedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return followers.isFollowedBy(this, member);
+    }
+
+    public String getNickname() {
+        return nickname.getName();
+    }
+
+    public String getPlatformType() {
+        return platform.getPlatformType();
+    }
+
+    public String getPlatformTheme() {
+        return platform.getPlatformTheme();
+    }
+
+    public String getDescription() {
+        return description.getDescription();
+    }
+
+    public String getProfileImage() {
+        return profileImage.getProfileImage();
+    }
+
+    public List<PlatformType> getActivityPlatforms() {
+        return activityPlatforms.getPlatformTypes();
+    }
+
+    public String getPlatformUrl() {
+        return platform.getPlatformUrl();
+    }
+
+    public List<String> getTags() {
+        return creatorTags.castTagsFromCreatorTags();
     }
 }

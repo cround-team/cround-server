@@ -2,10 +2,11 @@ package croundteam.cround.member.domain;
 
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.member.domain.follow.Follow;
-import croundteam.cround.member.domain.follow.Followings;
-import croundteam.cround.member.domain.interest.Interest;
-import lombok.*;
+import croundteam.cround.follow.domain.Followings;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -25,33 +26,37 @@ public class Member extends BaseTime {
     @Column(nullable = false, length = 50)
     private String email;
 
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
     private String username;
 
-    @Column(length = 20)
-    private String nickname;
+    @Embedded
+    private Nickname nickname;
 
     @Column(length = 128)
     private String password;
 
     @Embedded
-    private Interest interest;
+    private InterestPlatforms interestPlatforms;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private AuthProvider authProvider;
 
     @Embedded
     private Followings followings;
 
     @Builder
-    public Member(String email, String username, String nickname, String password, Interest interest) {
+    public Member(String email, String username, Nickname nickname, String password,
+                  InterestPlatforms interestPlatforms, AuthProvider authProvider) {
         this.email = email;
         this.username = username;
         this.nickname = nickname;
         this.password = password;
-        this.interest = interest;
+        this.interestPlatforms = interestPlatforms;
         this.role = Role.USER;
+        this.authProvider = authProvider;
     }
 
     public void update(Member member) {
@@ -60,18 +65,14 @@ public class Member extends BaseTime {
     }
 
     public void follow(Creator target) {
-        Follow follow = Follow.of(this, target);
-        followings.add(follow);
-        target.addFollow(follow);
+        followings.follow(this, target);
     }
 
     public void unfollow(Creator target) {
-        Follow follow = Follow.of(this, target);
-        followings.remove(follow);
-        target.removeFollow(follow);
+        followings.unfollow(this, target);
     }
 
-    public String getRoleName() {
-        return role.getName();
+    public String getNickname() {
+        return nickname.getName();
     }
 }

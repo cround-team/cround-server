@@ -1,7 +1,7 @@
 package croundteam.cround.creator.domain.platform;
 
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.creator.exception.InvalidPlatformNameException;
+import croundteam.cround.creator.exception.InvalidPlatformTypeException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,8 +20,8 @@ class PlatformNameTest {
             "TIKTOK, 틱톡",
             "PODCAST, 팟캐스트"
     })
-    void platformName(PlatformName actual, String expect) {
-        assertThat(actual.getName()).isEqualTo(expect);
+    void platformName(PlatformType actual, String expect) {
+        assertThat(actual.getType()).isEqualTo(expect);
     }
 
     @Test
@@ -30,22 +30,22 @@ class PlatformNameTest {
         String youtube1 = "Youtube";
         String youtube2 = "yoUTuBE";
 
-        PlatformName platformName1 = PlatformName.from(youtube1);
-        PlatformName platformName2 = PlatformName.from(youtube2);
+        PlatformType platformName1 = PlatformType.create(youtube1);
+        PlatformType platformName2 = PlatformType.create(youtube2);
 
-        assertThat(platformName1.getName()).isEqualTo("유튜브");
-        assertThat(platformName2.getName()).isEqualTo("유튜브");
+        assertThat(platformName1.getType()).isEqualTo("유튜브");
+        assertThat(platformName2.getType()).isEqualTo("유튜브");
     }
 
     @Test
     @DisplayName("입력한 플랫폼 타입이 유효하지 않으면 에러를 반환한다.")
     void invalidInputPlatform() {
-        String message = ErrorCode.INVALID_PLATFORM_NAME.getMessage();
+        String message = ErrorCode.INVALID_PLATFORM_TYPE.getMessage();
 
         String cround = "cround";
 
-        Assertions.assertThatThrownBy(() -> PlatformName.from(cround))
-                .isInstanceOf(InvalidPlatformNameException.class)
+        Assertions.assertThatThrownBy(() -> PlatformType.create(cround))
+                .isInstanceOf(InvalidPlatformTypeException.class)
                 .hasMessage(message);
     }
 }

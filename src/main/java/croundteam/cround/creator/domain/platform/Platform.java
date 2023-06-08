@@ -5,43 +5,44 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Platform {
 
+    @Enumerated(EnumType.STRING)
+    private PlatformType platformHeadType;
+
+    @Embedded
+    private PlatformTheme platformHeadTheme;
+
     @Embedded
     private PlatformUrl platformUrl;
 
-    @Embedded
-    private PlatformType platformType;
-
-    @Embedded
-    private PlatformActivityName platformActivityName;
-
-    private Platform(PlatformUrl platformUrl, PlatformType platformType, PlatformActivityName platformActivityName) {
+    private Platform(PlatformTheme platformHeadTheme, PlatformType platformHeadType, PlatformUrl platformUrl) {
+        this.platformHeadType = platformHeadType;
+        this.platformHeadTheme = platformHeadTheme;
         this.platformUrl = platformUrl;
-        this.platformType = platformType;
-        this.platformActivityName = platformActivityName;
     }
 
-    public static Platform of(String platformUrl, String platformType, String platformActivityName) {
+    public static Platform of(String platformHeadTheme, String platformHeadType, String platformUrl) {
         return new Platform(
-                PlatformUrl.from(platformUrl),
-                PlatformType.from(platformType),
-                PlatformActivityName.from(platformActivityName)
-        );
+                PlatformTheme.create(platformHeadTheme),
+                PlatformType.create(platformHeadType),
+                PlatformUrl.create(platformUrl));
     }
 
-    public String getPlatformUrl() {
-        return platformUrl.getUrl();
+    public String getPlatformTheme() {
+        return platformHeadTheme.getPlatformTheme();
     }
 
     public String getPlatformType() {
-        return platformType.getPlatformName();
+        return platformHeadType.getType();
     }
 
-    public String getPlatformActivityName() {
-        return platformActivityName.getName();
+    public String getPlatformUrl() {
+        return platformUrl.getPlatformUrl();
     }
 }
