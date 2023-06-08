@@ -4,7 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import croundteam.cround.common.dto.SearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.support.RepositorySupport;
 import croundteam.cround.creator.domain.platform.PlatformType;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static croundteam.cround.bookmark.domain.QShortFormBookmark.shortFormBookmark;
-import static croundteam.cround.common.dto.SearchCondition.ContentSortCondition;
+import static croundteam.cround.support.search.SearchCondition.ContentSortCondition;
 import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.like.domain.QShortFormLike.shortFormLike;
 import static croundteam.cround.shortform.domain.QShortForm.shortForm;

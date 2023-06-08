@@ -7,7 +7,7 @@ import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.NotExistBoardException;
 import croundteam.cround.board.domain.BoardQueryRepository;
 import croundteam.cround.board.domain.BoardRepository;
-import croundteam.cround.common.dto.SearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.NotExistCreatorException;

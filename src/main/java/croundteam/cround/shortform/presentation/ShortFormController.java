@@ -1,6 +1,6 @@
 package croundteam.cround.shortform.presentation;
 
-import croundteam.cround.common.dto.SearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.annotation.Authenticated;
 import croundteam.cround.support.annotation.Login;

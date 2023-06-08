@@ -1,6 +1,6 @@
 package croundteam.cround.shortform.application;
 
-import croundteam.cround.common.dto.SearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.NotExistCreatorException;

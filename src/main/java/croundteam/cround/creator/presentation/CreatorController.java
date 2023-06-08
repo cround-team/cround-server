@@ -1,6 +1,6 @@
 package croundteam.cround.creator.presentation;
 
-import croundteam.cround.common.dto.SearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.creator.application.CreatorService;
 import croundteam.cround.creator.application.dto.CreatorSaveRequest;
 import croundteam.cround.creator.application.dto.FindCreatorResponse;

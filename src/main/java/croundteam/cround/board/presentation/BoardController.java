@@ -4,7 +4,7 @@ import croundteam.cround.board.application.BoardService;
 import croundteam.cround.board.application.dto.BoardSaveRequest;
 import croundteam.cround.board.application.dto.FindBoardResponse;
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
-import croundteam.cround.common.dto.SearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.annotation.Authenticated;
 import croundteam.cround.support.annotation.Login;

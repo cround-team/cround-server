@@ -4,7 +4,7 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import croundteam.cround.common.dto.SearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
@@ -16,7 +16,7 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 import java.util.Objects;
 
-import static croundteam.cround.common.dto.SearchCondition.CreatorSortCondition;
+import static croundteam.cround.support.search.SearchCondition.CreatorSortCondition;
 import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
 import static croundteam.cround.follow.domain.QFollow.follow;
