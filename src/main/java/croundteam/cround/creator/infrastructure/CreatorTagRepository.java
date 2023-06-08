@@ -1,6 +1,6 @@
 package croundteam.cround.creator.infrastructure;
 
-import croundteam.cround.tag.domain.CreatorTag;
+import croundteam.cround.creator.domain.tag.CreatorTag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

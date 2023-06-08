@@ -2,7 +2,7 @@ package croundteam.cround.bookmark.application;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.NotExistBoardException;
-import croundteam.cround.board.infrastructure.BoardRepository;
+import croundteam.cround.board.domain.BoardRepository;
 import croundteam.cround.bookmark.application.dto.BookmarkResponse;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;

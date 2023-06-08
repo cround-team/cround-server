@@ -2,7 +2,7 @@ package croundteam.cround.creator.application;
 
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.tag.domain.CreatorTag;
+import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.creator.exception.IncorrectSourceException;
 import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.infrastructure.CreatorQueryRepository;

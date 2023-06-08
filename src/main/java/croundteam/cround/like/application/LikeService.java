@@ -2,7 +2,7 @@ package croundteam.cround.like.application;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.NotExistBoardException;
-import croundteam.cround.board.infrastructure.BoardRepository;
+import croundteam.cround.board.domain.BoardRepository;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.like.application.dto.LikeResponse;
 import croundteam.cround.member.domain.Member;

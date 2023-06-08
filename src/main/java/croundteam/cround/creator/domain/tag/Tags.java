@@ -1,10 +1,10 @@
-package croundteam.cround.tag.domain;
+package croundteam.cround.creator.domain.tag;
 
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.tag.exception.ExceedTagLengthException;
-import croundteam.cround.tag.exception.ExceedTagsSizeException;
-import croundteam.cround.tag.exception.NotEmptyTagException;
+import croundteam.cround.creator.exception.ExceedTagsSizeException;
+import croundteam.cround.creator.exception.ExceedTagLengthException;
+import croundteam.cround.creator.exception.NotEmptyTagException;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package croundteam.cround.board.infrastructure;
+package croundteam.cround.board.domain;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;

@@ -4,13 +4,13 @@ import croundteam.cround.board.domain.Board;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.platform.PlatformType;
-import croundteam.cround.tag.domain.CreatorTag;
+import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.follow.domain.Follow;
 import croundteam.cround.follow.domain.Followers;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.Nickname;
 import croundteam.cround.shortform.domain.ShortForm;
-import croundteam.cround.tag.domain.Tags;
+import croundteam.cround.creator.domain.tag.Tags;
 import lombok.*;
 
 import javax.persistence.*;

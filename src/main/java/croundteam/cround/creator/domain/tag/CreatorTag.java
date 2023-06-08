@@ -1,4 +1,4 @@
-package croundteam.cround.tag.domain;
+package croundteam.cround.creator.domain.tag;
 
 import croundteam.cround.creator.domain.Creator;
 import lombok.AccessLevel;

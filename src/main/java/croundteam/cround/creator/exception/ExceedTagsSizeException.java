@@ -1,4 +1,4 @@
-package croundteam.cround.tag.exception;
+package croundteam.cround.creator.exception;
 
 import croundteam.cround.common.exception.BusinessException;
 import croundteam.cround.common.exception.ErrorCode;

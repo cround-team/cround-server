@@ -2,8 +2,8 @@ package croundteam.cround.board.application;
 
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.exception.NotExistBoardException;
-import croundteam.cround.board.infrastructure.BoardQueryRepository;
-import croundteam.cround.board.infrastructure.BoardRepository;
+import croundteam.cround.board.domain.BoardQueryRepository;
+import croundteam.cround.board.domain.BoardRepository;
 import croundteam.cround.board.application.dto.BoardSaveRequest;
 import croundteam.cround.board.application.dto.FindBoardResponse;
 import croundteam.cround.board.application.dto.SearchBoardsResponses;

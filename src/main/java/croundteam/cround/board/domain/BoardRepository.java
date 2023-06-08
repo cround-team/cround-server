@@ -1,4 +1,4 @@
-package croundteam.cround.board.infrastructure;
+package croundteam.cround.board.domain;
 
 import croundteam.cround.board.domain.Board;
 import org.springframework.data.jpa.repository.JpaRepository;

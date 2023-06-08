@@ -1,4 +1,4 @@
-package croundteam.cround.tag.domain;
+package croundteam.cround.creator.domain.tag;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AccessLevel;

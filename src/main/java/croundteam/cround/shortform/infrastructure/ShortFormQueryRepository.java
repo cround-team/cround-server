@@ -36,8 +36,12 @@ public class ShortFormQueryRepository {
     public Slice<ShortForm> searchByCondition(SearchCondition searchCondition, Pageable pageable) {
 
         JPAQuery<ShortForm> query = jpaQueryFactory
-                .selectFrom(shortForm)
+                .select(shortForm)
+                .from(shortForm)
                 .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormLike).on(shortForm.id.eq(shortFormLike.shortForm.id))
+                .leftJoin(shortFormBookmark).on(shortFormBookmark.id.eq(shortFormBookmark.shortForm.id))
+                .groupBy(shortForm.id)
                 .where(
                         ltCursorId(searchCondition.getCursorId()),     // 페이지네이션
                         filterByPlatform(searchCondition.getFilter()), // 필터 플랫폼
