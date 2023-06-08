@@ -22,8 +22,8 @@ public class ReviewController {
 
     @PostMapping("/{creatorId}/reviews")
     public ResponseEntity<Void> saveReview(@PathVariable Long creatorId,
-                                             @Login LoginMember loginMember,
-                                             @RequestBody @Valid ReviewSaveRequest reviewSaveRequest
+                                           @Login LoginMember loginMember,
+                                           @RequestBody @Valid ReviewSaveRequest reviewSaveRequest
     ) {
         Long reviewId = reviewService.saveReview(creatorId, loginMember, reviewSaveRequest);
         return ResponseEntity.created(URI.create("/api/creators/" + creatorId + "/reviews/" + reviewId)).build();

@@ -50,9 +50,9 @@ public class Review {
     private LocalDateTime createdAt;
 
     @Builder
-    public Review(String content, int rating, Creator creator, Member member) {
-        validateRatingRange(rating);
+    private Review(String content, int rating, Creator creator, Member member) {
         validateContentSize(content);
+        validateRatingRange(rating);
 
         this.content = content;
         this.rating = rating;
@@ -61,22 +61,20 @@ public class Review {
     }
 
     public static Review create(ReviewSaveRequest reviewSaveRequest, Creator creator, Member member) {
-        return Review.builder()
-                .content(reviewSaveRequest.getContent())
-                .rating(reviewSaveRequest.getRating())
-                .creator(creator)
-                .member(member)
-                .build();
+        String content = reviewSaveRequest.getContent();
+        int rating = reviewSaveRequest.getRating();
+
+        return new Review(content, rating, creator, member);
     }
 
-    private void validateContentSize(String content) {
+    private static void validateContentSize(String content) {
         if (content.isBlank() || content.length() > MAXIMUM_CONTENT_LENGTH) {
             throw new InvalidContentLengthException(ErrorCode.INVALID_CONTENT_LENGTH);
         }
     }
 
-    private void validateRatingRange(int rating) {
-        if (rating > MAXIMUM_RATING && rating < MINIMUM_RATING) {
+    private static void validateRatingRange(int rating) {
+        if (rating > MAXIMUM_RATING || rating < MINIMUM_RATING) {
             throw new ExceedRatingRangeException(ErrorCode.EXCEED_RATING_RANGE);
         }
     }

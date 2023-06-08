@@ -30,8 +30,9 @@ public class ReviewService {
         Member member = findMemberByEmail(loginMember.getEmail());
 
         Review review = Review.create(reviewSaveRequest, creator, member);
-        Review saveReview = reviewRepository.save(review);
+        creator.addReview(review);
 
+        Review saveReview = reviewRepository.save(review);
         return saveReview.getId();
     }
 

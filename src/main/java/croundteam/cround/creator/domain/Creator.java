@@ -9,6 +9,7 @@ import croundteam.cround.follow.domain.Follow;
 import croundteam.cround.follow.domain.Followers;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.Nickname;
+import croundteam.cround.review.domain.Review;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +34,15 @@ public class Creator extends BaseTime {
 
     @Embedded
     private Description description;
+
+    @Column(name = "review_count")
+    private int reviewCount;
+
+    @Column(name = "total_rating")
+    private int totalRating;
+
+    @Column(name = "avg_rating")
+    private double avgRating;
 
     @Embedded
     private Platform platform;
@@ -67,6 +77,12 @@ public class Creator extends BaseTime {
 
     private CreatorTags castCreatorTagsFromTags(Tags tags) {
         return CreatorTags.create(this, tags);
+    }
+
+    public void addReview(Review review) {
+        reviewCount += 1;
+        totalRating += review.getRating();
+        avgRating = (double) totalRating / reviewCount;
     }
 
     public void addMember(Member member) {
