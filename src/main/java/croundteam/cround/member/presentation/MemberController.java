@@ -1,6 +1,7 @@
 package croundteam.cround.member.presentation;
 
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
+import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.member.application.MemberService;
 import croundteam.cround.member.application.dto.EmailValidationRequest;
 import croundteam.cround.member.application.dto.MemberSaveRequest;
@@ -49,6 +50,15 @@ public class MemberController {
     ) {
         SearchBoardsResponses searchBoardsResponses = memberService.findBoardsOwnBookmarks(loginMember, searchCondition);
         return ResponseEntity.ok(searchBoardsResponses);
+    }
+
+    @GetMapping("/me/creators/followings")
+    public ResponseEntity<SearchCreatorResponses> findCreatorOwnFollowings(
+            @Login LoginMember loginMember,
+            SimpleSearchCondition searchCondition
+    ) {
+        SearchCreatorResponses searchCreatorResponses = memberService.findCreatorOwnFollowings(loginMember, searchCondition);
+        return ResponseEntity.ok(searchCreatorResponses);
     }
 
     @PostMapping("/validations/email")
