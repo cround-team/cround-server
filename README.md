@@ -11,7 +11,7 @@
 
 [#1. 크라운드를 시작하며](https://jay-ya.tistory.com/153)<br/>
 [#2. 프록시 컬렉션 문제 이슈](https://jay-ya.tistory.com/157)<br/>
-#3. 객체 지향적인 설계와 캡슗화<br/>
+#3. 객체 지향적인 설계와 캡슐화<br/>
 #4. 동적 쿼리와 페이지네이션<br/>
 #5. fetch Join과 N+1 문제에 대한 고찰 (`@ManyToOne`, `@OneToMany`)<br/>
 #6. 변경 감지와 orphanremoval, cascade<br/>
