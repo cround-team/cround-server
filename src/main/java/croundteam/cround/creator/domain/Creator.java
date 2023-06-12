@@ -86,6 +86,7 @@ public class Creator extends BaseTime {
     }
 
     public void addMember(Member member) {
+        member.updateCreatorType();
         this.member = member;
     }
 
