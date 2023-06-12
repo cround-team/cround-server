@@ -1,5 +1,6 @@
 package croundteam.cround.creator.presentation;
 
+import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.creator.application.CreatorService;
 import croundteam.cround.creator.application.dto.CreatorSaveRequest;
 import croundteam.cround.creator.application.dto.FindCreatorResponse;
@@ -64,12 +65,13 @@ public class CreatorController {
     }
 
     @GetMapping("/{creatorId}/boards")
-    public void findBoardsByCreator(
+    public ResponseEntity<SearchBoardsResponses> findBoardsByCreator(
             @PathVariable Long creatorId,
             @Authenticated AppUser appUser,
             BaseSearchCondition searchCondition
     ) {
-        creatorService.findBoardsByCreator(creatorId, appUser, searchCondition);
+        SearchBoardsResponses searchBoardsResponses = creatorService.findBoardsByCreator(creatorId, appUser, searchCondition);
+        return ResponseEntity.ok(searchBoardsResponses);
     }
 
     @PostMapping("/validations/nickname")

@@ -7,8 +7,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
-import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.support.search.BaseSearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
@@ -114,7 +114,7 @@ public class ShortFormQueryRepository {
                 .from(shortForm, shortForm)
                 .join(shortForm.creator, creator).fetchJoin()
                 .leftJoin(shortFormLike).on(shortForm.id.eq(shortFormLike.shortForm.id))
-                .leftJoin(shortFormBookmark).on(shortFormBookmark.id.eq(shortFormBookmark.shortForm.id))
+                .leftJoin(shortFormBookmark).on(shortForm.id.eq(shortFormBookmark.shortForm.id))
                 .where(creator.id.eq(creatorId), ltCursorId(searchCondition.getCursorId()))
                 .groupBy(shortForm.id)
                 .orderBy(shortForm.id.desc())
