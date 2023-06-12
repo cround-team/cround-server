@@ -2,7 +2,7 @@ package croundteam.cround.review.domain;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class ReviewQueryRepository {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<Review> findReviewsByCondition(Long creatorId, SimpleSearchCondition searchCondition) {
+    public List<Review> findReviewsByCondition(Long creatorId, BaseSearchCondition searchCondition) {
         return jpaQueryFactory
                 .selectFrom(review)
                 .join(review.member, member).fetchJoin()

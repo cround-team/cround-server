@@ -12,7 +12,7 @@ import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import croundteam.cround.review.domain.Review;
 import croundteam.cround.review.domain.ReviewQueryRepository;
 import croundteam.cround.review.domain.ReviewRepository;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class ReviewService {
         return saveReview.getId();
     }
 
-    public FindReviewResponses findReviews(Long creatorId, SimpleSearchCondition searchCondition) {
+    public FindReviewResponses findReviews(Long creatorId, BaseSearchCondition searchCondition) {
         Creator creator = findCreatorById(creatorId);
         List<Review> reviews = reviewQueryRepository.findReviewsByCondition(creatorId, searchCondition);
 

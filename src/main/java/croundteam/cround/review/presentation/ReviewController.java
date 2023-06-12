@@ -4,7 +4,7 @@ import croundteam.cround.review.application.ReviewService;
 import croundteam.cround.review.application.dto.FindReviewResponses;
 import croundteam.cround.review.application.dto.ReviewSaveRequest;
 import croundteam.cround.support.annotation.Login;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class ReviewController {
     @GetMapping("/{creatorId}/reviews")
     public ResponseEntity<FindReviewResponses> findReviews(
             @PathVariable Long creatorId,
-            SimpleSearchCondition searchCondition
+            BaseSearchCondition searchCondition
     ) {
         FindReviewResponses findReviewResponses = reviewService.findReviews(creatorId, searchCondition);
         return ResponseEntity.ok(findReviewResponses);

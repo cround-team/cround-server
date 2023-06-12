@@ -8,7 +8,7 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
 import croundteam.cround.support.search.SearchCondition;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
@@ -94,7 +94,7 @@ public class ShortFormQueryRepository {
         return booleanBuilder;
     }
 
-    public Slice<ShortForm> findOwnBookmarkBy(Long memberId, SimpleSearchCondition searchCondition) {
+    public Slice<ShortForm> findOwnBookmarkBy(Long memberId, BaseSearchCondition searchCondition) {
         List<ShortForm> shortForms = jpaQueryFactory
                 .select(shortForm)
                 .from(shortForm, shortForm)
@@ -103,6 +103,21 @@ public class ShortFormQueryRepository {
                 .groupBy(shortForm.id)
                 .where(shortFormBookmark.member.id.eq(memberId), ltCursorId(searchCondition.getCursorId()))
                 .orderBy(shortFormBookmark.id.desc())
+                .limit(searchCondition.getSize() + 1)
+                .fetch();
+        return convertToSliceFrom(searchCondition.getSize(), shortForms, Pageable.unpaged());
+    }
+
+    public Slice<ShortForm> findShortsByCreatorAndCondition(Long creatorId, BaseSearchCondition searchCondition) {
+        List<ShortForm> shortForms = jpaQueryFactory
+                .select(shortForm)
+                .from(shortForm, shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormLike).on(shortForm.id.eq(shortFormLike.shortForm.id))
+                .leftJoin(shortFormBookmark).on(shortFormBookmark.id.eq(shortFormBookmark.shortForm.id))
+                .where(creator.id.eq(creatorId), ltCursorId(searchCondition.getCursorId()))
+                .groupBy(shortForm.id)
+                .orderBy(shortForm.id.desc())
                 .limit(searchCondition.getSize() + 1)
                 .fetch();
         return convertToSliceFrom(searchCondition.getSize(), shortForms, Pageable.unpaged());

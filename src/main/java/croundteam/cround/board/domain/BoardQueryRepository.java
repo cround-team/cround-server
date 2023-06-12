@@ -4,13 +4,11 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import croundteam.cround.bookmark.domain.QBoardBookmark;
-import croundteam.cround.shortform.domain.ShortForm;
 import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
@@ -20,9 +18,7 @@ import java.util.List;
 
 import static croundteam.cround.board.domain.QBoard.board;
 import static croundteam.cround.bookmark.domain.QBoardBookmark.*;
-import static croundteam.cround.bookmark.domain.QShortFormBookmark.shortFormBookmark;
 import static croundteam.cround.creator.domain.QCreator.creator;
-import static croundteam.cround.shortform.domain.QShortForm.shortForm;
 import static croundteam.cround.support.search.SearchCondition.ContentSortCondition;
 import static croundteam.cround.support.RepositorySupport.convertToSliceFrom;
 
@@ -69,7 +65,7 @@ public class BoardQueryRepository {
         throw new InvalidSortTypeException(ErrorCode.INVALID_SORT_TYPE);
     }
 
-    public Slice<Board> findOwnBookmarkBy(Long memberId, SimpleSearchCondition searchCondition) {
+    public Slice<Board> findOwnBookmarkBy(Long memberId, BaseSearchCondition searchCondition) {
         List<Board> boards = jpaQueryFactory
                 .select(board)
                 .from(board, board)

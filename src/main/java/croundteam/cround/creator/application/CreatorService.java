@@ -1,5 +1,8 @@
 package croundteam.cround.creator.application;
 
+import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
+import croundteam.cround.shortform.domain.ShortForm;
+import croundteam.cround.shortform.domain.ShortFormQueryRepository;
 import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.application.dto.CreatorSaveRequest;
@@ -17,6 +20,7 @@ import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.DuplicateNicknameException;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.domain.MemberRepository;
+import croundteam.cround.support.search.BaseSearchCondition;
 import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +43,9 @@ public class CreatorService {
 
     private final MemberRepository memberRepository;
     private final CreatorRepository creatorRepository;
-    private final CreatorQueryRepository creatorQueryRepository;
     private final CreatorTagRepository creatorTagRepository;
+    private final CreatorQueryRepository creatorQueryRepository;
+    private final ShortFormQueryRepository shortFormQueryRepository;
     private final S3Uploader s3Uploader;
 
     @Transactional
@@ -74,6 +79,23 @@ public class CreatorService {
         creator.addTags(creatorTags);
 
         return new FindCreatorResponse(creator, member);
+    }
+
+    public SearchShortFormResponses findShortsByCreator(Long creatorId, AppUser appUser, BaseSearchCondition searchCondition) {
+        Creator creator = findCreatorById(creatorId);
+        Member member = getLoginMember(appUser);
+
+        Slice<ShortForm> shortForms = shortFormQueryRepository.findShortsByCreatorAndCondition(creator.getId(), searchCondition);
+
+        return new SearchShortFormResponses(shortForms, member);
+    }
+
+    public void findBoardsByCreator(Long creatorId, AppUser appUser, BaseSearchCondition searchCondition) {
+        Creator creator = findCreatorById(creatorId);
+        Member member = getLoginMember(appUser);
+
+        Slice<ShortForm> shortForms = shortFormQueryRepository.findShortsByCreatorAndCondition(creator.getId(), searchCondition);
+
     }
 
     public void validateDuplicateNickname(String nickname) {

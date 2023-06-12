@@ -8,7 +8,7 @@ import croundteam.cround.member.application.dto.MemberSaveRequest;
 import croundteam.cround.member.application.dto.NicknameValidationRequest;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
 import croundteam.cround.support.annotation.Login;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
 import croundteam.cround.support.vo.LoginMember;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ public class MemberController {
     @GetMapping("/me/shorts/bookmarks")
     public ResponseEntity<SearchShortFormResponses> findShortFormOwnBookmarks(
             @Login LoginMember loginMember,
-            SimpleSearchCondition searchCondition
+            BaseSearchCondition searchCondition
     ) {
         SearchShortFormResponses searchShortFormResponses = memberService.findShortFormOwnBookmarks(loginMember, searchCondition);
         return ResponseEntity.ok(searchShortFormResponses);
@@ -46,7 +46,7 @@ public class MemberController {
     @GetMapping("/me/boards/bookmarks")
     public ResponseEntity<SearchBoardsResponses> findBoardOwnBookmarks(
             @Login LoginMember loginMember,
-            SimpleSearchCondition searchCondition
+            BaseSearchCondition searchCondition
     ) {
         SearchBoardsResponses searchBoardsResponses = memberService.findBoardsOwnBookmarks(loginMember, searchCondition);
         return ResponseEntity.ok(searchBoardsResponses);
@@ -55,7 +55,7 @@ public class MemberController {
     @GetMapping("/me/creators/followings")
     public ResponseEntity<SearchCreatorResponses> findCreatorOwnFollowings(
             @Login LoginMember loginMember,
-            SimpleSearchCondition searchCondition
+            BaseSearchCondition searchCondition
     ) {
         SearchCreatorResponses searchCreatorResponses = memberService.findCreatorOwnFollowings(loginMember, searchCondition);
         return ResponseEntity.ok(searchCreatorResponses);
