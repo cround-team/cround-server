@@ -1,14 +1,17 @@
 package croundteam.cround.creator.presentation;
 
-import croundteam.cround.support.search.SearchCondition;
+import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.creator.application.CreatorService;
 import croundteam.cround.creator.application.dto.CreatorSaveRequest;
 import croundteam.cround.creator.application.dto.FindCreatorResponse;
 import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.member.application.dto.NicknameValidationRequest;
-import croundteam.cround.support.vo.AppUser;
+import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
 import croundteam.cround.support.annotation.Authenticated;
 import croundteam.cround.support.annotation.Login;
+import croundteam.cround.support.search.BaseSearchCondition;
+import croundteam.cround.support.search.SearchCondition;
+import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +52,26 @@ public class CreatorController {
     @GetMapping("/{creatorId}")
     public ResponseEntity<FindCreatorResponse> findOne(@PathVariable Long creatorId, @Authenticated AppUser appUser) {
         return ResponseEntity.ok(creatorService.findOne(appUser, creatorId));
+    }
+
+    @GetMapping("/{creatorId}/shorts")
+    public ResponseEntity<SearchShortFormResponses> findShortsByCreator(
+            @PathVariable Long creatorId,
+            @Authenticated AppUser appUser,
+            BaseSearchCondition searchCondition
+    ) {
+        SearchShortFormResponses searchShortFormResponses = creatorService.findShortsByCreator(creatorId, appUser, searchCondition);
+        return ResponseEntity.ok(searchShortFormResponses);
+    }
+
+    @GetMapping("/{creatorId}/boards")
+    public ResponseEntity<SearchBoardsResponses> findBoardsByCreator(
+            @PathVariable Long creatorId,
+            @Authenticated AppUser appUser,
+            BaseSearchCondition searchCondition
+    ) {
+        SearchBoardsResponses searchBoardsResponses = creatorService.findBoardsByCreator(creatorId, appUser, searchCondition);
+        return ResponseEntity.ok(searchBoardsResponses);
     }
 
     @PostMapping("/validations/nickname")

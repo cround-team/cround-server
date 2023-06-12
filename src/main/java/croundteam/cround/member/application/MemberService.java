@@ -17,7 +17,7 @@ import croundteam.cround.member.exception.PasswordMisMatchException;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
 import croundteam.cround.shortform.domain.ShortForm;
 import croundteam.cround.shortform.domain.ShortFormQueryRepository;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class MemberService {
 
     public SearchShortFormResponses findShortFormOwnBookmarks(
             LoginMember loginMember,
-            SimpleSearchCondition searchCondition
+            BaseSearchCondition searchCondition
     ) {
         Member member = findMemberByEmail(loginMember.getEmail());
         Slice<ShortForm> shortForms = shortFormQueryRepository.findOwnBookmarkBy(member.getId(), searchCondition);
@@ -60,7 +60,7 @@ public class MemberService {
 
     public SearchBoardsResponses findBoardsOwnBookmarks(
             LoginMember loginMember,
-            SimpleSearchCondition searchCondition
+            BaseSearchCondition searchCondition
     ) {
         Member member = findMemberByEmail(loginMember.getEmail());
         Slice<Board> boards = boardQueryRepository.findOwnBookmarkBy(member.getId(), searchCondition);
@@ -70,7 +70,7 @@ public class MemberService {
 
     public SearchCreatorResponses findCreatorOwnFollowings(
             LoginMember loginMember,
-            SimpleSearchCondition searchCondition
+            BaseSearchCondition searchCondition
     ) {
         Member member = findMemberByEmail(loginMember.getEmail());
         Slice<Creator> creators = creatorQueryRepository.findOwnFollowingBy(member.getId(), searchCondition);

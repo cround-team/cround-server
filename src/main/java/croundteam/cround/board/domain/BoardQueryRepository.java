@@ -4,13 +4,11 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import croundteam.cround.bookmark.domain.QBoardBookmark;
-import croundteam.cround.shortform.domain.ShortForm;
-import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
@@ -19,12 +17,11 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static croundteam.cround.board.domain.QBoard.board;
-import static croundteam.cround.bookmark.domain.QBoardBookmark.*;
-import static croundteam.cround.bookmark.domain.QShortFormBookmark.shortFormBookmark;
+import static croundteam.cround.bookmark.domain.QBoardBookmark.boardBookmark;
 import static croundteam.cround.creator.domain.QCreator.creator;
-import static croundteam.cround.shortform.domain.QShortForm.shortForm;
-import static croundteam.cround.support.search.SearchCondition.ContentSortCondition;
+import static croundteam.cround.like.domain.QBoardLike.boardLike;
 import static croundteam.cround.support.RepositorySupport.convertToSliceFrom;
+import static croundteam.cround.support.search.SearchCondition.ContentSortCondition;
 
 @Repository
 public class BoardQueryRepository {
@@ -69,7 +66,7 @@ public class BoardQueryRepository {
         throw new InvalidSortTypeException(ErrorCode.INVALID_SORT_TYPE);
     }
 
-    public Slice<Board> findOwnBookmarkBy(Long memberId, SimpleSearchCondition searchCondition) {
+    public Slice<Board> findOwnBookmarkBy(Long memberId, BaseSearchCondition searchCondition) {
         List<Board> boards = jpaQueryFactory
                 .select(board)
                 .from(board, board)
@@ -99,6 +96,21 @@ public class BoardQueryRepository {
             booleanBuilder.or(board.platformType.eq(PlatformType.create(platform)));
         }
         return booleanBuilder;
+    }
+
+    public Slice<Board> findBoardsByCreatorAndCondition(Long creatorId, BaseSearchCondition searchCondition) {
+        List<Board> boards = jpaQueryFactory
+                .select(board)
+                .from(board, board)
+                .join(board.creator, creator).fetchJoin()
+                .leftJoin(boardLike).on(board.id.eq(boardLike.board.id))
+                .leftJoin(boardBookmark).on(board.id.eq(boardBookmark.id))
+                .where(creator.id.eq(creatorId), ltCursorId(searchCondition.getCursorId()))
+                .groupBy(board.id)
+                .orderBy(boardBookmark.id.desc())
+                .limit(searchCondition.getSize() + 1)
+                .fetch();
+        return convertToSliceFrom(searchCondition.getSize(), boards, Pageable.unpaged());
     }
 
     private BooleanExpression ltCursorId(Long cursorId) {

@@ -12,17 +12,16 @@ import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PAGE_SI
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-@Getter @Setter
-public class SearchCondition {
+@Getter
+@Setter
+public class SearchCondition extends BaseSearchCondition {
 
     private String keyword;
     private List<String> filter;
     private String sort;
-    private Long cursorId;
-    private int size = DEFAULT_PAGE_SIZE;
 
     public List<String> getFilter() {
-        if(Objects.isNull(filter) || filter.isEmpty()) {
+        if (Objects.isNull(filter) || filter.isEmpty()) {
             return Collections.emptyList();
         }
         return filter;
@@ -42,7 +41,7 @@ public class SearchCondition {
         LATEST, FOLLOW, REVIEW;
 
         public static CreatorSortCondition getMatchedSortCondition(String sort) {
-            if(!StringUtils.hasText(sort)) {
+            if (!StringUtils.hasText(sort)) {
                 return LATEST;
             }
             return CreatorSortCondition.valueOf(sort.toUpperCase());
@@ -55,7 +54,7 @@ public class SearchCondition {
         LATEST, LIKE, BOOKMARK;
 
         public static ContentSortCondition getMatchedSortCondition(String sort) {
-            if(!StringUtils.hasText(sort)) {
+            if (!StringUtils.hasText(sort)) {
                 return LATEST;
             }
             return ContentSortCondition.valueOf(sort.toUpperCase());
