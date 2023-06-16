@@ -99,8 +99,8 @@ public class ShortForm extends BaseTime {
         return shortsBookmarks.isBookmarkedBy(this, member);
     }
 
-    public int getBookmarkCount() {
-        return shortsBookmarks.getBookmarkCount();
+    public int getShortFormBookmarks() {
+        return shortsBookmarks.getShortFormBookmarks();
     }
 
     public int getShortFormLikes() {

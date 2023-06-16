@@ -49,7 +49,7 @@ public class FindShortFormResponse {
                 .profileImage(shorts.getProfileImage())
                 .shortFormUrl(shorts.getShortFormUrl())
                 .likesCount(shorts.getShortFormLikes())
-                .bookmarksCount(shorts.getBookmarkCount())
+                .bookmarksCount(shorts.getShortFormBookmarks())
                 .isLiked(shorts.isLikedBy(member))
                 .isBookmarked(shorts.isBookmarkedBy(member))
                 .build();

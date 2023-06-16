@@ -46,7 +46,7 @@ public class SearchShortFormResponse {
                 .profileImage(shorts.getProfileImage())
                 .author(shorts.getCreatorNickname())
                 .likesCount(shorts.getShortFormLikes())
-                .bookmarksCount(shorts.getBookmarkCount())
+                .bookmarksCount(shorts.getShortFormBookmarks())
                 .isLiked(shorts.isLikedBy(member))
                 .isBookmarked(shorts.isBookmarkedBy(member))
                 .build();
