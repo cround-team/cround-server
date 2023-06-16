@@ -1,5 +1,6 @@
 package croundteam.cround.member.presentation;
 
+import croundteam.cround.member.application.dto.LoginSuccessResponse;
 import croundteam.cround.member.application.dto.TokenResponse;
 import croundteam.cround.member.application.AuthService;
 import croundteam.cround.member.application.dto.LoginResponse;
@@ -23,27 +24,27 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> login(@RequestBody @Valid final MemberLoginRequest memberLoginRequest) {
-        TokenResponse tokenResponse = authService.login(memberLoginRequest);
-        ResponseCookie responseCookie = createResponseCookie(tokenResponse);
+        LoginSuccessResponse successResponse = authService.login(memberLoginRequest);
+        ResponseCookie responseCookie = createResponseCookie(successResponse);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
-                .body(LoginResponse.create(tokenResponse.extractByAccessToken()));
+                .body(LoginResponse.create(successResponse));
     }
 
     @GetMapping("/auth/{provider}/login")
     public ResponseEntity<LoginResponse> loginByOAuth(
             @PathVariable final String provider,
             @RequestParam final String code) {
-        TokenResponse tokenResponse = authService.loginByOAuth(provider, code);
-        ResponseCookie responseCookie = createResponseCookie(tokenResponse);
+        LoginSuccessResponse successResponse = authService.loginByOAuth(provider, code);
+        ResponseCookie responseCookie = createResponseCookie(successResponse);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, responseCookie.toString())
-                .body(LoginResponse.create(tokenResponse.extractByAccessToken()));
+                .body(LoginResponse.create(successResponse));
     }
 
-    private static ResponseCookie createResponseCookie(TokenResponse tokenResponse) {
-        return CookieUtils.create(tokenResponse.extractByRefreshToken());
+    private static ResponseCookie createResponseCookie(LoginSuccessResponse loginSuccessResponse) {
+        return CookieUtils.create(loginSuccessResponse.extractByRefreshToken());
     }
 }

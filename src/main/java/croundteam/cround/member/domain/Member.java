@@ -75,4 +75,12 @@ public class Member extends BaseTime {
     public String getNickname() {
         return nickname.getName();
     }
+
+    public void updateCreatorType() {
+        role = Role.CREATOR;
+    }
+
+    public String getRoleName() {
+        return role.getName();
+    }
 }

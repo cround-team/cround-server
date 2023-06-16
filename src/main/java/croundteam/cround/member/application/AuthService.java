@@ -1,5 +1,6 @@
 package croundteam.cround.member.application;
 
+import croundteam.cround.member.application.dto.LoginSuccessResponse;
 import croundteam.cround.member.application.dto.TokenResponse;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
@@ -39,7 +40,7 @@ public class AuthService {
     private final InMemoryClientRegistrationRepository inMemoryRepository;
 
     @Transactional
-    public TokenResponse login(final MemberLoginRequest memberLoginRequest) {
+    public LoginSuccessResponse login(final MemberLoginRequest memberLoginRequest) {
         Member member = findMemberByEmail(memberLoginRequest);
 
         validateIsSamePassword(member, memberLoginRequest);
@@ -47,11 +48,11 @@ public class AuthService {
         TokenResponse tokenResponse = issueToken(member);
         refreshTokenRepository.save(createRefreshToken(tokenResponse, member.getId()));
 
-        return tokenResponse;
+        return new LoginSuccessResponse(tokenResponse, member.getRoleName());
     }
 
     @Transactional
-    public TokenResponse loginByOAuth(String provider, String code) {
+    public LoginSuccessResponse loginByOAuth(String provider, String code) {
         ClientRegistration clientRegistration = inMemoryRepository.findByRegistrationId(provider);
         OAuthTokenResponse oAuthTokenResponse = getToken(clientRegistration, code);
         Map<String, Object> userAttributes = getUserAttributes(clientRegistration, oAuthTokenResponse);
@@ -64,7 +65,7 @@ public class AuthService {
         TokenResponse tokenResponse = issueToken(member);
         refreshTokenRepository.save(createRefreshToken(tokenResponse, member.getId()));
 
-        return tokenResponse;
+        return new LoginSuccessResponse(tokenResponse, member.getRoleName());
     }
 
     private Member saveOrUpdate(OAuthAttributes attributes) {
