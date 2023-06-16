@@ -1,13 +1,25 @@
 package croundteam.cround.like.application.dto;
 
-import lombok.AllArgsConstructor;
+import croundteam.cround.board.domain.Board;
+import croundteam.cround.member.domain.Member;
+import croundteam.cround.shortform.domain.ShortForm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class LikeResponse {
 
-    int likeCount;
+    private int likeCount;
+    private boolean isLiked;
+
+    public LikeResponse(Board board, Member member) {
+        this.likeCount = board.getBoardLikes();
+        this.isLiked = board.isLikedBy(member);
+    }
+
+    public LikeResponse(ShortForm shortForm, Member member) {
+        this.likeCount = shortForm.getShortFormLikes();
+        this.isLiked = shortForm.isLikedBy(member);
+    }
 }

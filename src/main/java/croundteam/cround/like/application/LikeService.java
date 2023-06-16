@@ -1,17 +1,17 @@
 package croundteam.cround.like.application;
 
 import croundteam.cround.board.domain.Board;
-import croundteam.cround.board.exception.NotExistBoardException;
 import croundteam.cround.board.domain.BoardRepository;
+import croundteam.cround.board.exception.NotExistBoardException;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.like.application.dto.LikeResponse;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.domain.MemberRepository;
-import croundteam.cround.support.vo.LoginMember;
+import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.shortform.domain.ShortForm;
-import croundteam.cround.shortform.exception.NotExistShortFormException;
 import croundteam.cround.shortform.domain.ShortFormRepository;
+import croundteam.cround.shortform.exception.NotExistShortFormException;
+import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class LikeService {
 
         board.like(member);
 
-        return new LikeResponse(board.getBoardLikes());
+        return new LikeResponse(board, member);
     }
 
     @Transactional
@@ -44,7 +44,7 @@ public class LikeService {
 
         board.unlike(member);
 
-        return new LikeResponse(board.getBoardLikes());
+        return new LikeResponse(board, member);
     }
 
     @Transactional
@@ -54,7 +54,7 @@ public class LikeService {
 
         shortForm.like(member);
 
-        return new LikeResponse(shortForm.getShortFormLikes());
+        return new LikeResponse(shortForm, member);
     }
 
     @Transactional
@@ -64,7 +64,7 @@ public class LikeService {
 
         shortForm.unlike(member);
 
-        return new LikeResponse(shortForm.getShortFormLikes());
+        return new LikeResponse(shortForm, member);
     }
 
     private ShortForm findShortFormById(Long shortsId) {
