@@ -21,11 +21,12 @@ public class FindShortFormResponse {
     private int bookmarksCount;
     private boolean isLiked;
     private boolean isBookmarked;
+    private boolean isAuthored;
 
     @Builder
     public FindShortFormResponse(Long shortsId, String title, String content,
                                  String author, String platformType, String profileImage, String shortFormUrl,
-                                 int likesCount, int bookmarksCount, boolean isLiked, boolean isBookmarked) {
+                                 int likesCount, int bookmarksCount, boolean isLiked, boolean isBookmarked, boolean isAuthored) {
         this.shortsId = shortsId;
         this.title = title;
         this.content = content;
@@ -37,6 +38,7 @@ public class FindShortFormResponse {
         this.bookmarksCount = bookmarksCount;
         this.isLiked = isLiked;
         this.isBookmarked = isBookmarked;
+        this.isAuthored = isAuthored;
     }
 
     public static FindShortFormResponse from(ShortForm shorts, Member member) {
@@ -52,6 +54,7 @@ public class FindShortFormResponse {
                 .bookmarksCount(shorts.getShortFormBookmarks())
                 .isLiked(shorts.isLikedBy(member))
                 .isBookmarked(shorts.isBookmarkedBy(member))
+                .isAuthored(shorts.isAuthoredBy(member))
                 .build();
     }
 }

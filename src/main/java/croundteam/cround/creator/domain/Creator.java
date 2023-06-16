@@ -21,7 +21,7 @@ import java.util.Objects;
 @Table(uniqueConstraints = @UniqueConstraint(name = "creator_member_unique", columnNames = "member_id"),
         indexes = @Index(name = "idx_creator_nickname", columnList = "nickname", unique = true))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"id", "description", "profileImage", "platform"})
+@EqualsAndHashCode
 public class Creator extends BaseTime {
 
     @Id
@@ -147,5 +147,9 @@ public class Creator extends BaseTime {
 
     public List<String> getTags() {
         return creatorTags.castTagsFromCreatorTags();
+    }
+
+    public boolean isAuthoredBy(Member member) {
+        return this.member.equals(member);
     }
 }

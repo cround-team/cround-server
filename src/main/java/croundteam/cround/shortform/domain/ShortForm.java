@@ -99,6 +99,13 @@ public class ShortForm extends BaseTime {
         return shortsBookmarks.isBookmarkedBy(this, member);
     }
 
+    public boolean isAuthoredBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return creator.isAuthoredBy(member);
+    }
+
     public int getShortFormBookmarks() {
         return shortsBookmarks.getShortFormBookmarks();
     }
