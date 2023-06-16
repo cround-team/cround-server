@@ -36,7 +36,7 @@ public class CreatorController {
 
     @PostMapping(consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> createCreator(
-            @RequestPart(value = "profileImage") MultipartFile file,
+            @RequestPart(required = false, value = "profileImage") MultipartFile file,
             @Login LoginMember loginMember,
             @RequestPart CreatorSaveRequest creatorSaveRequest
     ) {

@@ -76,6 +76,27 @@ public class Board extends BaseTime {
         boardBookmarks.unbookmark(this, member);
     }
 
+    public boolean isLikedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return boardLikes.isLikedBy(this, member);
+    }
+
+    public boolean isBookmarkedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return boardBookmarks.isBookmarkedBy(this, member);
+    }
+
+    public boolean isAuthoredBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return creator.isAuthoredBy(member);
+    }
+
     public int getBoardLikes() {
         return boardLikes.getLikeCount();
     }
@@ -102,19 +123,5 @@ public class Board extends BaseTime {
 
     public String getCreatorNickname() {
         return creator.getNickname();
-    }
-
-    public boolean isLikedBy(Member member) {
-        if(Objects.isNull(member)) {
-            return false;
-        }
-        return boardLikes.isLikedBy(this, member);
-    }
-
-    public boolean isBookmarkedBy(Member member) {
-        if(Objects.isNull(member)) {
-            return false;
-        }
-        return boardBookmarks.isBookmarkedBy(this, member);
     }
 }

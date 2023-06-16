@@ -29,7 +29,7 @@ public class ShortFormController {
 
     @PostMapping
     public ResponseEntity<Void> saveShortForm(
-            @RequestPart(value = "profileImage") MultipartFile file,
+            @RequestPart(required = false, value = "profileImage") MultipartFile file,
             @Login LoginMember loginMember,
             @RequestPart @Valid ShortFormSaveRequest shortFormSaveRequest) {
         Long shortFormId = shortFormService.saveShortForm(file, loginMember, shortFormSaveRequest);

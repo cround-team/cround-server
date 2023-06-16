@@ -10,6 +10,7 @@ public interface ShortFormRepository extends JpaRepository<ShortForm, Long> {
 
     @Query("SELECT s FROM ShortForm s " +
             "join fetch s.creator c " +
+            "join fetch c.member m " +
             "WHERE s.id = :shortsId")
     ShortForm findShortFormWithJoinById(@Param("shortsId") Long shortsId);
 

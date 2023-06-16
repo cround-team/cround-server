@@ -34,7 +34,7 @@ public class BookmarkService {
 
         board.bookmark(member);
 
-        return new BookmarkResponse(board.getBoardBookmarks());
+        return new BookmarkResponse(board, member);
     }
 
     @Transactional
@@ -44,7 +44,7 @@ public class BookmarkService {
 
         board.unbookmark(member);
 
-        return new BookmarkResponse(board.getBoardBookmarks());
+        return new BookmarkResponse(board, member);
     }
 
     @Transactional
@@ -54,7 +54,7 @@ public class BookmarkService {
 
         shortForm.bookmark(member);
 
-        return new BookmarkResponse(shortForm.getBookmarkCount());
+        return new BookmarkResponse(shortForm, member);
     }
 
     @Transactional
@@ -64,7 +64,7 @@ public class BookmarkService {
 
         shortForm.unbookmark(member);
 
-        return new BookmarkResponse(shortForm.getBookmarkCount());
+        return new BookmarkResponse(shortForm, member);
     }
 
     private ShortForm findShortFormById(Long shortsId) {
