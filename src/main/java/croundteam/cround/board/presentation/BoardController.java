@@ -46,7 +46,7 @@ public class BoardController {
     }
 
     @GetMapping("/{boardId}")
-    public ResponseEntity<FindBoardResponse> findOne(@PathVariable Long boardId) {
-        return ResponseEntity.ok(boardService.findOne(boardId));
+    public ResponseEntity<FindBoardResponse> findOne(@PathVariable Long boardId, @Authenticated AppUser appUser) {
+        return ResponseEntity.ok(boardService.findOne(boardId, appUser));
     }
 }

@@ -52,9 +52,11 @@ public class BoardService {
         return new SearchBoardsResponses(boards, member);
     }
 
-    public FindBoardResponse findOne(Long boardId) {
+    public FindBoardResponse findOne(Long boardId, AppUser appUser) {
+        Member member = getLoginMember(appUser);
         Board board = findBoardWithJoinById(boardId);
-        return FindBoardResponse.from(board);
+
+        return FindBoardResponse.from(board, member);
     }
 
     private Board findBoardWithJoinById(Long boardId) {
