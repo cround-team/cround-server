@@ -37,7 +37,7 @@ public class InterestPlatforms {
 
         return interestPlatforms
                 .stream()
-                .map(PlatformType::getType)
+                .map(platformType -> platformType.name())
                 .collect(Collectors.toList());
     }
 }

@@ -82,27 +82,30 @@ public class CreatorQueryRepository {
         return convertToSliceFrom(searchCondition.getSize(), creators, Pageable.unpaged());
     }
 
-    public List<Creator> findCreatorByMember(int size, List<String> interestPlatforms) {
+    public List<Creator> findCreatorByInterestPlatform(int size, List<String> interestPlatforms) {
 
         List<Long> ids = jpaQueryFactory
                 .select(creator.id)
                 .from(creator)
-                .join(creator.member, member)
                 .where(filterByPlatform(interestPlatforms))
+                .groupBy(creator.id)
                 .fetch();
 
         return jpaQueryFactory
                 .selectFrom(creator)
+                .join(creator.member, member).fetchJoin()
                 .where(creator.id.in(createRandomBy(ids, size)))
                 .fetch();
     }
 
     private List<Long> createRandomBy(List<Long> ids, int size) {
-        int totalCount = ids.size();
-
         Set<Long> randoms = new HashSet<>();
+
         while (randoms.size() < size) {
-            randoms.add((long) (Math.random() * totalCount) + 1);
+            int random = (int) (Math.random() * ids.size()); //randoms.add((long) (Math.random() * totalCount) + 1);
+            Long e = ids.get(random);
+
+            randoms.add(e);
         }
         return new ArrayList<>(randoms);
     }
