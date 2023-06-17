@@ -4,24 +4,25 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
 import croundteam.cround.support.search.BaseSearchCondition;
+import croundteam.cround.support.search.SearchCondition;
+import io.jsonwebtoken.lang.Collections;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-import static croundteam.cround.support.search.SearchCondition.CreatorSortCondition;
 import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
 import static croundteam.cround.follow.domain.QFollow.follow;
+import static croundteam.cround.member.domain.QMember.member;
 import static croundteam.cround.support.RepositorySupport.convertToSliceFrom;
+import static croundteam.cround.support.search.SearchCondition.CreatorSortCondition;
 
 @Repository
 public class CreatorQueryRepository {
@@ -81,8 +82,33 @@ public class CreatorQueryRepository {
         return convertToSliceFrom(searchCondition.getSize(), creators, Pageable.unpaged());
     }
 
+    public List<Creator> findCreatorByMember(int size, List<String> interestPlatforms) {
+
+        List<Long> ids = jpaQueryFactory
+                .select(creator.id)
+                .from(creator)
+                .join(creator.member, member)
+                .where(filterByPlatform(interestPlatforms))
+                .fetch();
+
+        return jpaQueryFactory
+                .selectFrom(creator)
+                .where(creator.id.in(createRandomBy(ids, size)))
+                .fetch();
+    }
+
+    private List<Long> createRandomBy(List<Long> ids, int size) {
+        int totalCount = ids.size();
+
+        Set<Long> randoms = new HashSet<>();
+        while (randoms.size() < size) {
+            randoms.add((long) (Math.random() * totalCount) + 1);
+        }
+        return new ArrayList<>(randoms);
+    }
+
     private BooleanBuilder filterByPlatform(List<String> platforms) {
-        if (Objects.isNull(platforms)) {
+        if (Objects.isNull(platforms) || Collections.isEmpty(platforms)) {
             return null;
         }
 

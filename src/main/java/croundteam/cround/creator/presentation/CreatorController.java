@@ -4,6 +4,7 @@ import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.creator.application.CreatorService;
 import croundteam.cround.creator.application.dto.CreatorSaveRequest;
 import croundteam.cround.creator.application.dto.FindCreatorResponse;
+import croundteam.cround.creator.application.dto.FindHomeCreators;
 import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.member.application.dto.NicknameValidationRequest;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
@@ -52,6 +53,16 @@ public class CreatorController {
     @GetMapping("/{creatorId}")
     public ResponseEntity<FindCreatorResponse> findOne(@PathVariable Long creatorId, @Authenticated AppUser appUser) {
         return ResponseEntity.ok(creatorService.findOne(appUser, creatorId));
+    }
+
+    @GetMapping("/home")
+    public ResponseEntity<FindHomeCreators> findHomeCreators(
+            @RequestParam(name = "size", defaultValue = "4") int size,
+            @Authenticated AppUser appUser
+    ) {
+        FindHomeCreators findHomeCreators = creatorService.findHomeCreators(size, appUser);
+
+        return ResponseEntity.ok(findHomeCreators);
     }
 
     @GetMapping("/{creatorId}/shorts")

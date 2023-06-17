@@ -129,4 +129,35 @@ public class ShortFormQueryRepository {
         }
         return creator.id.lt(cursorId);
     }
+
+    public List<ShortForm> findPopularLikeShortForm(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormLike).on(shortForm.id.eq(shortFormLike.shortForm.id))
+                .groupBy(shortForm.id)
+                .orderBy(shortFormLike.shortForm.id.sum().desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
+    }
+
+    public List<ShortForm> findPopularBookmarkShortForms(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormBookmark).on(shortForm.id.eq(shortFormBookmark.shortForm.id))
+                .groupBy(shortForm.id)
+                .orderBy(shortFormBookmark.shortForm.id.sum().desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
+    }
+
+    public List<ShortForm> findPopularVisitShortForm(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .orderBy(shortForm.visit.desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
+    }
 }

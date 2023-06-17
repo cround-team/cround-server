@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -82,5 +83,9 @@ public class Member extends BaseTime {
 
     public String getRoleName() {
         return role.getName();
+    }
+
+    public List<String> getInterestPlatforms() {
+        return interestPlatforms.castPlatformTypes();
     }
 }

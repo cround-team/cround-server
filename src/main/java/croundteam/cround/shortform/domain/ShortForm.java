@@ -40,6 +40,9 @@ public class ShortForm extends BaseTime {
     @Embedded
     private ShortFormUrl shortFormUrl;
 
+    @Column(columnDefinition = "bigint default 0", nullable = false)
+    private long visit;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
     private Creator creator;
@@ -104,6 +107,10 @@ public class ShortForm extends BaseTime {
             return false;
         }
         return creator.isAuthoredBy(member);
+    }
+
+    public void increaseVisit() {
+        visit++;
     }
 
     public int getShortFormBookmarks() {
