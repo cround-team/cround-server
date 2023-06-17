@@ -23,7 +23,7 @@ public interface CreatorRepository extends JpaRepository<Creator, Long> {
 
     @Query("SELECT c FROM Creator c " +
             "ORDER BY c.id desc")
-    List<Creator> findCreatorBy(Pageable pageable);
+    List<Creator> findCreatorSortByLatest(Pageable pageable);
 
     Long countBy();
 

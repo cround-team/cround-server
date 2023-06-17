@@ -108,8 +108,8 @@ public class CreatorService {
         Long totalCount = creatorRepository.countBy();
         Member member = getLoginMember(appUser);
 
-        List<Creator> latestCreators = creatorRepository.findCreatorBy(PageRequest.ofSize(size));
-        List<Creator> interestCreators = creatorQueryRepository.findCreatorByMember(size, getInterestPlatformBy(member));
+        List<Creator> latestCreators = creatorRepository.findCreatorSortByLatest(PageRequest.ofSize(size));
+        List<Creator> interestCreators = creatorQueryRepository.findCreatorByInterestPlatform(size, getInterestPlatformBy(member));
         List<Creator> randomCreators = creatorRepository.findCreatorByRandom(createRandomBy(totalCount, size));
 
         return new FindHomeCreators(latestCreators, interestCreators, randomCreators);
