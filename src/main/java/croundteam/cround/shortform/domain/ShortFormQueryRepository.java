@@ -123,6 +123,13 @@ public class ShortFormQueryRepository {
         return convertToSliceFrom(searchCondition.getSize(), shortForms, Pageable.unpaged());
     }
 
+    private BooleanExpression ltCursorId(Long cursorId) {
+        if(cursorId == null) {
+            return null;
+        }
+        return creator.id.lt(cursorId);
+    }
+
     public List<ShortForm> findPopularLikeShortForm(int size) {
         return jpaQueryFactory
                 .selectFrom(shortForm)
@@ -145,10 +152,12 @@ public class ShortFormQueryRepository {
                 .fetch();
     }
 
-    private BooleanExpression ltCursorId(Long cursorId) {
-        if(cursorId == null) {
-            return null;
-        }
-        return creator.id.lt(cursorId);
+    public List<ShortForm> findPopularVisitShortForm(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .orderBy(shortForm.visit.desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
     }
 }

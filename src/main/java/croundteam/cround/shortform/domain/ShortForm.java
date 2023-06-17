@@ -1,6 +1,5 @@
 package croundteam.cround.shortform.domain;
 
-import com.querydsl.core.annotations.QueryProjection;
 import croundteam.cround.board.domain.Content;
 import croundteam.cround.board.domain.Title;
 import croundteam.cround.common.domain.BaseTime;
@@ -40,6 +39,9 @@ public class ShortForm extends BaseTime {
 
     @Embedded
     private ShortFormUrl shortFormUrl;
+
+    @Column(columnDefinition = "bigint default 0", nullable = false)
+    private long visit;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
@@ -105,6 +107,10 @@ public class ShortForm extends BaseTime {
             return false;
         }
         return creator.isAuthoredBy(member);
+    }
+
+    public void increaseVisit() {
+        visit++;
     }
 
     public int getShortFormBookmarks() {

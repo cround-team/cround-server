@@ -15,15 +15,18 @@ import static java.util.stream.Collectors.toList;
 @NoArgsConstructor
 public class FindPopularShortForms {
 
+    private List<SearchShortFormResponse> popularVisitShortForms = new ArrayList<>();
     private List<SearchShortFormResponse> popularLikeShortForms = new ArrayList<>();
     private List<SearchShortFormResponse> popularBookmarkShortForms = new ArrayList<>();
 
     public FindPopularShortForms(
-            List<ShortForm> highestLikeShortForms,
+            List<ShortForm> popularVisitShortForms,
+            List<ShortForm> popularLikeShortForms,
             List<ShortForm> popularBookmarkShortForms,
             Member member
     ) {
-        this.popularLikeShortForms = convertToSearchShortFormResponse(highestLikeShortForms, member);
+        this.popularVisitShortForms = convertToSearchShortFormResponse(popularVisitShortForms, member);
+        this.popularLikeShortForms = convertToSearchShortFormResponse(popularLikeShortForms, member);
         this.popularBookmarkShortForms = convertToSearchShortFormResponse(popularBookmarkShortForms, member);
     }
 
