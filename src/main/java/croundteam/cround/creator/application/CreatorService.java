@@ -6,6 +6,7 @@ import croundteam.cround.board.domain.BoardQueryRepository;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.application.dto.CreatorSaveRequest;
 import croundteam.cround.creator.application.dto.FindCreatorResponse;
+import croundteam.cround.creator.application.dto.FindHomeCreators;
 import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.CreatorQueryRepository;
@@ -28,13 +29,14 @@ import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.*;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_IMAGE_PATH_PREFIX;
 
@@ -100,6 +102,40 @@ public class CreatorService {
 
         Slice<Board> boards = boardQueryRepository.findBoardsByCreatorAndCondition(creator.getId(), searchCondition);
         return new SearchBoardsResponses(boards, member);
+    }
+
+    /**
+     * 크리에이터 최신순
+     *
+     * @return
+     */
+    public FindHomeCreators findHomeCreators(int size, AppUser appUser) {
+        Long totalCount = creatorRepository.countBy();
+        Pageable pageable = PageRequest.ofSize(size);
+
+        Member member = getLoginMember(appUser);
+
+        List<Creator> latestCreators = creatorRepository.findCreatorBy(pageable);
+        List<Creator> interestCreators = creatorQueryRepository.findCreatorByMember(size, getInterestPlatformBy(member));
+        List<Creator> randomCreators = creatorRepository.findCreatorByRandom(createRandomBy(totalCount, size), pageable);
+
+        return new FindHomeCreators(latestCreators, interestCreators, randomCreators);
+    }
+
+    private List<String> getInterestPlatformBy(Member member) {
+        if(Objects.isNull(member)) {
+            return Collections.emptyList();
+        }
+        return member.getInterestPlatforms();
+    }
+
+    private List<Long> createRandomBy(Long totalCount, int size) {
+        Set<Long> randoms = new HashSet<>();
+
+        while (randoms.size() < size) {
+            randoms.add((long) (Math.random() * totalCount) + 1);
+        }
+        return new ArrayList<>(randoms);
     }
 
     public void validateDuplicateNickname(String nickname) {

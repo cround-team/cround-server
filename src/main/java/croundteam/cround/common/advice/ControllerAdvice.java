@@ -23,9 +23,12 @@ public class ControllerAdvice {
     }
     
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e, HttpServletRequest request) {
         ErrorCode errorCode = e.getErrorCode();
-        log.info("error code = {}, message = {}", errorCode.getStatus(), errorCode.getMessage());
+
+        String method = request.getMethod();
+        String requestURI = request.getRequestURI();
+        log.info("ERROR {}: [{}][{}]: Exception Message = {}", errorCode.getStatus(), method, requestURI, errorCode.getMessage());
         return ResponseEntity.status(errorCode.getStatus()).body(new ErrorResponse(errorCode.getMessage()));
     }
 

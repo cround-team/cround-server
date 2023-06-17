@@ -1,16 +1,20 @@
 package croundteam.cround.support.search;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PAGE_SIZE;
 
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Getter @Setter
 public class BaseSearchCondition {
 
-    private Long cursorId;
+    private long cursorId;
     private int size = DEFAULT_PAGE_SIZE;
 
+    public BaseSearchCondition(long cursorId, int size) {
+        this.cursorId = cursorId;
+        this.size = size;
+    }
 }
