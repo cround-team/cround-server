@@ -28,5 +28,5 @@ public interface CreatorRepository extends JpaRepository<Creator, Long> {
     Long countBy();
 
     @Query("SELECT c FROM Creator c WHERE c.id IN (:randomBy)")
-    List<Creator> findCreatorByRandom(@Param("randomBy") List<Long> randomBy, Pageable pageable);
+    List<Creator> findCreatorByRandom(@Param("randomBy") List<Long> randomBy);
 }

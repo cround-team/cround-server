@@ -1,5 +1,6 @@
 package croundteam.cround.shortform.presentation;
 
+import croundteam.cround.shortform.application.dto.FindPopularShortForms;
 import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.annotation.Authenticated;
@@ -49,5 +50,13 @@ public class ShortFormController {
     @GetMapping("/{shortsId}")
     public ResponseEntity<FindShortFormResponse> findOne(@PathVariable Long shortsId, @Authenticated AppUser appUser) {
         return ResponseEntity.ok(shortFormService.findOne(shortsId, appUser));
+    }
+
+    @GetMapping("/populars")
+    public ResponseEntity<FindPopularShortForms> findPopularShorts(
+            @RequestParam(name = "size", defaultValue = "3") int size,
+            @Authenticated AppUser appUser
+    ) {
+       return ResponseEntity.ok(shortFormService.findPopularShortForm(size, appUser));
     }
 }

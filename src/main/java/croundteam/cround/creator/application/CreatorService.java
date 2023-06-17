@@ -104,20 +104,13 @@ public class CreatorService {
         return new SearchBoardsResponses(boards, member);
     }
 
-    /**
-     * 크리에이터 최신순
-     *
-     * @return
-     */
     public FindHomeCreators findHomeCreators(int size, AppUser appUser) {
         Long totalCount = creatorRepository.countBy();
-        Pageable pageable = PageRequest.ofSize(size);
-
         Member member = getLoginMember(appUser);
 
-        List<Creator> latestCreators = creatorRepository.findCreatorBy(pageable);
+        List<Creator> latestCreators = creatorRepository.findCreatorBy(PageRequest.ofSize(size));
         List<Creator> interestCreators = creatorQueryRepository.findCreatorByMember(size, getInterestPlatformBy(member));
-        List<Creator> randomCreators = creatorRepository.findCreatorByRandom(createRandomBy(totalCount, size), pageable);
+        List<Creator> randomCreators = creatorRepository.findCreatorByRandom(createRandomBy(totalCount, size));
 
         return new FindHomeCreators(latestCreators, interestCreators, randomCreators);
     }

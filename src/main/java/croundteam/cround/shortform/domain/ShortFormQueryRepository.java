@@ -123,6 +123,28 @@ public class ShortFormQueryRepository {
         return convertToSliceFrom(searchCondition.getSize(), shortForms, Pageable.unpaged());
     }
 
+    public List<ShortForm> findPopularLikeShortForm(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormLike).on(shortForm.id.eq(shortFormLike.shortForm.id))
+                .groupBy(shortForm.id)
+                .orderBy(shortFormLike.shortForm.id.sum().desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
+    }
+
+    public List<ShortForm> findPopularBookmarkShortForms(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormBookmark).on(shortForm.id.eq(shortFormBookmark.shortForm.id))
+                .groupBy(shortForm.id)
+                .orderBy(shortFormBookmark.shortForm.id.sum().desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
+    }
+
     private BooleanExpression ltCursorId(Long cursorId) {
         if(cursorId == null) {
             return null;

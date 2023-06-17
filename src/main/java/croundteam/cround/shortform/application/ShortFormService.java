@@ -1,5 +1,6 @@
 package croundteam.cround.shortform.application;
 
+import croundteam.cround.shortform.application.dto.FindPopularShortForms;
 import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
@@ -24,6 +25,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.SHORT_FORM_IMAGE_PATH_PREFIX;
 
@@ -66,6 +69,15 @@ public class ShortFormService {
         ShortForm shortForm = shortFormRepository.findShortFormWithJoinById(shortsId);
 
         return FindShortFormResponse.from(shortForm, member);
+    }
+
+    public FindPopularShortForms findPopularShortForm(int size, AppUser appUser) {
+        Member member = getLoginMember(appUser);
+
+        List<ShortForm> popularLikeShortForms = shortFormQueryRepository.findPopularLikeShortForm(size);
+        List<ShortForm> popularBookmarkShortForms = shortFormQueryRepository.findPopularBookmarkShortForms(size);
+
+        return new FindPopularShortForms(popularLikeShortForms, popularBookmarkShortForms, member);
     }
 
     private Member getLoginMember(AppUser appUser) {

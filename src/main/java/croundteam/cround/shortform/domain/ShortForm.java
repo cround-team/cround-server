@@ -1,5 +1,6 @@
 package croundteam.cround.shortform.domain;
 
+import com.querydsl.core.annotations.QueryProjection;
 import croundteam.cround.board.domain.Content;
 import croundteam.cround.board.domain.Title;
 import croundteam.cround.common.domain.BaseTime;
