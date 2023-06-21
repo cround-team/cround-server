@@ -49,4 +49,14 @@ public class BoardController {
     public ResponseEntity<FindBoardResponse> findOne(@PathVariable Long boardId, @Authenticated AppUser appUser) {
         return ResponseEntity.ok(boardService.findOne(boardId, appUser));
     }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<Void> deleteBoard(
+            @PathVariable Long boardId,
+            @Login LoginMember loginMember
+    ) {
+        boardService.deleteBoard(boardId, loginMember);
+
+        return ResponseEntity.noContent().build();
+    }
 }

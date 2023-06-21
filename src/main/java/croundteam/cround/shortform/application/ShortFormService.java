@@ -47,7 +47,7 @@ public class ShortFormService {
     @Transactional
     public Long saveShortForm(MultipartFile file, LoginMember loginMember, ShortFormSaveRequest shortFormSaveRequest) {
         Member member = findMemberByEmail(loginMember.getEmail());
-        Creator creator = findCreatorByEmail(member);
+        Creator creator = findCreatorByMember(member);
 
         String thumbnailImage = s3Uploader.uploadImage(file, SHORT_FORM_IMAGE_PATH_PREFIX);
 
@@ -71,7 +71,7 @@ public class ShortFormService {
     public FindShortFormResponse findOne(Long shortsId, AppUser appUser) {
         ShortForm shortForm = findShortFormById(shortsId);
         Member member = getLoginMember(appUser);
-        Creator creator = findCreatorByEmail(member);
+        Creator creator = findCreatorByMember(member);
 
         shortForm.increaseVisit();
 
@@ -97,8 +97,8 @@ public class ShortFormService {
     @Transactional
     public void deleteShortForm(Long shortsId, LoginMember loginMember) {
         Member member = findMemberByEmail(loginMember.getEmail());
-        Creator creator = findCreatorByEmail(member);
-        ShortForm shortForm = findShortFormOfCreator(shortsId);
+        Creator creator = findCreatorByMember(member);
+        ShortForm shortForm = findShortFormById(shortsId);
 
         validateSameCreator(creator, shortForm);
 
@@ -112,19 +112,13 @@ public class ShortFormService {
         return findMemberByEmail(appUser.getEmail());
     }
 
-    private ShortForm findShortFormOfCreator(Long shortsId) {
-        return shortFormRepository.findShortFormById(shortsId).orElseThrow(() -> {
-            throw new NotExistShortFormException(ErrorCode.NOT_EXIST_SHORT_FORM);
-        });
-    }
-
-    private static void validateSameCreator(Creator creator, ShortForm findShortForm) {
-        if(!findShortForm.isAuthoredBy(creator)) {
+    private static void validateSameCreator(Creator creator, ShortForm shortForm) {
+        if(!shortForm.isAuthoredBy(creator)) {
             throw new InvalidCreatorException(ErrorCode.INVALID_AUTHORIZATION);
         }
     }
 
-    private Creator findCreatorByEmail(Member member) {
+    private Creator findCreatorByMember(Member member) {
         return creatorRepository.findCreatorByMember(member).orElseThrow(
                 () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
     }

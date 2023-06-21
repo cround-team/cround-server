@@ -164,7 +164,4 @@ public class Creator extends BaseTime {
         return creatorTags.castTagsFromCreatorTags();
     }
 
-    public boolean isAuthoredBy(Member member) {
-        return this.member.equals(member);
-    }
 }
