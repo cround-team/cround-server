@@ -18,8 +18,8 @@ import static croundteam.cround.creator.domain.tag.Tags.castToTags;
 
 @Getter
 @NoArgsConstructor
-@AllArgsConstructor
-public class CreatorSaveRequest {
+@ToString
+public class CreatorUpdateRequest {
 
     private String nickname;
     private String description;
@@ -30,6 +30,19 @@ public class CreatorSaveRequest {
     private List<String> tags = new ArrayList<>();
     private List<String> activityPlatforms = new ArrayList<>();
 
+    public CreatorUpdateRequest(String nickname, String description,
+                                String platformHeadType, String platformHeadTheme, String platformUrl,
+                                String profileImage, List<String> tags, List<String> activityPlatforms) {
+        this.nickname = nickname;
+        this.description = description;
+        this.platformHeadType = platformHeadType;
+        this.platformHeadTheme = platformHeadTheme;
+        this.platformUrl = platformUrl;
+        this.profileImage = profileImage;
+        this.tags = tags;
+        this.activityPlatforms = activityPlatforms;
+    }
+
     public Creator toEntity() {
         return Creator.builder()
                 .nickname(Nickname.create(nickname))
@@ -39,5 +52,9 @@ public class CreatorSaveRequest {
                 .tags(castToTags(tags))
                 .activityPlatforms(castToActivityPlatforms(activityPlatforms))
                 .build();
+    }
+
+    public Platform getPlatform() {
+        return Platform.of(platformHeadTheme, platformHeadType, platformUrl);
     }
 }

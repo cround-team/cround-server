@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LikeResponse {
 
-    private int likeCount;
+    private int likesCount;
     private boolean isLiked;
 
     public LikeResponse(Board board, Member member) {
-        this.likeCount = board.getBoardLikes();
+        this.likesCount = board.getBoardLikes();
         this.isLiked = board.isLikedBy(member);
     }
 
     public LikeResponse(ShortForm shortForm, Member member) {
-        this.likeCount = shortForm.getShortFormLikes();
+        this.likesCount = shortForm.getShortFormLikes();
         this.isLiked = shortForm.isLikedBy(member);
     }
 }

@@ -102,7 +102,7 @@ public class CreatorQueryRepository {
         Set<Long> randoms = new HashSet<>();
 
         while (randoms.size() < size) {
-            int random = (int) (Math.random() * ids.size()); //randoms.add((long) (Math.random() * totalCount) + 1);
+            int random = (int) (Math.random() * ids.size());
             Long e = ids.get(random);
 
             randoms.add(e);

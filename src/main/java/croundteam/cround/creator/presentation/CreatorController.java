@@ -2,10 +2,7 @@ package croundteam.cround.creator.presentation;
 
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.creator.application.CreatorService;
-import croundteam.cround.creator.application.dto.CreatorSaveRequest;
-import croundteam.cround.creator.application.dto.FindCreatorResponse;
-import croundteam.cround.creator.application.dto.FindHomeCreators;
-import croundteam.cround.creator.application.dto.SearchCreatorResponses;
+import croundteam.cround.creator.application.dto.*;
 import croundteam.cround.member.application.dto.NicknameValidationRequest;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
 import croundteam.cround.support.annotation.Authenticated;
@@ -39,7 +36,7 @@ public class CreatorController {
     public ResponseEntity<Void> createCreator(
             @RequestPart(required = false, value = "profileImage") MultipartFile file,
             @Login LoginMember loginMember,
-            @RequestPart CreatorSaveRequest creatorSaveRequest
+            @RequestPart @Valid CreatorSaveRequest creatorSaveRequest
     ) {
         Long creatorId = creatorService.createCreator(file, loginMember, creatorSaveRequest);
         return ResponseEntity.created(URI.create("/api/creators/" + creatorId)).build();
@@ -83,6 +80,17 @@ public class CreatorController {
     ) {
         SearchBoardsResponses searchBoardsResponses = creatorService.findBoardsByCreator(creatorId, appUser, searchCondition);
         return ResponseEntity.ok(searchBoardsResponses);
+    }
+
+    @PatchMapping(value = "/me", consumes = {APPLICATION_JSON_VALUE, MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Void> updateCreator(
+            @RequestPart(required = false, value = "profileImage") MultipartFile file,
+            @RequestPart @Valid CreatorUpdateRequest creatorUpdateRequest,
+            @Login LoginMember loginMember
+    ) {
+        creatorService.updateCreator(file, creatorUpdateRequest, loginMember);
+
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/validations/nickname")

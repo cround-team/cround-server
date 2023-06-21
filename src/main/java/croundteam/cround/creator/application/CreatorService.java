@@ -4,16 +4,14 @@ import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.board.domain.Board;
 import croundteam.cround.board.domain.BoardQueryRepository;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.creator.application.dto.CreatorSaveRequest;
-import croundteam.cround.creator.application.dto.FindCreatorResponse;
-import croundteam.cround.creator.application.dto.FindHomeCreators;
-import croundteam.cround.creator.application.dto.SearchCreatorResponses;
+import croundteam.cround.creator.application.dto.*;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.CreatorQueryRepository;
 import croundteam.cround.creator.domain.CreatorRepository;
 import croundteam.cround.creator.domain.CreatorTagRepository;
 import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.creator.exception.IncorrectSourceException;
+import croundteam.cround.creator.exception.NoSuchCreatorException;
 import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.infra.S3Uploader;
 import croundteam.cround.member.domain.Member;
@@ -115,6 +113,18 @@ public class CreatorService {
         return new FindHomeCreators(latestCreators, interestCreators, randomCreators);
     }
 
+    @Transactional
+    public void updateCreator(MultipartFile file, CreatorUpdateRequest creatorUpdateRequest, LoginMember loginMember) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
+
+        validateSameSource(loginMember, member);
+
+        creatorTagRepository.deleteByCreator(creator);
+        String profileImage = s3Uploader.uploadImage(file, CREATOR_IMAGE_PATH_PREFIX);
+        creator.update(creatorUpdateRequest, member, profileImage);
+    }
+
     private List<String> getInterestPlatformBy(Member member) {
         if(Objects.isNull(member)) {
             return Collections.emptyList();
@@ -149,29 +159,21 @@ public class CreatorService {
         return findMemberByEmail(appUser.getEmail());
     }
 
-    /**
-     * 페치 조인 쿼리 (1 + 1 + 1)
-     * 1: Creator, Member, Creator_Platform
-     * 2: Tag, CreatorTag
-     * 3: Count(Follow)
-     */
     private Creator findCreatorWithJoinById(Long creatorId) {
         return creatorRepository.findCreatorById(creatorId).orElseThrow(() -> {
             throw new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR);
         });
     }
 
-    /**
-     * 일반 쿼리 (1 + N)
-     * 1: Creator
-     * 2: Follow
-     * 3: CreatorTag
-     * 4: Tag
-     * 5: Creator_Platform
-     */
     private Creator findCreatorById(Long creatorId) {
         return creatorRepository.findById(creatorId).orElseThrow(() -> {
             throw new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR);
+        });
+    }
+
+    private Creator findCreatorByMember(Member member) {
+        return creatorRepository.findCreatorByMember(member).orElseThrow(() -> {
+            throw new NoSuchCreatorException(ErrorCode.INVALID_AUTHORIZATION);
         });
     }
 
