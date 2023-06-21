@@ -3,6 +3,7 @@ package croundteam.cround.member.domain;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.follow.domain.Followings;
+import croundteam.cround.member.application.dto.MemberUpdateRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,6 +64,11 @@ public class Member extends BaseTime {
     public void update(Member member) {
         this.email = member.getEmail();
         this.username = member.getUsername();
+    }
+
+    public void updateMember(MemberUpdateRequest memberUpdateRequest) {
+        this.nickname = Nickname.create(memberUpdateRequest.getNickname());
+        this.interestPlatforms = InterestPlatforms.create(memberUpdateRequest.getInterestPlatforms());
     }
 
     public void follow(Creator target) {
