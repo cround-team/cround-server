@@ -5,6 +5,7 @@ import croundteam.cround.creator.application.dto.CreatorUpdateRequest;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.domain.tag.CreatorTag;
+import croundteam.cround.creator.domain.tag.CreatorTags;
 import croundteam.cround.creator.domain.tag.Tags;
 import croundteam.cround.follow.domain.Follow;
 import croundteam.cround.follow.domain.Followers;

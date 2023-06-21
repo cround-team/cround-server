@@ -1,7 +1,6 @@
-package croundteam.cround.creator.domain;
+package croundteam.cround.creator.domain.tag;
 
-import croundteam.cround.creator.domain.tag.CreatorTag;
-import croundteam.cround.creator.domain.tag.Tags;
+import croundteam.cround.creator.domain.Creator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class CreatorTags {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
     private List<CreatorTag> creatorTags = new ArrayList<>();
 
     public CreatorTags(List<CreatorTag> creatorTags) {
