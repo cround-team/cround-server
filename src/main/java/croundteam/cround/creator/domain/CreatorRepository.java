@@ -14,7 +14,7 @@ public interface CreatorRepository extends JpaRepository<Creator, Long> {
     boolean existsByNicknameName(@Param("nickname") String nickname);
 
     @Query("SELECT c FROM Creator c WHERE c.member.email = :email")
-    Optional<Creator> findCreatorByEmail(@Param("email") String email);
+    Optional<Creator> findCreatorByMember(@Param("email") String email);
 
     @Query("SELECT c FROM Creator c " +
             "join fetch c.member m " +

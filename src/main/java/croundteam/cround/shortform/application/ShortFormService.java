@@ -3,6 +3,7 @@ package croundteam.cround.shortform.application;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.CreatorRepository;
+import croundteam.cround.creator.exception.InvalidCreatorException;
 import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.infra.S3Uploader;
 import croundteam.cround.member.domain.Member;
@@ -15,6 +16,7 @@ import croundteam.cround.shortform.application.dto.ShortFormSaveRequest;
 import croundteam.cround.shortform.domain.ShortForm;
 import croundteam.cround.shortform.domain.ShortFormQueryRepository;
 import croundteam.cround.shortform.domain.ShortFormRepository;
+import croundteam.cround.shortform.exception.NotExistShortFormException;
 import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.vo.LoginMember;
@@ -44,7 +46,8 @@ public class ShortFormService {
 
     @Transactional
     public Long saveShortForm(MultipartFile file, LoginMember loginMember, ShortFormSaveRequest shortFormSaveRequest) {
-        Creator creator = findCreatorByEmail(loginMember.getEmail());
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByEmail(member);
 
         String thumbnailImage = s3Uploader.uploadImage(file, SHORT_FORM_IMAGE_PATH_PREFIX);
 
@@ -66,14 +69,22 @@ public class ShortFormService {
 
     @Transactional
     public FindShortFormResponse findOne(Long shortsId, AppUser appUser) {
+        ShortForm shortForm = findShortFormById(shortsId);
         Member member = getLoginMember(appUser);
-        ShortForm shortForm = shortFormRepository.findShortFormWithJoinById(shortsId);
+        Creator creator = findCreatorByEmail(member);
+
         shortForm.increaseVisit();
 
-        return FindShortFormResponse.from(shortForm, member);
+        return FindShortFormResponse.from(shortForm, member, creator);
     }
 
-    public FindPopularShortForms findPopularShortForm(int size, AppUser appUser) {
+    private ShortForm findShortFormById(Long shortsId) {
+        return shortFormRepository.findShortFormById(shortsId).orElseThrow(() -> {
+            throw new NotExistShortFormException(ErrorCode.NOT_EXIST_SHORT_FORM);
+        });
+    }
+
+    public FindPopularShortForms findPopularShortForms(int size, AppUser appUser) {
         Member member = getLoginMember(appUser);
 
         List<ShortForm> popularVisitShortForms = shortFormQueryRepository.findPopularVisitShortForm(size);
@@ -83,6 +94,17 @@ public class ShortFormService {
         return new FindPopularShortForms(popularVisitShortForms, popularLikeShortForms, popularBookmarkShortForms, member);
     }
 
+    @Transactional
+    public void deleteShortForm(Long shortsId, LoginMember loginMember) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByEmail(member);
+        ShortForm shortForm = findShortFormOfCreator(shortsId);
+
+        validateSameCreator(creator, shortForm);
+
+        shortFormRepository.deleteById(shortsId);
+    }
+
     private Member getLoginMember(AppUser appUser) {
         if (appUser.isGuest()) {
             return null;
@@ -90,8 +112,20 @@ public class ShortFormService {
         return findMemberByEmail(appUser.getEmail());
     }
 
-    private Creator findCreatorByEmail(String email) {
-        return creatorRepository.findCreatorByEmail(email).orElseThrow(
+    private ShortForm findShortFormOfCreator(Long shortsId) {
+        return shortFormRepository.findShortFormById(shortsId).orElseThrow(() -> {
+            throw new NotExistShortFormException(ErrorCode.NOT_EXIST_SHORT_FORM);
+        });
+    }
+
+    private static void validateSameCreator(Creator creator, ShortForm findShortForm) {
+        if(!findShortForm.isAuthoredBy(creator)) {
+            throw new InvalidCreatorException(ErrorCode.INVALID_AUTHORIZATION);
+        }
+    }
+
+    private Creator findCreatorByEmail(Member member) {
+        return creatorRepository.findCreatorByMember(member).orElseThrow(
                 () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
     }
 

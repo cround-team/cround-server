@@ -1,5 +1,6 @@
 package croundteam.cround.shortform.application.dto;
 
+import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.shortform.domain.ShortForm;
 import lombok.Builder;
@@ -41,7 +42,7 @@ public class FindShortFormResponse {
         this.isAuthored = isAuthored;
     }
 
-    public static FindShortFormResponse from(ShortForm shorts, Member member) {
+    public static FindShortFormResponse from(ShortForm shorts, Member member, Creator creator) {
         return FindShortFormResponse.builder()
                 .shortsId(shorts.getId())
                 .title(shorts.getTitle())
@@ -54,7 +55,7 @@ public class FindShortFormResponse {
                 .bookmarksCount(shorts.getShortFormBookmarks())
                 .isLiked(shorts.isLikedBy(member))
                 .isBookmarked(shorts.isBookmarkedBy(member))
-                .isAuthored(shorts.isAuthoredBy(member))
+                .isAuthored(shorts.isAuthoredBy(creator))
                 .build();
     }
 }

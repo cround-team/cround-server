@@ -11,7 +11,7 @@ import croundteam.cround.creator.domain.CreatorRepository;
 import croundteam.cround.creator.domain.CreatorTagRepository;
 import croundteam.cround.creator.domain.tag.CreatorTag;
 import croundteam.cround.creator.exception.IncorrectSourceException;
-import croundteam.cround.creator.exception.NoSuchCreatorException;
+import croundteam.cround.creator.exception.InvalidCreatorException;
 import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.infra.S3Uploader;
 import croundteam.cround.member.domain.Member;
@@ -173,7 +173,7 @@ public class CreatorService {
 
     private Creator findCreatorByMember(Member member) {
         return creatorRepository.findCreatorByMember(member).orElseThrow(() -> {
-            throw new NoSuchCreatorException(ErrorCode.INVALID_AUTHORIZATION);
+            throw new InvalidCreatorException(ErrorCode.INVALID_AUTHORIZATION);
         });
     }
 

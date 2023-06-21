@@ -102,11 +102,11 @@ public class ShortForm extends BaseTime {
         return shortsBookmarks.isBookmarkedBy(this, member);
     }
 
-    public boolean isAuthoredBy(Member member) {
-        if(Objects.isNull(member)) {
+    public boolean isAuthoredBy(Creator creator) {
+        if(Objects.isNull(creator)) {
             return false;
         }
-        return creator.isAuthoredBy(member);
+        return this.creator.equals(creator);
     }
 
     public void increaseVisit() {
@@ -148,4 +148,5 @@ public class ShortForm extends BaseTime {
     public String getShortFormUrl() {
         return shortFormUrl.getShortFormUrl();
     }
+
 }

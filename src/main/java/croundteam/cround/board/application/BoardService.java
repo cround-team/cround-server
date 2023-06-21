@@ -78,7 +78,7 @@ public class BoardService {
     }
 
     private Creator findCreatorByEmail(String email) {
-        return creatorRepository.findCreatorByEmail(email).orElseThrow(
+        return creatorRepository.findCreatorByMember(email).orElseThrow(
                 () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
     }
 }

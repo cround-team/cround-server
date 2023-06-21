@@ -1,15 +1,15 @@
 package croundteam.cround.shortform.presentation;
 
-import croundteam.cround.shortform.application.dto.FindPopularShortForms;
-import croundteam.cround.support.search.SearchCondition;
-import croundteam.cround.support.vo.AppUser;
-import croundteam.cround.support.annotation.Authenticated;
-import croundteam.cround.support.annotation.Login;
-import croundteam.cround.support.vo.LoginMember;
 import croundteam.cround.shortform.application.ShortFormService;
+import croundteam.cround.shortform.application.dto.FindPopularShortForms;
 import croundteam.cround.shortform.application.dto.FindShortFormResponse;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
 import croundteam.cround.shortform.application.dto.ShortFormSaveRequest;
+import croundteam.cround.support.annotation.Authenticated;
+import croundteam.cround.support.annotation.Login;
+import croundteam.cround.support.search.SearchCondition;
+import croundteam.cround.support.vo.AppUser;
+import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -53,10 +53,19 @@ public class ShortFormController {
     }
 
     @GetMapping("/populars")
-    public ResponseEntity<FindPopularShortForms> findPopularShorts(
+    public ResponseEntity<FindPopularShortForms> findPopularShortForms(
             @RequestParam(name = "size", defaultValue = "3") int size,
             @Authenticated AppUser appUser
     ) {
-       return ResponseEntity.ok(shortFormService.findPopularShortForm(size, appUser));
+       return ResponseEntity.ok(shortFormService.findPopularShortForms(size, appUser));
+    }
+
+    @DeleteMapping("/{shortsId}")
+    public ResponseEntity<Void> deleteShortForm(
+            @PathVariable final Long shortsId,
+            @Login final LoginMember loginMember) {
+        shortFormService.deleteShortForm(shortsId, loginMember);
+
+        return ResponseEntity.noContent().build();
     }
 }
