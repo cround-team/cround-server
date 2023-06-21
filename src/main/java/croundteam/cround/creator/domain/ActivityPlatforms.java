@@ -3,6 +3,8 @@ package croundteam.cround.creator.domain;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.util.ArrayList;

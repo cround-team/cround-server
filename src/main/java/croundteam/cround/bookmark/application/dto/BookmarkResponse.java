@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class BookmarkResponse {
 
-    int bookmarkCount;
+    int bookmarksCount;
     private boolean isBookmarked;
 
     public BookmarkResponse(Board board, Member member) {
-        this.bookmarkCount = board.getBoardBookmarks();
+        this.bookmarksCount = board.getBoardBookmarks();
         this.isBookmarked = board.isBookmarkedBy(member);
     }
 
     public BookmarkResponse(ShortForm shortForm, Member member) {
-        this.bookmarkCount = shortForm.getShortFormBookmarks();
+        this.bookmarksCount = shortForm.getShortFormBookmarks();
         this.isBookmarked = shortForm.isBookmarkedBy(member);
     }
 }

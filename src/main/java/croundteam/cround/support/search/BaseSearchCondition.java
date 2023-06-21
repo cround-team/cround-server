@@ -10,7 +10,7 @@ import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PAGE_SI
 @Getter @Setter
 public class BaseSearchCondition {
 
-    private long cursorId;
+    private Long cursorId;
     private int size = DEFAULT_PAGE_SIZE;
 
     public BaseSearchCondition(long cursorId, int size) {

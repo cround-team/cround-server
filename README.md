@@ -14,10 +14,10 @@
 #3. 객체 지향적인 설계와 캡슐화<br/>
 #4. 동적 쿼리와 페이지네이션<br/>
 #5. fetch Join과 N+1 문제에 대한 고찰 (`@ManyToOne`, `@OneToMany`)<br/>
-#6. 변경 감지와 orphanremoval, cascade<br/>
+#6. 변경 감지와 orphanremoval, cascade 그리고 [에러][detached entity passed to persist] Cascade Error<br/>
 #7. JWT 토큰 방식<br/>
 #8. git branch 전략<br/>
-#9. [에러][detached entity passed to persist] Cascade Error<br/>
+#9. 커버링 인덱스와 클러스터링/논클러스터링 인덱스
 
 <br/>
 

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class CreatorTags {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creator", cascade = CascadeType.ALL)
     private List<CreatorTag> creatorTags = new ArrayList<>();
 
     public CreatorTags(List<CreatorTag> creatorTags) {
