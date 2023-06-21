@@ -1,6 +1,7 @@
 package croundteam.cround.board.application.dto;
 
 import croundteam.cround.board.domain.Board;
+import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
 import lombok.Builder;
 import lombok.Getter;
@@ -39,7 +40,7 @@ public class FindBoardResponse {
         this.isAuthored = isAuthored;
     }
 
-    public static FindBoardResponse from(Board board, Member member) {
+    public static FindBoardResponse from(Board board, Member member, Creator creator) {
         return FindBoardResponse.builder()
                 .boardId(board.getId())
                 .title(board.getTitle())
@@ -51,7 +52,7 @@ public class FindBoardResponse {
                 .bookmarksCount(board.getBoardBookmarks())
                 .isLiked(board.isLikedBy(member))
                 .isBookmarked(board.isBookmarkedBy(member))
-                .isAuthored(board.isAuthoredBy(member))
+                .isAuthored(board.isAuthoredBy(creator))
                 .build();
     }
 }

@@ -90,11 +90,11 @@ public class Board extends BaseTime {
         return boardBookmarks.isBookmarkedBy(this, member);
     }
 
-    public boolean isAuthoredBy(Member member) {
-        if(Objects.isNull(member)) {
+    public boolean isAuthoredBy(Creator creator) {
+        if(Objects.isNull(creator)) {
             return false;
         }
-        return creator.isAuthoredBy(member);
+        return this.creator.equals(creator);
     }
 
     public int getBoardLikes() {

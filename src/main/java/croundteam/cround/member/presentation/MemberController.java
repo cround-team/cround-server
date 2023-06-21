@@ -5,6 +5,7 @@ import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.member.application.MemberService;
 import croundteam.cround.member.application.dto.EmailValidationRequest;
 import croundteam.cround.member.application.dto.MemberSaveRequest;
+import croundteam.cround.member.application.dto.MemberUpdateRequest;
 import croundteam.cround.member.application.dto.NicknameValidationRequest;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
 import croundteam.cround.support.annotation.Login;
@@ -61,6 +62,16 @@ public class MemberController {
         return ResponseEntity.ok(searchCreatorResponses);
     }
 
+    @PatchMapping("/me")
+    public ResponseEntity<Void> updateMember(
+            @RequestBody @Valid final MemberUpdateRequest memberUpdateRequest,
+            @Login final LoginMember loginMember
+    ) {
+        memberService.updateMember(memberUpdateRequest, loginMember);
+
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/validations/email")
     public ResponseEntity<Void> validateEmail(
             @RequestBody @Valid final EmailValidationRequest emailValidationRequest
@@ -76,9 +87,4 @@ public class MemberController {
         memberService.validateDuplicateNickname(nicknameValidationRequest.getNickname());
         return ResponseEntity.ok().build();
     }
-
-    /**
-     * /me/password
-     * 비밀번호 재설정
-     */
 }

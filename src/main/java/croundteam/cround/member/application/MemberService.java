@@ -8,6 +8,7 @@ import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.CreatorQueryRepository;
 import croundteam.cround.member.application.dto.MemberSaveRequest;
+import croundteam.cround.member.application.dto.MemberUpdateRequest;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.DuplicateEmailException;
@@ -76,6 +77,12 @@ public class MemberService {
         Slice<Creator> creators = creatorQueryRepository.findOwnFollowingBy(member.getId(), searchCondition);
 
         return new SearchCreatorResponses(creators);
+    }
+
+    @Transactional
+    public void updateMember(MemberUpdateRequest memberUpdateRequest, LoginMember loginMember) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        member.updateMember(memberUpdateRequest);
     }
 
     private Member findMemberByEmail(String email) {
