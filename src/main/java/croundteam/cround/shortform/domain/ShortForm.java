@@ -6,6 +6,7 @@ import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.shortform.application.dto.ShortFormUpdateRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -56,12 +57,19 @@ public class ShortForm extends BaseTime {
     @Builder
     public ShortForm(Title title, Content content, PlatformType platformType,
                      ThumbnailImage thumbnailUrl, ShortFormUrl shortFormUrl, Creator creator) {
-        this.platformType = platformType;
         this.title = title;
         this.content = content;
+        this.platformType = platformType;
         this.thumbnailUrl = thumbnailUrl;
         this.shortFormUrl = shortFormUrl;
         this.creator = creator;
+    }
+
+    public void update(ShortFormUpdateRequest shortFormUpdateRequest, String filePath) {
+        this.title = Title.create(shortFormUpdateRequest.getTitle());
+        this.content = Content.create(shortFormUpdateRequest.getContent());
+        this.platformType = PlatformType.create(shortFormUpdateRequest.getPlatformType());
+        this.thumbnailUrl = ThumbnailImage.create(filePath);
     }
 
     public void addCreator(Creator creator) {
@@ -148,5 +156,4 @@ public class ShortForm extends BaseTime {
     public String getShortFormUrl() {
         return shortFormUrl.getShortFormUrl();
     }
-
 }

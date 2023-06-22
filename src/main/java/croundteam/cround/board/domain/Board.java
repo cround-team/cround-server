@@ -1,6 +1,7 @@
 package croundteam.cround.board.domain;
 
 import croundteam.cround.board.application.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.BoardUpdateRequest;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
@@ -58,6 +59,12 @@ public class Board extends BaseTime {
                 .content(Content.create(boardSaveRequest.getContent()))
                 .creator(creator)
                 .build();
+    }
+
+    public void update(BoardUpdateRequest boardUpdateRequest) {
+        this.title = Title.create(boardUpdateRequest.getTitle());
+        this.content = Content.create(boardUpdateRequest.getContent());
+        this.platformType = PlatformType.create(boardUpdateRequest.getPlatformType());
     }
 
     public void like(Member member) {

@@ -121,7 +121,7 @@ public class CreatorService {
         validateSameSource(loginMember, member);
 
         creatorTagRepository.deleteByCreator(creator);
-        String profileImage = s3Uploader.uploadImage(file, CREATOR_IMAGE_PATH_PREFIX);
+        String profileImage = s3Uploader.uploadImageIfEquals(creator.getProfileImage(), file, CREATOR_IMAGE_PATH_PREFIX);
         creator.update(creatorUpdateRequest, member, profileImage);
     }
 

@@ -1,6 +1,7 @@
 package croundteam.cround.board.application;
 
 import croundteam.cround.board.application.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.BoardUpdateRequest;
 import croundteam.cround.board.application.dto.FindBoardResponse;
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.board.domain.Board;
@@ -73,10 +74,15 @@ public class BoardService {
         boardRepository.deleteById(boardId);;
     }
 
-    private static void validateSameCreator(Creator creator, Board board) {
-        if(!board.isAuthoredBy(creator)) {
-            throw new InvalidCreatorException(ErrorCode.INVALID_AUTHORIZATION);
-        }
+    @Transactional
+    public void updateBoard(Long boardId, BoardUpdateRequest boardUpdateRequest, LoginMember loginMember) {
+        Board board = findBoardById(boardId);
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
+
+        validateSameCreator(creator, board);
+
+        board.update(boardUpdateRequest);
     }
 
     private Member getLoginMember(AppUser appUser) {
@@ -84,6 +90,12 @@ public class BoardService {
             return null;
         }
         return findMemberByEmail(appUser.getEmail());
+    }
+
+    private void validateSameCreator(Creator creator, Board board) {
+        if(!board.isAuthoredBy(creator)) {
+            throw new InvalidCreatorException(ErrorCode.INVALID_AUTHORIZATION);
+        }
     }
 
     private Board findBoardById(Long boardId) {

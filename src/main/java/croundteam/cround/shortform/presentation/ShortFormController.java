@@ -1,10 +1,7 @@
 package croundteam.cround.shortform.presentation;
 
 import croundteam.cround.shortform.application.ShortFormService;
-import croundteam.cround.shortform.application.dto.FindPopularShortForms;
-import croundteam.cround.shortform.application.dto.FindShortFormResponse;
-import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
-import croundteam.cround.shortform.application.dto.ShortFormSaveRequest;
+import croundteam.cround.shortform.application.dto.*;
 import croundteam.cround.support.annotation.Authenticated;
 import croundteam.cround.support.annotation.Login;
 import croundteam.cround.support.search.SearchCondition;
@@ -59,6 +56,18 @@ public class ShortFormController {
     ) {
        return ResponseEntity.ok(shortFormService.findPopularShortForms(size, appUser));
     }
+
+    @PatchMapping("/{shortsId}")
+    public ResponseEntity<Void> updateShortForm(
+            @PathVariable final Long shortsId,
+            @RequestPart final ShortFormUpdateRequest shortFormUpdateRequest,
+            @Login final LoginMember loginMember,
+            @RequestPart(required = false, value = "thumbnailImage") MultipartFile file
+    ) {
+        shortFormService.updateShortFrom(shortsId, shortFormUpdateRequest, loginMember, file);
+        return ResponseEntity.ok().build();
+    }
+
 
     @DeleteMapping("/{shortsId}")
     public ResponseEntity<Void> deleteShortForm(

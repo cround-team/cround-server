@@ -2,12 +2,13 @@ package croundteam.cround.board.presentation;
 
 import croundteam.cround.board.application.BoardService;
 import croundteam.cround.board.application.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.BoardUpdateRequest;
 import croundteam.cround.board.application.dto.FindBoardResponse;
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
-import croundteam.cround.support.search.SearchCondition;
-import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.annotation.Authenticated;
 import croundteam.cround.support.annotation.Login;
+import croundteam.cround.support.search.SearchCondition;
+import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +57,17 @@ public class BoardController {
             @Login LoginMember loginMember
     ) {
         boardService.deleteBoard(boardId, loginMember);
-
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{boardId}")
+    public ResponseEntity<Void> updateBoard(
+            @PathVariable final Long boardId,
+            @RequestBody final BoardUpdateRequest boardUpdateRequest,
+            @Login final LoginMember loginMember
+    ) {
+        boardService.updateBoard(boardId, boardUpdateRequest, loginMember);
+        return ResponseEntity.ok().build();
+    }
+
 }
