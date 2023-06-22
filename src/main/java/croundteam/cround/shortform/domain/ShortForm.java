@@ -6,6 +6,7 @@ import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.shortform.application.dto.ShortFormUpdateRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,6 +41,9 @@ public class ShortForm extends BaseTime {
     @Embedded
     private ShortFormUrl shortFormUrl;
 
+    @Column(columnDefinition = "bigint default 0", nullable = false)
+    private long visit;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "creator_id")
     private Creator creator;
@@ -53,12 +57,19 @@ public class ShortForm extends BaseTime {
     @Builder
     public ShortForm(Title title, Content content, PlatformType platformType,
                      ThumbnailImage thumbnailUrl, ShortFormUrl shortFormUrl, Creator creator) {
-        this.platformType = platformType;
         this.title = title;
         this.content = content;
+        this.platformType = platformType;
         this.thumbnailUrl = thumbnailUrl;
         this.shortFormUrl = shortFormUrl;
         this.creator = creator;
+    }
+
+    public void update(ShortFormUpdateRequest shortFormUpdateRequest, String filePath) {
+        this.title = Title.create(shortFormUpdateRequest.getTitle());
+        this.content = Content.create(shortFormUpdateRequest.getContent());
+        this.platformType = PlatformType.create(shortFormUpdateRequest.getPlatformType());
+        this.thumbnailUrl = ThumbnailImage.create(filePath);
     }
 
     public void addCreator(Creator creator) {
@@ -99,8 +110,19 @@ public class ShortForm extends BaseTime {
         return shortsBookmarks.isBookmarkedBy(this, member);
     }
 
-    public int getBookmarkCount() {
-        return shortsBookmarks.getBookmarkCount();
+    public boolean isAuthoredBy(Creator creator) {
+        if(Objects.isNull(creator)) {
+            return false;
+        }
+        return this.creator.equals(creator);
+    }
+
+    public void increaseVisit() {
+        visit++;
+    }
+
+    public int getShortFormBookmarks() {
+        return shortsBookmarks.getShortFormBookmarks();
     }
 
     public int getShortFormLikes() {

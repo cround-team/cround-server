@@ -3,12 +3,14 @@ package croundteam.cround.member.domain;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.follow.domain.Followings;
+import croundteam.cround.member.application.dto.MemberUpdateRequest;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -64,6 +66,11 @@ public class Member extends BaseTime {
         this.username = member.getUsername();
     }
 
+    public void updateMember(MemberUpdateRequest memberUpdateRequest) {
+        this.nickname = Nickname.create(memberUpdateRequest.getNickname());
+        this.interestPlatforms = InterestPlatforms.create(memberUpdateRequest.getInterestPlatforms());
+    }
+
     public void follow(Creator target) {
         followings.follow(this, target);
     }
@@ -74,5 +81,17 @@ public class Member extends BaseTime {
 
     public String getNickname() {
         return nickname.getName();
+    }
+
+    public void updateCreatorType() {
+        role = Role.CREATOR;
+    }
+
+    public String getRoleName() {
+        return role.getName();
+    }
+
+    public List<String> getInterestPlatforms() {
+        return interestPlatforms.castPlatformTypes();
     }
 }

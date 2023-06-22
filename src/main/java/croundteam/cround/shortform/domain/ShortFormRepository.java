@@ -5,18 +5,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ShortFormRepository extends JpaRepository<ShortForm, Long> {
 
     @Query("SELECT s FROM ShortForm s " +
             "join fetch s.creator c " +
+            "join fetch c.member m " +
             "WHERE s.id = :shortsId")
-    ShortForm findShortFormWithJoinById(@Param("shortsId") Long shortsId);
+    Optional<ShortForm> findShortFormById(@Param("shortsId") Long shortsId);
 
     @Query("SELECT s FROM ShortForm s " +
-            "join s.shortFormLikes.shortFormLikes as likes " +
-            "on likes.member.id = :memberId " +
-            "group by s ")
-    List<ShortForm> findOwnBookmarkBy(@Param("memberId") Long memberId);
+            "left join s.shortFormLikes.shortFormLikes l " +
+            "left join s.shortsBookmarks.shortsBookmarks b " +
+            "where s.id = :shortsId " +
+            "group by s")
+    Optional<ShortForm> findShortFormWithLikeAndBookmarkById(@Param("shortsId") Long shortsId);
 
 }

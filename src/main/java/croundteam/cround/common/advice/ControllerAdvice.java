@@ -23,9 +23,12 @@ public class ControllerAdvice {
     }
     
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e) {
+    public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException e, HttpServletRequest request) {
         ErrorCode errorCode = e.getErrorCode();
-        log.info("error code = {}, message = {}", errorCode.getStatus(), errorCode.getMessage());
+
+        String method = request.getMethod();
+        String requestURI = request.getRequestURI();
+        log.info("ERROR {}: [{}][{}]: Exception Message = {}", errorCode.getStatus(), method, requestURI, errorCode.getMessage());
         return ResponseEntity.status(errorCode.getStatus()).body(new ErrorResponse(errorCode.getMessage()));
     }
 
@@ -36,13 +39,8 @@ public class ControllerAdvice {
          */
         String method = request.getMethod();
         String requestURI = request.getRequestURI();
-        String queryString = request.getQueryString();
 
-        if(Objects.isNull(queryString)) {
-            queryString = "";
-        }
-
-        log.info("ERROR 500: [{}][{}={}]: Exception Message = {}", method, requestURI, queryString, e.getMessage());
+        log.info("ERROR 500: [{}][{}]: Exception Message = {}", method, requestURI, e.getMessage());
         return ResponseEntity.internalServerError().body(new ErrorResponse("알 수 없는 문제가 발생했습니다. 서버 관리자에게 문의주세요."));
     }
 }

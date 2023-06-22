@@ -1,5 +1,6 @@
 package croundteam.cround.shortform.application.dto;
 
+import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.shortform.domain.ShortForm;
 import lombok.Builder;
@@ -21,11 +22,12 @@ public class FindShortFormResponse {
     private int bookmarksCount;
     private boolean isLiked;
     private boolean isBookmarked;
+    private boolean isAuthored;
 
     @Builder
     public FindShortFormResponse(Long shortsId, String title, String content,
                                  String author, String platformType, String profileImage, String shortFormUrl,
-                                 int likesCount, int bookmarksCount, boolean isLiked, boolean isBookmarked) {
+                                 int likesCount, int bookmarksCount, boolean isLiked, boolean isBookmarked, boolean isAuthored) {
         this.shortsId = shortsId;
         this.title = title;
         this.content = content;
@@ -37,9 +39,10 @@ public class FindShortFormResponse {
         this.bookmarksCount = bookmarksCount;
         this.isLiked = isLiked;
         this.isBookmarked = isBookmarked;
+        this.isAuthored = isAuthored;
     }
 
-    public static FindShortFormResponse from(ShortForm shorts, Member member) {
+    public static FindShortFormResponse from(ShortForm shorts, Member member, Creator creator) {
         return FindShortFormResponse.builder()
                 .shortsId(shorts.getId())
                 .title(shorts.getTitle())
@@ -49,9 +52,10 @@ public class FindShortFormResponse {
                 .profileImage(shorts.getProfileImage())
                 .shortFormUrl(shorts.getShortFormUrl())
                 .likesCount(shorts.getShortFormLikes())
-                .bookmarksCount(shorts.getBookmarkCount())
+                .bookmarksCount(shorts.getShortFormBookmarks())
                 .isLiked(shorts.isLikedBy(member))
                 .isBookmarked(shorts.isBookmarkedBy(member))
+                .isAuthored(shorts.isAuthoredBy(creator))
                 .build();
     }
 }

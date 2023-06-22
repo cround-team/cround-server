@@ -45,7 +45,7 @@ public class ShortFormBookmarks {
         return shortsBookmarks.contains(bookmark);
     }
 
-    public int getBookmarkCount() {
+    public int getShortFormBookmarks() {
         return shortsBookmarks.size();
     }
 }

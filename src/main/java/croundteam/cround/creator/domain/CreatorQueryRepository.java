@@ -4,28 +4,25 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import croundteam.cround.board.domain.Board;
-import croundteam.cround.follow.domain.QFollow;
-import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
-import croundteam.cround.support.search.SimpleSearchCondition;
+import croundteam.cround.support.search.BaseSearchCondition;
+import croundteam.cround.support.search.SearchCondition;
+import io.jsonwebtoken.lang.Collections;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-import static croundteam.cround.board.domain.QBoard.board;
-import static croundteam.cround.bookmark.domain.QBoardBookmark.boardBookmark;
-import static croundteam.cround.support.search.SearchCondition.CreatorSortCondition;
 import static croundteam.cround.creator.domain.QCreator.creator;
 import static croundteam.cround.creator.domain.tag.QTag.tag;
 import static croundteam.cround.follow.domain.QFollow.follow;
+import static croundteam.cround.member.domain.QMember.member;
 import static croundteam.cround.support.RepositorySupport.convertToSliceFrom;
+import static croundteam.cround.support.search.SearchCondition.CreatorSortCondition;
 
 @Repository
 public class CreatorQueryRepository {
@@ -72,7 +69,7 @@ public class CreatorQueryRepository {
         throw new InvalidSortTypeException(ErrorCode.INVALID_SORT_TYPE);
     }
 
-    public Slice<Creator> findOwnFollowingBy(Long memberId, SimpleSearchCondition searchCondition) {
+    public Slice<Creator> findOwnFollowingBy(Long memberId, BaseSearchCondition searchCondition) {
         List<Creator> creators = jpaQueryFactory
                 .select(creator)
                 .from(creator, creator)
@@ -85,8 +82,36 @@ public class CreatorQueryRepository {
         return convertToSliceFrom(searchCondition.getSize(), creators, Pageable.unpaged());
     }
 
+    public List<Creator> findCreatorByInterestPlatform(int size, List<String> interestPlatforms) {
+
+        List<Long> ids = jpaQueryFactory
+                .select(creator.id)
+                .from(creator)
+                .where(filterByPlatform(interestPlatforms))
+                .groupBy(creator.id)
+                .fetch();
+
+        return jpaQueryFactory
+                .selectFrom(creator)
+                .join(creator.member, member).fetchJoin()
+                .where(creator.id.in(createRandomBy(ids, size)))
+                .fetch();
+    }
+
+    private List<Long> createRandomBy(List<Long> ids, int size) {
+        Set<Long> randoms = new HashSet<>();
+
+        while (randoms.size() < size) {
+            int random = (int) (Math.random() * ids.size());
+            Long e = ids.get(random);
+
+            randoms.add(e);
+        }
+        return new ArrayList<>(randoms);
+    }
+
     private BooleanBuilder filterByPlatform(List<String> platforms) {
-        if (Objects.isNull(platforms)) {
+        if (Objects.isNull(platforms) || Collections.isEmpty(platforms)) {
             return null;
         }
 

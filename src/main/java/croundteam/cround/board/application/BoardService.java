@@ -1,20 +1,22 @@
 package croundteam.cround.board.application;
 
 import croundteam.cround.board.application.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.BoardUpdateRequest;
 import croundteam.cround.board.application.dto.FindBoardResponse;
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.board.domain.Board;
-import croundteam.cround.board.exception.NotExistBoardException;
 import croundteam.cround.board.domain.BoardQueryRepository;
 import croundteam.cround.board.domain.BoardRepository;
-import croundteam.cround.support.search.SearchCondition;
+import croundteam.cround.board.exception.NotExistBoardException;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.domain.CreatorRepository;
+import croundteam.cround.creator.exception.InvalidCreatorException;
+import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.domain.MemberRepository;
+import croundteam.cround.member.exception.NotExistMemberException;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +39,10 @@ public class BoardService {
 
     @Transactional
     public Long saveBoard(LoginMember loginMember, BoardSaveRequest boardSaveRequest) {
-        Creator creator = findCreatorByEmail(loginMember.getEmail());
-        Board board = Board.of(creator, boardSaveRequest);
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
 
+        Board board = Board.of(creator, boardSaveRequest);
         Board saveBoard = boardRepository.save(board);
 
         return saveBoard.getId();
@@ -52,15 +55,34 @@ public class BoardService {
         return new SearchBoardsResponses(boards, member);
     }
 
-    public FindBoardResponse findOne(Long boardId) {
-        Board board = findBoardWithJoinById(boardId);
-        return FindBoardResponse.from(board);
+    public FindBoardResponse findOne(Long boardId, AppUser appUser) {
+        Board board = findBoardById(boardId);
+        Member member = getLoginMember(appUser);
+        Creator creator = findCreatorByMember(member);
+
+        return FindBoardResponse.from(board, member, creator);
     }
 
-    private Board findBoardWithJoinById(Long boardId) {
-        return boardRepository.findBoardById(boardId).orElseThrow(() -> {
-            throw new NotExistBoardException(ErrorCode.NOT_EXIST_BOARD);
-        });
+    @Transactional
+    public void deleteBoard(Long boardId, LoginMember loginMember) {
+        Board board = findBoardById(boardId);
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
+
+        validateSameCreator(creator, board);
+
+        boardRepository.deleteById(boardId);;
+    }
+
+    @Transactional
+    public void updateBoard(Long boardId, BoardUpdateRequest boardUpdateRequest, LoginMember loginMember) {
+        Board board = findBoardById(boardId);
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
+
+        validateSameCreator(creator, board);
+
+        board.update(boardUpdateRequest);
     }
 
     private Member getLoginMember(AppUser appUser) {
@@ -70,13 +92,25 @@ public class BoardService {
         return findMemberByEmail(appUser.getEmail());
     }
 
+    private void validateSameCreator(Creator creator, Board board) {
+        if(!board.isAuthoredBy(creator)) {
+            throw new InvalidCreatorException(ErrorCode.INVALID_AUTHORIZATION);
+        }
+    }
+
+    private Board findBoardById(Long boardId) {
+        return boardRepository.findBoardById(boardId).orElseThrow(() -> {
+            throw new NotExistBoardException(ErrorCode.NOT_EXIST_BOARD);
+        });
+    }
+
     private Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email).orElseThrow(
                 () -> new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER));
     }
 
-    private Creator findCreatorByEmail(String email) {
-        return creatorRepository.findCreatorByEmail(email).orElseThrow(
+    private Creator findCreatorByMember(Member member) {
+        return creatorRepository.findCreatorByMember(member).orElseThrow(
                 () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
     }
 }

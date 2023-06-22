@@ -1,22 +1,22 @@
 package croundteam.cround.shortform.application;
 
-import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.domain.CreatorRepository;
+import croundteam.cround.creator.exception.InvalidCreatorException;
+import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.infra.S3Uploader;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.domain.MemberRepository;
-import croundteam.cround.support.vo.AppUser;
-import croundteam.cround.support.vo.LoginMember;
-import croundteam.cround.shortform.application.dto.FindShortFormResponse;
-import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
-import croundteam.cround.shortform.application.dto.ShortFormSaveRequest;
+import croundteam.cround.member.exception.NotExistMemberException;
+import croundteam.cround.shortform.application.dto.*;
 import croundteam.cround.shortform.domain.ShortForm;
 import croundteam.cround.shortform.domain.ShortFormQueryRepository;
 import croundteam.cround.shortform.domain.ShortFormRepository;
+import croundteam.cround.shortform.exception.NotExistShortFormException;
+import croundteam.cround.support.search.SearchCondition;
+import croundteam.cround.support.vo.AppUser;
+import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +24,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.SHORT_FORM_IMAGE_PATH_PREFIX;
 
@@ -41,7 +43,8 @@ public class ShortFormService {
 
     @Transactional
     public Long saveShortForm(MultipartFile file, LoginMember loginMember, ShortFormSaveRequest shortFormSaveRequest) {
-        Creator creator = findCreatorByEmail(loginMember.getEmail());
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
 
         String thumbnailImage = s3Uploader.uploadImage(file, SHORT_FORM_IMAGE_PATH_PREFIX);
 
@@ -61,11 +64,57 @@ public class ShortFormService {
         return new SearchShortFormResponses(shortForms, member);
     }
 
+    @Transactional
     public FindShortFormResponse findOne(Long shortsId, AppUser appUser) {
+        ShortForm shortForm = findShortFormById(shortsId);
         Member member = getLoginMember(appUser);
-        ShortForm shortForm = shortFormRepository.findShortFormWithJoinById(shortsId);
+        Creator creator = findCreatorByMember(member);
 
-        return FindShortFormResponse.from(shortForm, member);
+        shortForm.increaseVisit();
+
+        return FindShortFormResponse.from(shortForm, member, creator);
+    }
+
+    private ShortForm findShortFormById(Long shortsId) {
+        return shortFormRepository.findShortFormById(shortsId).orElseThrow(() -> {
+            throw new NotExistShortFormException(ErrorCode.NOT_EXIST_SHORT_FORM);
+        });
+    }
+
+    public FindPopularShortForms findPopularShortForms(int size, AppUser appUser) {
+        Member member = getLoginMember(appUser);
+
+        List<ShortForm> popularVisitShortForms = shortFormQueryRepository.findPopularVisitShortForm(size);
+        List<ShortForm> popularLikeShortForms = shortFormQueryRepository.findPopularLikeShortForm(size);
+        List<ShortForm> popularBookmarkShortForms = shortFormQueryRepository.findPopularBookmarkShortForms(size);
+
+        return new FindPopularShortForms(popularVisitShortForms, popularLikeShortForms, popularBookmarkShortForms, member);
+    }
+
+    @Transactional
+    public void deleteShortForm(Long shortsId, LoginMember loginMember) {
+        ShortForm shortForm = findShortFormById(shortsId);
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
+
+        validateSameCreator(creator, shortForm);
+
+        shortFormRepository.deleteById(shortsId);
+    }
+
+    @Transactional
+    public void updateShortFrom(
+            final Long shortsId, final ShortFormUpdateRequest shortFormUpdateRequest,
+            final LoginMember loginMember, final MultipartFile file
+    ) {
+        ShortForm shortForm = findShortFormById(shortsId);
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
+
+        validateSameCreator(creator, shortForm);
+
+        String original = s3Uploader.uploadImageIfEquals(shortForm.getThumbnailImage(), file, SHORT_FORM_IMAGE_PATH_PREFIX);
+        shortForm.update(shortFormUpdateRequest, original);
     }
 
     private Member getLoginMember(AppUser appUser) {
@@ -75,8 +124,14 @@ public class ShortFormService {
         return findMemberByEmail(appUser.getEmail());
     }
 
-    private Creator findCreatorByEmail(String email) {
-        return creatorRepository.findCreatorByEmail(email).orElseThrow(
+    private static void validateSameCreator(Creator creator, ShortForm shortForm) {
+        if(!shortForm.isAuthoredBy(creator)) {
+            throw new InvalidCreatorException(ErrorCode.INVALID_AUTHORIZATION);
+        }
+    }
+
+    private Creator findCreatorByMember(Member member) {
+        return creatorRepository.findCreatorByMember(member).orElseThrow(
                 () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
     }
 

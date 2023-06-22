@@ -12,10 +12,6 @@ public class TokenResponse {
         this.refreshToken = refreshToken;
     }
 
-    public String extractByAccessToken() {
-        return accessToken.substring(7);
-    }
-
     public String extractByRefreshToken() {
         return refreshToken.substring(7);
     }

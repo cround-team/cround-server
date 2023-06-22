@@ -1,6 +1,7 @@
 package croundteam.cround.board.domain;
 
 import croundteam.cround.board.application.dto.BoardSaveRequest;
+import croundteam.cround.board.application.dto.BoardUpdateRequest;
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.platform.PlatformType;
@@ -60,6 +61,12 @@ public class Board extends BaseTime {
                 .build();
     }
 
+    public void update(BoardUpdateRequest boardUpdateRequest) {
+        this.title = Title.create(boardUpdateRequest.getTitle());
+        this.content = Content.create(boardUpdateRequest.getContent());
+        this.platformType = PlatformType.create(boardUpdateRequest.getPlatformType());
+    }
+
     public void like(Member member) {
         boardLikes.like(this, member);
     }
@@ -74,6 +81,27 @@ public class Board extends BaseTime {
 
     public void unbookmark(Member member) {
         boardBookmarks.unbookmark(this, member);
+    }
+
+    public boolean isLikedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return boardLikes.isLikedBy(this, member);
+    }
+
+    public boolean isBookmarkedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return boardBookmarks.isBookmarkedBy(this, member);
+    }
+
+    public boolean isAuthoredBy(Creator creator) {
+        if(Objects.isNull(creator)) {
+            return false;
+        }
+        return this.creator.equals(creator);
     }
 
     public int getBoardLikes() {
@@ -102,19 +130,5 @@ public class Board extends BaseTime {
 
     public String getCreatorNickname() {
         return creator.getNickname();
-    }
-
-    public boolean isLikedBy(Member member) {
-        if(Objects.isNull(member)) {
-            return false;
-        }
-        return boardLikes.isLikedBy(this, member);
-    }
-
-    public boolean isBookmarkedBy(Member member) {
-        if(Objects.isNull(member)) {
-            return false;
-        }
-        return boardBookmarks.isBookmarkedBy(this, member);
     }
 }

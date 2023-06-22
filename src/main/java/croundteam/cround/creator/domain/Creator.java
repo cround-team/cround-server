@@ -1,9 +1,11 @@
 package croundteam.cround.creator.domain;
 
 import croundteam.cround.common.domain.BaseTime;
+import croundteam.cround.creator.application.dto.CreatorUpdateRequest;
 import croundteam.cround.creator.domain.platform.Platform;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.domain.tag.CreatorTag;
+import croundteam.cround.creator.domain.tag.CreatorTags;
 import croundteam.cround.creator.domain.tag.Tags;
 import croundteam.cround.follow.domain.Follow;
 import croundteam.cround.follow.domain.Followers;
@@ -16,12 +18,15 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
+import static croundteam.cround.creator.domain.ActivityPlatforms.castToActivityPlatforms;
+import static croundteam.cround.creator.domain.tag.Tags.castToTags;
+
 @Entity
 @Getter
 @Table(uniqueConstraints = @UniqueConstraint(name = "creator_member_unique", columnNames = "member_id"),
         indexes = @Index(name = "idx_creator_nickname", columnList = "nickname", unique = true))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(of = {"id", "description", "profileImage", "platform"})
+@EqualsAndHashCode
 public class Creator extends BaseTime {
 
     @Id
@@ -86,7 +91,18 @@ public class Creator extends BaseTime {
     }
 
     public void addMember(Member member) {
+        member.updateCreatorType();
         this.member = member;
+    }
+
+    public void update(CreatorUpdateRequest requestCreator, Member member, String profileImage) {
+        this.nickname = Nickname.create(requestCreator.getNickname());
+        this.description = Description.create(requestCreator.getDescription());
+        this.platform = requestCreator.getPlatform();
+        this.member = member;
+        this.creatorTags = CreatorTags.create(this, castToTags(requestCreator.getTags()));
+        this.activityPlatforms = castToActivityPlatforms(requestCreator.getActivityPlatforms());
+        this.profileImage = ProfileImage.create(profileImage);
     }
 
     public void addTags(List<CreatorTag> creatorTags) {
@@ -147,4 +163,5 @@ public class Creator extends BaseTime {
     public List<String> getTags() {
         return creatorTags.castTagsFromCreatorTags();
     }
+
 }

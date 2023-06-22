@@ -1,33 +1,40 @@
 package croundteam.cround.creator.application;
 
-import croundteam.cround.support.search.SearchCondition;
+import croundteam.cround.board.application.dto.SearchBoardsResponses;
+import croundteam.cround.board.domain.Board;
+import croundteam.cround.board.domain.BoardQueryRepository;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.creator.application.dto.CreatorSaveRequest;
-import croundteam.cround.creator.application.dto.FindCreatorResponse;
-import croundteam.cround.creator.application.dto.SearchCreatorResponses;
+import croundteam.cround.creator.application.dto.*;
 import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.creator.domain.tag.CreatorTag;
-import croundteam.cround.creator.exception.IncorrectSourceException;
-import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.domain.CreatorQueryRepository;
 import croundteam.cround.creator.domain.CreatorRepository;
 import croundteam.cround.creator.domain.CreatorTagRepository;
+import croundteam.cround.creator.domain.tag.CreatorTag;
+import croundteam.cround.creator.exception.IncorrectSourceException;
+import croundteam.cround.creator.exception.InvalidCreatorException;
+import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.infra.S3Uploader;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.DuplicateNicknameException;
 import croundteam.cround.member.exception.NotExistMemberException;
-import croundteam.cround.member.domain.MemberRepository;
+import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
+import croundteam.cround.shortform.domain.ShortForm;
+import croundteam.cround.shortform.domain.ShortFormQueryRepository;
+import croundteam.cround.support.search.BaseSearchCondition;
+import croundteam.cround.support.search.SearchCondition;
 import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.*;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_IMAGE_PATH_PREFIX;
 
@@ -39,8 +46,10 @@ public class CreatorService {
 
     private final MemberRepository memberRepository;
     private final CreatorRepository creatorRepository;
-    private final CreatorQueryRepository creatorQueryRepository;
     private final CreatorTagRepository creatorTagRepository;
+    private final CreatorQueryRepository creatorQueryRepository;
+    private final ShortFormQueryRepository shortFormQueryRepository;
+    private final BoardQueryRepository boardQueryRepository;
     private final S3Uploader s3Uploader;
 
     @Transactional
@@ -76,6 +85,62 @@ public class CreatorService {
         return new FindCreatorResponse(creator, member);
     }
 
+    public SearchShortFormResponses findShortsByCreator(Long creatorId, AppUser appUser, BaseSearchCondition searchCondition) {
+        Creator creator = findCreatorById(creatorId);
+        Member member = getLoginMember(appUser);
+
+        Slice<ShortForm> shortForms = shortFormQueryRepository.findShortsByCreatorAndCondition(creator.getId(), searchCondition);
+
+        return new SearchShortFormResponses(shortForms, member);
+    }
+
+    public SearchBoardsResponses findBoardsByCreator(Long creatorId, AppUser appUser, BaseSearchCondition searchCondition) {
+        Creator creator = findCreatorById(creatorId);
+        Member member = getLoginMember(appUser);
+
+        Slice<Board> boards = boardQueryRepository.findBoardsByCreatorAndCondition(creator.getId(), searchCondition);
+        return new SearchBoardsResponses(boards, member);
+    }
+
+    public FindHomeCreators findHomeCreators(int size, AppUser appUser) {
+        Long totalCount = creatorRepository.countBy();
+        Member member = getLoginMember(appUser);
+
+        List<Creator> latestCreators = creatorRepository.findCreatorSortByLatest(PageRequest.ofSize(size));
+        List<Creator> interestCreators = creatorQueryRepository.findCreatorByInterestPlatform(size, getInterestPlatformBy(member));
+        List<Creator> randomCreators = creatorRepository.findCreatorByRandom(createRandomBy(totalCount, size));
+
+        return new FindHomeCreators(latestCreators, interestCreators, randomCreators);
+    }
+
+    @Transactional
+    public void updateCreator(MultipartFile file, CreatorUpdateRequest creatorUpdateRequest, LoginMember loginMember) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
+
+        validateSameSource(loginMember, member);
+
+        creatorTagRepository.deleteByCreator(creator);
+        String profileImage = s3Uploader.uploadImageIfEquals(creator.getProfileImage(), file, CREATOR_IMAGE_PATH_PREFIX);
+        creator.update(creatorUpdateRequest, member, profileImage);
+    }
+
+    private List<String> getInterestPlatformBy(Member member) {
+        if(Objects.isNull(member)) {
+            return Collections.emptyList();
+        }
+        return member.getInterestPlatforms();
+    }
+
+    private List<Long> createRandomBy(Long totalCount, int size) {
+        Set<Long> randoms = new HashSet<>();
+
+        while (randoms.size() < size) {
+            randoms.add((long) (Math.random() * totalCount) + 1);
+        }
+        return new ArrayList<>(randoms);
+    }
+
     public void validateDuplicateNickname(String nickname) {
         if(creatorRepository.existsByNicknameName(nickname)) {
             throw new DuplicateNicknameException(ErrorCode.DUPLICATE_NICKNAME);
@@ -94,29 +159,21 @@ public class CreatorService {
         return findMemberByEmail(appUser.getEmail());
     }
 
-    /**
-     * 페치 조인 쿼리 (1 + 1 + 1)
-     * 1: Creator, Member, Creator_Platform
-     * 2: Tag, CreatorTag
-     * 3: Count(Follow)
-     */
     private Creator findCreatorWithJoinById(Long creatorId) {
         return creatorRepository.findCreatorById(creatorId).orElseThrow(() -> {
             throw new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR);
         });
     }
 
-    /**
-     * 일반 쿼리 (1 + N)
-     * 1: Creator
-     * 2: Follow
-     * 3: CreatorTag
-     * 4: Tag
-     * 5: Creator_Platform
-     */
     private Creator findCreatorById(Long creatorId) {
         return creatorRepository.findById(creatorId).orElseThrow(() -> {
             throw new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR);
+        });
+    }
+
+    private Creator findCreatorByMember(Member member) {
+        return creatorRepository.findCreatorByMember(member).orElseThrow(() -> {
+            throw new InvalidCreatorException(ErrorCode.INVALID_AUTHORIZATION);
         });
     }
 

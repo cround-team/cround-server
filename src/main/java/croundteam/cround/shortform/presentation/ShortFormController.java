@@ -1,14 +1,12 @@
 package croundteam.cround.shortform.presentation;
 
-import croundteam.cround.support.search.SearchCondition;
-import croundteam.cround.support.vo.AppUser;
+import croundteam.cround.shortform.application.ShortFormService;
+import croundteam.cround.shortform.application.dto.*;
 import croundteam.cround.support.annotation.Authenticated;
 import croundteam.cround.support.annotation.Login;
+import croundteam.cround.support.search.SearchCondition;
+import croundteam.cround.support.vo.AppUser;
 import croundteam.cround.support.vo.LoginMember;
-import croundteam.cround.shortform.application.ShortFormService;
-import croundteam.cround.shortform.application.dto.FindShortFormResponse;
-import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
-import croundteam.cround.shortform.application.dto.ShortFormSaveRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +27,7 @@ public class ShortFormController {
 
     @PostMapping
     public ResponseEntity<Void> saveShortForm(
-            @RequestPart(value = "profileImage") MultipartFile file,
+            @RequestPart(required = false, value = "thumbnailImage") MultipartFile file,
             @Login LoginMember loginMember,
             @RequestPart @Valid ShortFormSaveRequest shortFormSaveRequest) {
         Long shortFormId = shortFormService.saveShortForm(file, loginMember, shortFormSaveRequest);
@@ -49,5 +47,34 @@ public class ShortFormController {
     @GetMapping("/{shortsId}")
     public ResponseEntity<FindShortFormResponse> findOne(@PathVariable Long shortsId, @Authenticated AppUser appUser) {
         return ResponseEntity.ok(shortFormService.findOne(shortsId, appUser));
+    }
+
+    @GetMapping("/populars")
+    public ResponseEntity<FindPopularShortForms> findPopularShortForms(
+            @RequestParam(name = "size", defaultValue = "3") int size,
+            @Authenticated AppUser appUser
+    ) {
+       return ResponseEntity.ok(shortFormService.findPopularShortForms(size, appUser));
+    }
+
+    @PatchMapping("/{shortsId}")
+    public ResponseEntity<Void> updateShortForm(
+            @PathVariable final Long shortsId,
+            @RequestPart final ShortFormUpdateRequest shortFormUpdateRequest,
+            @Login final LoginMember loginMember,
+            @RequestPart(required = false, value = "thumbnailImage") MultipartFile file
+    ) {
+        shortFormService.updateShortFrom(shortsId, shortFormUpdateRequest, loginMember, file);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @DeleteMapping("/{shortsId}")
+    public ResponseEntity<Void> deleteShortForm(
+            @PathVariable final Long shortsId,
+            @Login final LoginMember loginMember) {
+        shortFormService.deleteShortForm(shortsId, loginMember);
+
+        return ResponseEntity.noContent().build();
     }
 }

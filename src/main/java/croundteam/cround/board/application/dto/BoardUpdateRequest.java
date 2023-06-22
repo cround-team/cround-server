@@ -5,15 +5,9 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class BoardSaveRequest {
+public class BoardUpdateRequest {
 
     private String title;
     private String content;
     private String platformType;
-
-    public BoardSaveRequest(String title, String content, String platformType) {
-        this.title = title;
-        this.content = content;
-        this.platformType = platformType;
-    }
 }

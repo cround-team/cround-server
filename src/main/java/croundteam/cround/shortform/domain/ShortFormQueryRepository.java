@@ -7,8 +7,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.creator.exception.InvalidSortTypeException;
+import croundteam.cround.support.search.BaseSearchCondition;
 import croundteam.cround.support.search.SearchCondition;
-import croundteam.cround.support.search.SimpleSearchCondition;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
@@ -94,7 +94,7 @@ public class ShortFormQueryRepository {
         return booleanBuilder;
     }
 
-    public Slice<ShortForm> findOwnBookmarkBy(Long memberId, SimpleSearchCondition searchCondition) {
+    public Slice<ShortForm> findOwnBookmarkBy(Long memberId, BaseSearchCondition searchCondition) {
         List<ShortForm> shortForms = jpaQueryFactory
                 .select(shortForm)
                 .from(shortForm, shortForm)
@@ -108,10 +108,56 @@ public class ShortFormQueryRepository {
         return convertToSliceFrom(searchCondition.getSize(), shortForms, Pageable.unpaged());
     }
 
+    public Slice<ShortForm> findShortsByCreatorAndCondition(Long creatorId, BaseSearchCondition searchCondition) {
+        List<ShortForm> shortForms = jpaQueryFactory
+                .select(shortForm)
+                .from(shortForm, shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormLike).on(shortForm.id.eq(shortFormLike.shortForm.id))
+                .leftJoin(shortFormBookmark).on(shortForm.id.eq(shortFormBookmark.shortForm.id))
+                .where(creator.id.eq(creatorId), ltCursorId(searchCondition.getCursorId()))
+                .groupBy(shortForm.id)
+                .orderBy(shortForm.id.desc())
+                .limit(searchCondition.getSize() + 1)
+                .fetch();
+        return convertToSliceFrom(searchCondition.getSize(), shortForms, Pageable.unpaged());
+    }
+
     private BooleanExpression ltCursorId(Long cursorId) {
         if(cursorId == null) {
             return null;
         }
         return creator.id.lt(cursorId);
+    }
+
+    public List<ShortForm> findPopularLikeShortForm(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormLike).on(shortForm.id.eq(shortFormLike.shortForm.id))
+                .groupBy(shortForm.id)
+                .orderBy(shortFormLike.shortForm.id.sum().desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
+    }
+
+    public List<ShortForm> findPopularBookmarkShortForms(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .leftJoin(shortFormBookmark).on(shortForm.id.eq(shortFormBookmark.shortForm.id))
+                .groupBy(shortForm.id)
+                .orderBy(shortFormBookmark.shortForm.id.sum().desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
+    }
+
+    public List<ShortForm> findPopularVisitShortForm(int size) {
+        return jpaQueryFactory
+                .selectFrom(shortForm)
+                .join(shortForm.creator, creator).fetchJoin()
+                .orderBy(shortForm.visit.desc(), shortForm.id.desc())
+                .limit(size)
+                .fetch();
     }
 }
