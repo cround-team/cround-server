@@ -9,10 +9,7 @@ import croundteam.cround.infra.S3Uploader;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.NotExistMemberException;
-import croundteam.cround.shortform.application.dto.FindPopularShortForms;
-import croundteam.cround.shortform.application.dto.FindShortFormResponse;
-import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
-import croundteam.cround.shortform.application.dto.ShortFormSaveRequest;
+import croundteam.cround.shortform.application.dto.*;
 import croundteam.cround.shortform.domain.ShortForm;
 import croundteam.cround.shortform.domain.ShortFormQueryRepository;
 import croundteam.cround.shortform.domain.ShortFormRepository;
@@ -96,13 +93,28 @@ public class ShortFormService {
 
     @Transactional
     public void deleteShortForm(Long shortsId, LoginMember loginMember) {
+        ShortForm shortForm = findShortFormById(shortsId);
         Member member = findMemberByEmail(loginMember.getEmail());
         Creator creator = findCreatorByMember(member);
-        ShortForm shortForm = findShortFormById(shortsId);
 
         validateSameCreator(creator, shortForm);
 
         shortFormRepository.deleteById(shortsId);
+    }
+
+    @Transactional
+    public void updateShortFrom(
+            final Long shortsId, final ShortFormUpdateRequest shortFormUpdateRequest,
+            final LoginMember loginMember, final MultipartFile file
+    ) {
+        ShortForm shortForm = findShortFormById(shortsId);
+        Member member = findMemberByEmail(loginMember.getEmail());
+        Creator creator = findCreatorByMember(member);
+
+        validateSameCreator(creator, shortForm);
+
+        String original = s3Uploader.uploadImageIfEquals(shortForm.getThumbnailImage(), file, SHORT_FORM_IMAGE_PATH_PREFIX);
+        shortForm.update(shortFormUpdateRequest, original);
     }
 
     private Member getLoginMember(AppUser appUser) {

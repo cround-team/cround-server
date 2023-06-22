@@ -5,8 +5,8 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.infra.exception.UploadFailureException;
 import croundteam.cround.creator.exception.InvalidImageExtensionException;
+import croundteam.cround.infra.exception.UploadFailureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +26,19 @@ public class S3Uploader {
 
     public S3Uploader(AmazonS3 amazonS3) {
         this.amazonS3 = amazonS3;
+    }
+
+    public String uploadImageIfEquals(String filePath, MultipartFile file, String dirPath) {
+        String original = extractOriginalFilename(filePath);
+
+        if(original.equals(file.getOriginalFilename())) {
+            return filePath;
+        }
+        return uploadImage(file, dirPath);
+    }
+
+    public String extractOriginalFilename(String filePath) {
+        return filePath.substring(filePath.lastIndexOf(FILE_NAME_DELIMITER) + 1);
     }
 
     public String uploadImage(MultipartFile file, String dirPath) {
@@ -73,4 +86,6 @@ public class S3Uploader {
     private static boolean isSupportExtension(String extension) {
         return "png".equals(extension) || "jpg".equals(extension);
     }
+
+
 }
