@@ -23,6 +23,7 @@ public class FindCreatorResponse {
     private String avgRating;
     private int followersCount;
     private boolean isFollowed;
+    private boolean isOwned;
 
     public FindCreatorResponse(Creator creator, Member member) {
         this.profileImage = creator.getProfileImage();
@@ -36,5 +37,6 @@ public class FindCreatorResponse {
         this.description = creator.getDescription();
         this.tags = creator.getTags();
         this.platformUrl = creator.getPlatformUrl();
+        this.isOwned = creator.isOwnedBy(member);
     }
 }

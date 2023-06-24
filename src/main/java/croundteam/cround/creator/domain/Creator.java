@@ -132,6 +132,13 @@ public class Creator extends BaseTime {
         return followers.isFollowedBy(this, member);
     }
 
+    public boolean isOwnedBy(Member member) {
+        if(Objects.isNull(member)) {
+            return false;
+        }
+        return this.member.equals(member);
+    }
+
     public String getNickname() {
         return nickname.getName();
     }
@@ -163,5 +170,4 @@ public class Creator extends BaseTime {
     public List<String> getTags() {
         return creatorTags.castTagsFromCreatorTags();
     }
-
 }

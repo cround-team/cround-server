@@ -17,6 +17,7 @@ public enum PlatformType {
     SPOON("스푼"),
     ZEPETTO("제페토"),
     EMOTICON("이모티콘"),
+    WEBTOON("웹툰"),
     NFT("NFT");
 
     @Column(name = "platform_type", nullable = false)

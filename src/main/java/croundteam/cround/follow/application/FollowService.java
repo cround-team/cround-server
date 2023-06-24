@@ -4,7 +4,6 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.creator.domain.CreatorRepository;
-import croundteam.cround.follow.application.dto.FollowResponse;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.domain.MemberRepository;
@@ -24,23 +23,19 @@ public class FollowService {
     private final CreatorRepository creatorRepository;
 
     @Transactional
-    public FollowResponse followCreator(Long creatorId, LoginMember loginMember) {
+    public void followCreator(Long creatorId, LoginMember loginMember) {
         Member source = findMemberByEmail(loginMember.getEmail());
         Creator target = findCreatorById(creatorId);
 
         source.follow(target);
-
-        return new FollowResponse(source, target);
     }
 
     @Transactional
-    public FollowResponse unfollowCreator(Long creatorId, LoginMember loginMember) {
+    public void unfollowCreator(Long creatorId, LoginMember loginMember) {
         Member source = findMemberByEmail(loginMember.getEmail());
         Creator target = findCreatorById(creatorId);
 
         source.unfollow(target);
-
-        return new FollowResponse(source, target);
     }
 
     private Creator findCreatorById(Long targetId) {
