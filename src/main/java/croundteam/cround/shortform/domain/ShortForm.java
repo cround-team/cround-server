@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -69,7 +70,7 @@ public class ShortForm extends BaseTime {
         this.title = Title.create(shortFormUpdateRequest.getTitle());
         this.content = Content.create(shortFormUpdateRequest.getContent());
         this.platformType = PlatformType.create(shortFormUpdateRequest.getPlatformType());
-        this.thumbnailUrl = ThumbnailImage.create(filePath);
+        this.thumbnailUrl = getThumbnailUrl(filePath);
     }
 
     public void addCreator(Creator creator) {
@@ -131,6 +132,13 @@ public class ShortForm extends BaseTime {
 
     public String getThumbnailImage() {
         return thumbnailUrl.getThumbnailImage();
+    }
+
+    public ThumbnailImage getThumbnailUrl(String filePath) {
+        if(StringUtils.hasText(filePath)) {
+            return ThumbnailImage.create(filePath);
+        }
+        return this.getThumbnailUrl();
     }
 
     public String getTitle() {
