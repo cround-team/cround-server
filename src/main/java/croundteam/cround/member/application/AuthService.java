@@ -1,5 +1,7 @@
 package croundteam.cround.member.application;
 
+import croundteam.cround.creator.domain.Creator;
+import croundteam.cround.creator.domain.CreatorRepository;
 import croundteam.cround.member.application.dto.LoginSuccessResponse;
 import croundteam.cround.member.application.dto.TokenResponse;
 import croundteam.cround.common.exception.ErrorCode;
@@ -35,6 +37,7 @@ import java.util.Map;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+    private final CreatorRepository creatorRepository;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final InMemoryClientRegistrationRepository inMemoryRepository;
@@ -48,7 +51,13 @@ public class AuthService {
         TokenResponse tokenResponse = issueToken(member);
         refreshTokenRepository.save(createRefreshToken(tokenResponse, member.getId()));
 
-        return new LoginSuccessResponse(tokenResponse, member.getRoleName());
+        Creator creator = findCreatorByMember(member);
+
+        return new LoginSuccessResponse(tokenResponse, member.getRoleName(), creator);
+    }
+
+    private Creator findCreatorByMember(Member member) {
+        return creatorRepository.findCreatorByMember(member).orElse(null);
     }
 
     @Transactional
@@ -65,7 +74,9 @@ public class AuthService {
         TokenResponse tokenResponse = issueToken(member);
         refreshTokenRepository.save(createRefreshToken(tokenResponse, member.getId()));
 
-        return new LoginSuccessResponse(tokenResponse, member.getRoleName());
+        Creator creator = findCreatorByMember(member);
+
+        return new LoginSuccessResponse(tokenResponse, member.getRoleName(), creator);
     }
 
     private Member saveOrUpdate(OAuthAttributes attributes) {

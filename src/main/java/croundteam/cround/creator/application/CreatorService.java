@@ -53,7 +53,7 @@ public class CreatorService {
     private final S3Uploader s3Uploader;
 
     @Transactional
-    public Long createCreator(MultipartFile file, LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
+    public CreatorSaveResponse createCreator(MultipartFile file, LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
         validateDuplicateNickname(creatorSaveRequest.getNickname());
 
         Member member = findMemberByEmail(loginMember.getEmail());
@@ -67,7 +67,7 @@ public class CreatorService {
 
         Creator saveCreator = creatorRepository.save(creator);
 
-        return saveCreator.getId();
+        return CreatorSaveResponse.create(saveCreator);
     }
 
     public SearchCreatorResponses searchCreatorsByCondition(SearchCondition searchCondition, Pageable pageable) {
@@ -114,7 +114,7 @@ public class CreatorService {
     }
 
     @Transactional
-    public void updateCreator(MultipartFile file, CreatorUpdateRequest creatorUpdateRequest, LoginMember loginMember) {
+    public CreatorUpdateResponse updateCreator(MultipartFile file, CreatorUpdateRequest creatorUpdateRequest, LoginMember loginMember) {
         Member member = findMemberByEmail(loginMember.getEmail());
         Creator creator = findCreatorByMember(member);
 
@@ -123,6 +123,8 @@ public class CreatorService {
         creatorTagRepository.deleteByCreator(creator);
         String profileImage = s3Uploader.uploadImageIfEquals(creator.getProfileImage(), file, CREATOR_IMAGE_PATH_PREFIX);
         creator.update(creatorUpdateRequest, member, profileImage);
+
+        return CreatorUpdateResponse.create(creator);
     }
 
     private List<String> getInterestPlatformBy(Member member) {

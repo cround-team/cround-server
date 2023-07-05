@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ThumbnailImage {
 
-    @Column(name = "thumbnail_url", nullable = false)
+    @Column(name = "thumbnail_url")
     private String url;
 
     private ThumbnailImage(String imageUrl) {

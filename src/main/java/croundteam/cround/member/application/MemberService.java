@@ -7,6 +7,7 @@ import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.CreatorQueryRepository;
+import croundteam.cround.member.application.dto.FindMemberResponse;
 import croundteam.cround.member.application.dto.MemberSaveRequest;
 import croundteam.cround.member.application.dto.MemberUpdateRequest;
 import croundteam.cround.member.domain.Member;
@@ -83,6 +84,12 @@ public class MemberService {
     public void updateMember(MemberUpdateRequest memberUpdateRequest, LoginMember loginMember) {
         Member member = findMemberByEmail(loginMember.getEmail());
         member.updateMember(memberUpdateRequest);
+    }
+
+    public FindMemberResponse findMember(LoginMember loginMember) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+
+        return new FindMemberResponse(member);
     }
 
     private Member findMemberByEmail(String email) {

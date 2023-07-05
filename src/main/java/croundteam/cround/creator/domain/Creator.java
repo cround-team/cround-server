@@ -13,6 +13,7 @@ import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.Nickname;
 import croundteam.cround.review.domain.Review;
 import lombok.*;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.util.List;
@@ -102,7 +103,14 @@ public class Creator extends BaseTime {
         this.member = member;
         this.creatorTags = CreatorTags.create(this, castToTags(requestCreator.getTags()));
         this.activityPlatforms = castToActivityPlatforms(requestCreator.getActivityPlatforms());
-        this.profileImage = ProfileImage.create(profileImage);
+        this.profileImage = getProfileUrl(profileImage);
+    }
+
+    private ProfileImage getProfileUrl(String profileImage) {
+        if(StringUtils.hasText(profileImage)) {
+            return ProfileImage.create(profileImage);
+        }
+        return this.profileImage;
     }
 
     public void addTags(List<CreatorTag> creatorTags) {
@@ -110,6 +118,7 @@ public class Creator extends BaseTime {
     }
 
     public void addProfileImage(String profileImage) {
+        if(profileImage.isBlank()) return;
         this.profileImage = ProfileImage.create(profileImage);
     }
 

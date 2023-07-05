@@ -3,10 +3,7 @@ package croundteam.cround.member.presentation;
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.creator.application.dto.SearchCreatorResponses;
 import croundteam.cround.member.application.MemberService;
-import croundteam.cround.member.application.dto.EmailValidationRequest;
-import croundteam.cround.member.application.dto.MemberSaveRequest;
-import croundteam.cround.member.application.dto.MemberUpdateRequest;
-import croundteam.cround.member.application.dto.NicknameValidationRequest;
+import croundteam.cround.member.application.dto.*;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
 import croundteam.cround.support.annotation.Login;
 import croundteam.cround.support.search.BaseSearchCondition;
@@ -42,6 +39,12 @@ public class MemberController {
     ) {
         SearchShortFormResponses searchShortFormResponses = memberService.findShortFormOwnBookmarks(loginMember, searchCondition);
         return ResponseEntity.ok(searchShortFormResponses);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<FindMemberResponse> findMember(@Login LoginMember loginMember) {
+        FindMemberResponse response = memberService.findMember(loginMember);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/me/boards/bookmarks")
