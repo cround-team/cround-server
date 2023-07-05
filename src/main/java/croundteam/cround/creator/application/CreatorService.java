@@ -53,7 +53,7 @@ public class CreatorService {
     private final S3Uploader s3Uploader;
 
     @Transactional
-    public Long createCreator(MultipartFile file, LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
+    public CreatorSaveResponse createCreator(MultipartFile file, LoginMember loginMember, CreatorSaveRequest creatorSaveRequest) {
         validateDuplicateNickname(creatorSaveRequest.getNickname());
 
         Member member = findMemberByEmail(loginMember.getEmail());
@@ -67,7 +67,7 @@ public class CreatorService {
 
         Creator saveCreator = creatorRepository.save(creator);
 
-        return saveCreator.getId();
+        return CreatorSaveResponse.create(saveCreator);
     }
 
     public SearchCreatorResponses searchCreatorsByCondition(SearchCondition searchCondition, Pageable pageable) {
