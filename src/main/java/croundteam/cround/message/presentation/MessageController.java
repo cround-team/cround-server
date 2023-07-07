@@ -1,14 +1,12 @@
 package croundteam.cround.message.presentation;
 
 import croundteam.cround.message.application.MessageService;
+import croundteam.cround.message.application.dto.FindMessageResponses;
 import croundteam.cround.message.application.dto.MessageSaveRequest;
 import croundteam.cround.support.annotation.Login;
 import croundteam.cround.support.vo.LoginMember;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/messages")
@@ -27,5 +25,11 @@ public class MessageController {
     ) {
         Long message = messageService.saveMessage(loginMember, messageSaveRequest);
         return ResponseEntity.ok(message);
+    }
+
+    @GetMapping
+    public ResponseEntity<FindMessageResponses> findMessages(@Login LoginMember loginMember) {
+        FindMessageResponses messages = messageService.findMessages(loginMember);
+        return ResponseEntity.ok(messages);
     }
 }

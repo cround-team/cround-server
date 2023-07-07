@@ -7,6 +7,7 @@ import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.NotExistMemberException;
+import croundteam.cround.message.application.dto.FindMessageResponses;
 import croundteam.cround.message.application.dto.MessageSaveRequest;
 import croundteam.cround.message.domain.Message;
 import croundteam.cround.message.domain.MessageRepository;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -51,6 +54,14 @@ public class MessageService {
         }
         throw new InvalidRoleException(ErrorCode.INVALID_ROLE);
     }
+
+    public FindMessageResponses findMessages(LoginMember loginMember) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        List<Message> messages = messageRepository.findMessageBySender(member.getId());
+
+        return new FindMessageResponses(messages);
+    }
+
 
     private Member findMemberByCreator(Long creatorId) {
         Creator creator = creatorRepository.findCreatorById(creatorId).orElseThrow(() -> {
