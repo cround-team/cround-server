@@ -68,7 +68,7 @@ public class ShortFormService {
     public FindShortFormResponse findOne(Long shortsId, AppUser appUser) {
         ShortForm shortForm = findShortFormById(shortsId);
         Member member = getLoginMember(appUser);
-        Creator creator = findCreatorByMember(member);
+        Creator creator = findCreatorIfExists(member);
 
         shortForm.increaseVisit();
 
@@ -133,6 +133,10 @@ public class ShortFormService {
     private Creator findCreatorByMember(Member member) {
         return creatorRepository.findCreatorByMember(member).orElseThrow(
                 () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
+    }
+
+    private Creator findCreatorIfExists(Member member) {
+        return creatorRepository.findCreatorByMember(member).orElse(null);
     }
 
     private Member findMemberByEmail(String email) {

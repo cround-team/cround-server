@@ -9,6 +9,8 @@ public final class ValidationMessages {
     public static final String MEMBER_EMAIL_MESSAGE = "이메일에 특수문자 '<', '>'를 포함할 수 없습니다.";
     public static final String MEMBER_NICKNAME_MESSAGE = "닉네임은 2~6글자로 영어, 한글, 숫자만 가능합니다.";
     public static final String MEMBER_PASSWORD_MESSAGE = "비밀번호는 영어 대소문자, 숫자, 특수문자를 포함한 8~20자만 가능합니다.";
+    public static final String MESSAGE_TEXT_EMPTY_MESSAGE = "쪽지 내용은 공백일 수 없습니다.";
+    public static final String MESSAGE_RECEIVER_EMPTY_MESSAGE = "쪽지의 대상은 공백일 수 없습니다.";
 
     public static final String MEMBER_NAME_FORMAT = "^[^a-zA-Z]{2,6}$";
     public static final String MEMBER_EMAIL_FORMAT = "^[^<>]*$";

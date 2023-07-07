@@ -58,7 +58,7 @@ public class BoardService {
     public FindBoardResponse findOne(Long boardId, AppUser appUser) {
         Board board = findBoardById(boardId);
         Member member = getLoginMember(appUser);
-        Creator creator = findCreatorByMember(member);
+        Creator creator = findCreatorIfExists(member);
 
         return FindBoardResponse.from(board, member, creator);
     }
@@ -112,5 +112,9 @@ public class BoardService {
     private Creator findCreatorByMember(Member member) {
         return creatorRepository.findCreatorByMember(member).orElseThrow(
                 () -> new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR));
+    }
+
+    private Creator findCreatorIfExists(Member member) {
+        return creatorRepository.findCreatorByMember(member).orElse(null);
     }
 }

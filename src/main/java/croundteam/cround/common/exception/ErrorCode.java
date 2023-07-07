@@ -36,6 +36,7 @@ public enum ErrorCode {
     INVALID_PROVIDER_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 Provider입니다."),
     INVALID_IMAGE_EXTENSION(HttpStatus.BAD_REQUEST, "유효하지 않은 확장자입니다."),
     INVALID_CONTENT_LENGTH(HttpStatus.BAD_REQUEST, "후기는 최소 1글자 이상, 최대 1000글자까지 가능합니다."),
+    INVALID_ROLE(HttpStatus.BAD_REQUEST, "쪽지를 보낼 수 없는 대상입니다."),
     DUPLICATE_FOLLOW(HttpStatus.BAD_REQUEST, "이미 팔로우한 대상입니다."),
 
     /**
@@ -61,6 +62,7 @@ public enum ErrorCode {
      * 500 INTERNAL SERVER ERROR
      */
     UPLOAD_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 S3에 저장 실패 하였습니다.");
+
 
     private final HttpStatus status;
     private final String message;
