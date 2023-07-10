@@ -4,6 +4,7 @@ import croundteam.cround.message.domain.Message;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,5 +23,9 @@ public class FindMessageResponse {
         this.receiver = message.getReceiver();
         this.text = message.getText();
         this.updatedDate = message.getUpdatedDate();
+    }
+
+    public LocalDate convertUpdatedDateToLocalDate() {
+        return updatedDate.toLocalDate();
     }
 }
