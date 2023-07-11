@@ -27,7 +27,6 @@ import static croundteam.cround.creator.domain.tag.Tags.castToTags;
 @Table(uniqueConstraints = @UniqueConstraint(name = "creator_member_unique", columnNames = "member_id"),
         indexes = @Index(name = "idx_creator_nickname", columnList = "nickname", unique = true))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode
 public class Creator extends BaseTime {
 
     @Id

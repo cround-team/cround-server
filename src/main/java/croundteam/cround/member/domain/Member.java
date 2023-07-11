@@ -71,6 +71,13 @@ public class Member extends BaseTime {
         this.interestPlatforms = InterestPlatforms.create(memberUpdateRequest.getInterestPlatforms());
     }
 
+    public boolean isSocial() {
+        if (authProvider.isSocial()) {
+            return true;
+        }
+        return false;
+    }
+
     public void follow(Creator target) {
         followings.follow(this, target);
     }
