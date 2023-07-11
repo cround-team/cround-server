@@ -44,6 +44,7 @@ public enum ErrorCode {
      */
     INVALID_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "인증에 실패하였습니다."),
     INCORRECT_SOURCE(HttpStatus.UNAUTHORIZED, "동일한 요청자가 아닙니다."),
+    INVALID_AUTHORIZATION_CODE(HttpStatus.UNAUTHORIZED, "올바른 사용자가 아닙니다."),
 
     /**
      * 403 Forbidden
@@ -61,7 +62,8 @@ public enum ErrorCode {
     /**
      * 500 INTERNAL SERVER ERROR
      */
-    UPLOAD_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 S3에 저장 실패 하였습니다.");
+    UPLOAD_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 S3에 저장 실패하였습니다."),
+    EMAIL_SEND(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 전송에 실패하였습니다.");
 
 
     private final HttpStatus status;

@@ -1,0 +1,82 @@
+package croundteam.cround.member.application;
+
+import croundteam.cround.common.exception.ErrorCode;
+import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.domain.MemberRepository;
+import croundteam.cround.member.exception.EmailSendException;
+import croundteam.cround.member.exception.NotExistMemberException;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+
+import static croundteam.cround.common.fixtures.ConstantFixtures.*;
+
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class MailServiceImpl implements MailService {
+
+    private final JavaMailSender javaMailSender;
+    private final MemberRepository memberRepository;
+
+    @Override
+    @Transactional
+    public void send(String email, String type) {
+        Member member = findMemberByEmail(email);
+        member.issueAuthorizationCode();
+
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        setMimeMessage(mimeMessage, member, type);
+
+        javaMailSender.send(mimeMessage);
+    }
+
+    private Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(() -> {
+            throw new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER);
+        });
+    }
+
+    private void setMimeMessage(MimeMessage mimeMessage, Member member, String type) {
+        try {
+            MailType mailType = MailType.getMailType(type);
+
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+            mimeMessageHelper.setTo(member.getEmail());
+            mimeMessageHelper.setSubject(mailType.getText());
+            mimeMessageHelper.setText(mailType.appendText(member.getId(), member.getAuthorizationCode()), true);
+        } catch (MessagingException e) {
+            log.error("[MailService.send()] 메일 전송 실패");
+            throw new EmailSendException(ErrorCode.EMAIL_SEND);
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
+    public enum MailType {
+
+        PASSWORD(PASSWORD_CHANGE_SUBJECT_MESSAGE) {
+            @Override
+            public String appendText(Long id, String code) {
+                return "<h2>비밀번호 재설정 링크를 보내드립니다.</h2><br/><a href='https://cround-client.vercel.app/password/new" +
+                        "?id=" + id + "&code=" + code + "'>\uD83D\uDC49 비밀번호 재설정하기</a><br/><br/>";
+            }
+        };
+
+        private final String text;
+
+        public static MailType getMailType(String type) {
+            return MailType.valueOf(type.toUpperCase());
+        }
+
+        public abstract String appendText(Long id, String code);
+    }
+}

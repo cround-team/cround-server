@@ -2,6 +2,7 @@ package croundteam.cround.member.presentation;
 
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.creator.application.dto.SearchCreatorResponses;
+import croundteam.cround.member.application.MailService;
 import croundteam.cround.member.application.MemberService;
 import croundteam.cround.member.application.dto.*;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;
@@ -19,9 +20,13 @@ import java.net.URI;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MailService mailService;
 
-    public MemberController(MemberService memberService) {
+    private final String PASSWORD = "PASSWORD";
+
+    public MemberController(MemberService memberService, MailService mailService) {
         this.memberService = memberService;
+        this.mailService = mailService;
     }
 
     @PostMapping
@@ -72,6 +77,26 @@ public class MemberController {
     ) {
         memberService.updateMember(memberUpdateRequest, loginMember);
 
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/me/password")
+    public ResponseEntity<Void> sendMailForChangePassword(
+            @RequestBody @Valid final EmailValidationRequest emailValidationRequest
+    ) {
+        String email = emailValidationRequest.getEmail();
+
+        memberService.findMemberByEmail(email);
+        mailService.send(email, PASSWORD);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/me/password")
+    public ResponseEntity<Void> changePasswordByMailCertification(
+            @RequestBody @Valid final PasswordChangeRequest passwordChangeRequest
+    ) {
+        memberService.changePasswordByMailCertification(passwordChangeRequest);
         return ResponseEntity.ok().build();
     }
 

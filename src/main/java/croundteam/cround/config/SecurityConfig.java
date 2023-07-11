@@ -70,8 +70,10 @@ public class SecurityConfig {
                         "/api/creators/{creatorId}/reviews", "/api/creators/{creatorId}/boards",
                         "/api/creators/{creatorId}/shorts", "/api/creators/home")
                 .permitAll()
-                .antMatchers(HttpMethod.POST, "/auth/login", "/api/members",
+                .antMatchers(HttpMethod.POST, "/auth/login", "/api/members", "/api/members/me/password",
                         "/api/members/validations/email", "/api/members/validations/nickname").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/api/members/me/password").permitAll()
+
                 .anyRequest().authenticated();
 
         http

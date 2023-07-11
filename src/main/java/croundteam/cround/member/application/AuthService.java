@@ -53,7 +53,7 @@ public class AuthService {
 
         Creator creator = findCreatorByMember(member);
 
-        return new LoginSuccessResponse(tokenResponse, member.getRoleName(), creator);
+        return new LoginSuccessResponse(tokenResponse, member, creator);
     }
 
     private Creator findCreatorByMember(Member member) {
@@ -76,7 +76,7 @@ public class AuthService {
 
         Creator creator = findCreatorByMember(member);
 
-        return new LoginSuccessResponse(tokenResponse, member.getRoleName(), creator);
+        return new LoginSuccessResponse(tokenResponse, member, creator);
     }
 
     private Member saveOrUpdate(OAuthAttributes attributes) {

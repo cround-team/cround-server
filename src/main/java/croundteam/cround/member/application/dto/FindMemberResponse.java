@@ -1,6 +1,5 @@
 package croundteam.cround.member.application.dto;
 
-import croundteam.cround.creator.domain.platform.PlatformType;
 import croundteam.cround.member.domain.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
