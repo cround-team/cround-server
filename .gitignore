@@ -42,4 +42,5 @@ out/
 /src/main/resources/application-oauth.yml
 /src/main/resources/application-aws.yml
 /src/main/resources/application-rds.yml
+/src/main/resources/application-mail.yml
 /api/http/**
