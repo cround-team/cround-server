@@ -37,10 +37,12 @@ public class MailServiceImpl implements MailService {
 
     private void setMimeMessage(MimeMessage mimeMessage, String email, String type) {
         try {
+            MailType mailType = MailType.getMailType(type);
+
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(email);
-            mimeMessageHelper.setSubject(MailType.getText(type));
-            mimeMessageHelper.setText(MailType.getMessage(type), true);
+            mimeMessageHelper.setSubject(mailType.getText());
+            mimeMessageHelper.setText(mailType.getMessage(), true);
         } catch (MessagingException e) {
             log.error("[MailService.send()] 메일 전송 실패");
             throw new EmailSendException(ErrorCode.EMAIL_SEND);
@@ -53,15 +55,11 @@ public class MailServiceImpl implements MailService {
 
         PASSWORD(PASSWORD_CHANGE_SUBJECT_MESSAGE, PASSWORD_CHANGE_TEXT_MESSAGE);
 
-        private String text;
-        private String message;
+        private final String text;
+        private final String message;
 
-        public static String getText(String type) {
-            return MailType.valueOf(type.toUpperCase()).getText();
-        }
-
-        public static String getMessage(String type) {
-            return MailType.valueOf(type.toUpperCase()).getMessage();
+        public static MailType getMailType(String type) {
+            return MailType.valueOf(type.toUpperCase());
         }
     }
 }
