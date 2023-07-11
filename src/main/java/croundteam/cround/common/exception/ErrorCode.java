@@ -61,7 +61,8 @@ public enum ErrorCode {
     /**
      * 500 INTERNAL SERVER ERROR
      */
-    UPLOAD_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 S3에 저장 실패 하였습니다.");
+    UPLOAD_FAILURE(HttpStatus.INTERNAL_SERVER_ERROR, "파일을 S3에 저장 실패하였습니다."),
+    EMAIL_SEND(HttpStatus.INTERNAL_SERVER_ERROR, "이메일 전송에 실패하였습니다.");
 
 
     private final HttpStatus status;

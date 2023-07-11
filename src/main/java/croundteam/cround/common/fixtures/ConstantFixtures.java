@@ -16,4 +16,7 @@ public final class ConstantFixtures {
     public static final int CREATOR_PLATFORM_THEME_LENGTH_MAX_SIZE = 10;
 
     public static final int DEFAULT_PAGE_SIZE = 5;
+
+    public static final String PASSWORD_CHANGE_SUBJECT_MESSAGE = "[크라운드] 비밀번호 찾기 링크입니다.";
+    public static final String PASSWORD_CHANGE_TEXT_MESSAGE = "<h2>비밀번호 재설정 링크를 보내드립니다.</h2><br/><a href='https://cround-client.vercel.app/password/new'>\uD83D\uDC49 비밀번호 재설정하기</a><br/><br/>";
 }
