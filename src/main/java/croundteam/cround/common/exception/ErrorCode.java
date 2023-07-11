@@ -44,6 +44,7 @@ public enum ErrorCode {
      */
     INVALID_AUTHENTICATION(HttpStatus.UNAUTHORIZED, "인증에 실패하였습니다."),
     INCORRECT_SOURCE(HttpStatus.UNAUTHORIZED, "동일한 요청자가 아닙니다."),
+    INVALID_AUTHORIZATION_CODE(HttpStatus.UNAUTHORIZED, "올바른 사용자가 아닙니다."),
 
     /**
      * 403 Forbidden

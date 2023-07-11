@@ -14,7 +14,8 @@ class MailServiceImplTest {
 
     @Test
     void sendTest() {
-        mailService.send("jaesa5221@gmail.com", "password");
+        mailService.send("cround@cround.com", "password");
+
     }
 
 }
