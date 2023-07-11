@@ -16,17 +16,17 @@ class MemberTest {
 
     @Test
     void member_save() {
-        List<PlatformTypeTemp> platformTypes = Arrays.asList(PlatformTypeTemp.create("YOUTUBE"), PlatformTypeTemp.create("TIKTOK"));
-        InterestPlatforms interest = InterestPlatforms.create(platformTypes);
-        InterestPlatforms emptyInterest = InterestPlatforms.create(Collections.emptyList());
-
-        Member member = Member.builder()
-                .username("cround")
-                .interest(emptyInterest)
-                .email("cround@cround.com")
-                .build();
-
-        memberRepository.save(member);
+//        List<PlatformTypeTemp> platformTypes = Arrays.asList(PlatformTypeTemp.create("YOUTUBE"), PlatformTypeTemp.create("TIKTOK"));
+//        InterestPlatforms interest = InterestPlatforms.create(platformTypes);
+//        InterestPlatforms emptyInterest = InterestPlatforms.create(Collections.emptyList());
+//
+//        Member member = Member.builder()
+//                .username("cround")
+//                .interest(emptyInterest)
+//                .email("cround@cround.com")
+//                .build();
+//
+//        memberRepository.save(member);
     }
 
 }

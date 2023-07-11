@@ -42,12 +42,17 @@ public class S3Uploader {
     }
 
     public String uploadImage(MultipartFile file, String dirPath) {
+        if(hasNotFile(file)) return null;
         validateFileExtension(file);
 
         String imageUrl = generateImageUrl(file, dirPath);
         String profileImage = upload(imageUrl, file);
 
         return profileImage;
+    }
+
+    private static boolean hasNotFile(MultipartFile file) {
+        return file.getName().isBlank() || file.getSize() == 0;
     }
 
     private String upload(String imageUrl, MultipartFile file) {

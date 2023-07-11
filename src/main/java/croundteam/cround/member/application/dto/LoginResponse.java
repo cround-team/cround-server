@@ -9,13 +9,19 @@ public class LoginResponse {
 
     private String accessToken;
     private String roleName;
+    private String profileImage;
+    private Long creatorId;
 
-    public LoginResponse(String accessToken, String roleName) {
+    public LoginResponse(String accessToken, String roleName, String profileImage, Long creatorId) {
         this.accessToken = accessToken;
         this.roleName = roleName;
+        this.profileImage = profileImage;
+        this.creatorId = creatorId;
     }
 
     public static LoginResponse create(LoginSuccessResponse loginSuccessResponse) {
-        return new LoginResponse(loginSuccessResponse.extractByAccessToken(), loginSuccessResponse.getRoleName());
+        return new LoginResponse(
+                loginSuccessResponse.extractByAccessToken(), loginSuccessResponse.getRoleName(),
+                loginSuccessResponse.getProfileImage(), loginSuccessResponse.getCreatorId());
     }
 }
