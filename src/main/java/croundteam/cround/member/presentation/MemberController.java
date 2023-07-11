@@ -75,6 +75,9 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+//    @PatchMapping("/me")
+//    public
+
     @PostMapping("/validations/email")
     public ResponseEntity<Void> validateEmail(
             @RequestBody @Valid final EmailValidationRequest emailValidationRequest
