@@ -17,12 +17,20 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import java.util.function.BiFunction;
+
 import static croundteam.cround.common.fixtures.ConstantFixtures.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class MailServiceImpl implements MailService {
+
+    private static final String TARGET = "https://cround-client.vercel.app/password/new";
+
+    private static final String PREFIX = "<h2>비밀번호 재설정 링크를 보내드립니다.</h2><br/><a href='" + TARGET + "?id=";
+    private static final String INFIX = "&code=";
+    private static final String SUFFIX = "'>비밀번호 재설정하기</a><br/>";
 
     private final JavaMailSender javaMailSender;
     private final MemberRepository memberRepository;
@@ -63,20 +71,17 @@ public class MailServiceImpl implements MailService {
     @AllArgsConstructor
     public enum MailType {
 
-        PASSWORD(PASSWORD_CHANGE_SUBJECT_MESSAGE) {
-            @Override
-            public String appendText(Long id, String code) {
-                return "<h2>비밀번호 재설정 링크를 보내드립니다.</h2><br/><a href='https://cround-client.vercel.app/password/new" +
-                        "?id=" + id + "&code=" + code + "'>\uD83D\uDC49 비밀번호 재설정하기</a><br/><br/>";
-            }
-        };
+        PASSWORD(PASSWORD_CHANGE_SUBJECT_MESSAGE, (id, code) -> PREFIX + id + INFIX + code + SUFFIX);
 
         private final String text;
+        private BiFunction<Long, String, String> expression;
 
         public static MailType getMailType(String type) {
             return MailType.valueOf(type.toUpperCase());
         }
 
-        public abstract String appendText(Long id, String code);
+        public String appendText(Long id, String code) {
+            return expression.apply(id, code);
+        }
     }
 }
