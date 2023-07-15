@@ -24,7 +24,7 @@ import static croundteam.cround.common.fixtures.ConstantFixtures.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class MailServiceImpl implements MailService {
+public class MailSenderService implements MailService {
 
     private static final String TARGET = "https://cround-client.vercel.app/password/new";
 
@@ -55,7 +55,7 @@ public class MailServiceImpl implements MailService {
 
     private void setMimeMessage(MimeMessage mimeMessage, Member member, String type) {
         try {
-            MailType mailType = MailType.getMailType(type);
+            MailSendType mailType = MailSendType.getMailType(type);
 
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
             mimeMessageHelper.setTo(member.getEmail());
@@ -69,15 +69,15 @@ public class MailServiceImpl implements MailService {
 
     @Getter
     @AllArgsConstructor
-    public enum MailType {
+    public enum MailSendType {
 
         PASSWORD(PASSWORD_CHANGE_SUBJECT_MESSAGE, (id, code) -> PREFIX + id + INFIX + code + SUFFIX);
 
         private final String text;
         private BiFunction<Long, String, String> expression;
 
-        public static MailType getMailType(String type) {
-            return MailType.valueOf(type.toUpperCase());
+        public static MailSendType getMailType(String type) {
+            return MailSendType.valueOf(type.toUpperCase());
         }
 
         public String appendText(Long id, String code) {
