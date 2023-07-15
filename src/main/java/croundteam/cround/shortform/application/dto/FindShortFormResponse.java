@@ -18,6 +18,7 @@ public class FindShortFormResponse {
     private String platformType;
     private String profileImage;
     private String shortFormUrl;
+    private String thumbnailUrl;
     private int likesCount;
     private int bookmarksCount;
     private boolean isLiked;
@@ -26,7 +27,7 @@ public class FindShortFormResponse {
 
     @Builder
     public FindShortFormResponse(Long shortsId, String title, String content,
-                                 String author, String platformType, String profileImage, String shortFormUrl,
+                                 String author, String platformType, String profileImage, String shortFormUrl, String thumbnailUrl,
                                  int likesCount, int bookmarksCount, boolean isLiked, boolean isBookmarked, boolean isAuthored) {
         this.shortsId = shortsId;
         this.title = title;
@@ -34,6 +35,7 @@ public class FindShortFormResponse {
         this.author = author;
         this.platformType = platformType;
         this.profileImage = profileImage;
+        this.thumbnailUrl = thumbnailUrl;
         this.shortFormUrl = shortFormUrl;
         this.likesCount = likesCount;
         this.bookmarksCount = bookmarksCount;
@@ -56,6 +58,7 @@ public class FindShortFormResponse {
                 .isLiked(shorts.isLikedBy(member))
                 .isBookmarked(shorts.isBookmarkedBy(member))
                 .isAuthored(shorts.isAuthoredBy(creator))
+                .thumbnailUrl(shorts.getThumbnailUrl())
                 .build();
     }
 }

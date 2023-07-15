@@ -15,14 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
-import static croundteam.cround.infra.MailTypeHelper.*;
+import static croundteam.cround.infra.MailTypeHelper.MailSendType;
+import static croundteam.cround.infra.MailTypeHelper.getMailType;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class MailSenderService implements MailService {
-
-
 
     private final JavaMailSender javaMailSender;
     private final MemberRepository memberRepository;
