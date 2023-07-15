@@ -34,7 +34,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 import static croundteam.cround.common.fixtures.ConstantFixtures.CREATOR_IMAGE_PATH_PREFIX;
 
@@ -103,14 +105,12 @@ public class CreatorService {
     }
 
     public FindHomeCreators findHomeCreators(int size, AppUser appUser) {
-        Long totalCount = creatorRepository.countBy();
         Member member = getLoginMember(appUser);
 
         List<Creator> latestCreators = creatorRepository.findCreatorSortByLatest(PageRequest.ofSize(size));
         List<Creator> interestCreators = creatorQueryRepository.findCreatorByInterestPlatform(size, getInterestPlatformBy(member));
-        List<Creator> randomCreators = creatorRepository.findCreatorByRandom(createRandomBy(totalCount, size));
 
-        return new FindHomeCreators(latestCreators, interestCreators, randomCreators);
+        return new FindHomeCreators(latestCreators, interestCreators);
     }
 
     @Transactional
@@ -132,15 +132,6 @@ public class CreatorService {
             return Collections.emptyList();
         }
         return member.getInterestPlatforms();
-    }
-
-    private List<Long> createRandomBy(Long totalCount, int size) {
-        Set<Long> randoms = new HashSet<>();
-
-        while (randoms.size() < size) {
-            randoms.add((long) (Math.random() * totalCount) + 1);
-        }
-        return new ArrayList<>(randoms);
     }
 
     public void validateDuplicateNickname(String nickname) {

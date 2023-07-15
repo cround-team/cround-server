@@ -138,7 +138,7 @@ public class ShortForm extends BaseTime {
         if(StringUtils.hasText(filePath)) {
             return ThumbnailImage.create(filePath);
         }
-        return this.getThumbnailUrl();
+        return this.thumbnailUrl;
     }
 
     public String getTitle() {
@@ -163,5 +163,9 @@ public class ShortForm extends BaseTime {
 
     public String getShortFormUrl() {
         return shortFormUrl.getShortFormUrl();
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl.getThumbnailImage();
     }
 }
