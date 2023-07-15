@@ -2,7 +2,7 @@ package croundteam.cround.member.presentation;
 
 import croundteam.cround.board.application.dto.SearchBoardsResponses;
 import croundteam.cround.creator.application.dto.SearchCreatorResponses;
-import croundteam.cround.member.application.MailService;
+import croundteam.cround.infra.MailService;
 import croundteam.cround.member.application.MemberService;
 import croundteam.cround.member.application.dto.*;
 import croundteam.cround.shortform.application.dto.SearchShortFormResponses;

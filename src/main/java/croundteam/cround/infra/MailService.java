@@ -1,4 +1,4 @@
-package croundteam.cround.member.application;
+package croundteam.cround.infra;
 
 public interface MailService {
 
