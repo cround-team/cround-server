@@ -120,4 +120,11 @@ public class Member extends BaseTime {
             throw new InvalidAuthorizationCodeException(ErrorCode.INVALID_AUTHORIZATION_CODE);
         }
     }
+
+    public boolean isCreator() {
+        if(role.isCreator()) {
+            return true;
+        }
+        return false;
+    }
 }

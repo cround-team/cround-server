@@ -13,4 +13,8 @@ public enum Role {
 
     private String code;
     private String name;
+
+    public boolean isCreator() {
+        return CREATOR.equals(this);
+    }
 }

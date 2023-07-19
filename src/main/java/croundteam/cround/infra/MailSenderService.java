@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
@@ -18,7 +18,10 @@ import javax.mail.internet.MimeMessage;
 import static croundteam.cround.infra.MailTypeHelper.MailSendType;
 import static croundteam.cround.infra.MailTypeHelper.getMailType;
 
-@Service
+/**
+ * 서비스별로 역할과 목적을 정의해보기
+ */
+@Component
 @RequiredArgsConstructor
 @Slf4j
 public class MailSenderService implements MailService {

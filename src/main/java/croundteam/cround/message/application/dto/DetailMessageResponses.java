@@ -1,5 +1,6 @@
 package croundteam.cround.message.application.dto;
 
+import croundteam.cround.member.domain.Member;
 import croundteam.cround.message.domain.Message;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,24 +15,26 @@ import static java.util.stream.Collectors.groupingBy;
 
 @Getter
 @NoArgsConstructor
-public class SearchMessageResponse {
+public class DetailMessageResponses {
 
-    private Map<LocalDate, List<FindMessageResponse>> messages;
+    private Map<LocalDate, List<DetailMessageResponse>> messages;
     private Long sender;
     private Long receiver;
+    private String nickname;
 
-    public SearchMessageResponse(List<Message> messages, Long sender, Long receiver) {
+    public DetailMessageResponses(List<Message> messages, Member sender, Member receiver) {
         this.messages = getOrEmpty(messages);
-        this.sender = sender;
-        this.receiver = receiver;
+        this.sender = sender.getId();
+        this.receiver = receiver.getId();
+        this.nickname = receiver.getNickname();
     }
 
-    private Map<LocalDate, List<FindMessageResponse>> getOrEmpty(List<Message> messages) {
+    private Map<LocalDate, List<DetailMessageResponse>> getOrEmpty(List<Message> messages) {
         if (CollectionUtils.isEmpty(messages)) {
             return Collections.emptyMap();
         }
         return messages.stream()
-                .map(FindMessageResponse::new)
-                .collect(groupingBy(FindMessageResponse::convertUpdatedDateToLocalDate));
+                .map(DetailMessageResponse::new)
+                .collect(groupingBy(DetailMessageResponse::convertUpdatedDateToLocalDate));
     }
 }

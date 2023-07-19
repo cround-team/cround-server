@@ -2,12 +2,13 @@ package croundteam.cround.message.domain;
 
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.message.application.dto.MessageSaveRequest;
+import croundteam.cround.support.DateConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -18,24 +19,30 @@ public class Message extends BaseTime {
     @Column(name = "message_id")
     private Long id;
 
-    @Column(nullable = false, updatable = false)
-    private Long sender;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender")
+    private Member sender;
 
-    @Column(nullable = false, updatable = false)
-    private Long receiver;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver")
+    private Member receiver;
 
     @Column(nullable = false)
     private String text;
 
-    public Message(Long sender, Long receiver, String text) {
+    public Message(Member sender, Member receiver, String text) {
         this.sender = sender;
         this.receiver = receiver;
         this.text = text;
     }
 
-    public Message(Member sender, Member receiver, String text) {
-        this.sender = sender.getId();
-        this.receiver = receiver.getId();
-        this.text = text;
+    public String getReceiverName() {
+        return receiver.getNickname();
     }
+
+    public String getFormatUpdatedDate() {
+        LocalDateTime date = getUpdatedDate();
+        return DateConverter.convertToFormat(date);
+    }
+
 }
