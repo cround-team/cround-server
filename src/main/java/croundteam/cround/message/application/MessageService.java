@@ -7,9 +7,9 @@ import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.NotExistMemberException;
+import croundteam.cround.message.application.dto.DetailMessageResponses;
 import croundteam.cround.message.application.dto.FindMessageResponses;
 import croundteam.cround.message.application.dto.MessageSaveRequest;
-import croundteam.cround.message.application.dto.SearchMessageResponse;
 import croundteam.cround.message.domain.Message;
 import croundteam.cround.message.domain.MessageRepository;
 import croundteam.cround.message.exception.InvalidRoleException;
@@ -62,21 +62,18 @@ public class MessageService {
         /**
          * TODO: 최신 메시지 기준으로 정렬 필요
          */
-        List<Message> messages = messageRepository.findMessageBySender(member.getId());
+        List<Message> messages = messageRepository.findMessageBy(member);
 
         return new FindMessageResponses(messages);
     }
 
-    public SearchMessageResponse findMessage(Long memberId, LoginMember loginMember) {
-        Member source = findMemberByEmail(loginMember.getEmail());
-        Member target = findMemberById(memberId);
-
-        Long sender = source.getId();
-        Long receiver = target.getId();
+    public DetailMessageResponses findMessage(Long memberId, LoginMember loginMember) {
+        Member sender = findMemberByEmail(loginMember.getEmail());
+        Member receiver = findMemberById(memberId);
 
         List<Message> messages = messageRepository.findMessageBySenderAndReceiver(sender, receiver);
 
-        return new SearchMessageResponse(messages, sender, receiver);
+        return new DetailMessageResponses(messages, sender, receiver);
     }
 
     private Member findMemberByCreator(Long creatorId) {

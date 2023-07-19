@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 public class FindMessageResponses {
 
-    private List<FindMessageResponse> messages = new ArrayList();
+    private List<FindMessageResponse> messages = new ArrayList<>();
 
     public FindMessageResponses(List<Message> messages) {
         this.messages = messages.stream().map(FindMessageResponse::new).collect(Collectors.toList());
