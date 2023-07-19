@@ -12,8 +12,11 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "board_bookmark")
 @EqualsAndHashCode(of = {"board", "member"})
+@Table(name = "board_bookmark",
+        uniqueConstraints = @UniqueConstraint(
+                name = "board_bookmark_board_and_member_composite_unique",
+                columnNames = {"board_id", "member_id"}))
 public class BoardBookmark {
 
     @Id
