@@ -12,7 +12,10 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "board_like")
+@Table(name = "board_like",
+        uniqueConstraints = @UniqueConstraint(
+                name = "board_like_board_and_member_composite_unique",
+                columnNames = {"board_id", "member_id"}))
 @EqualsAndHashCode(of = {"board", "member"})
 public class BoardLike {
 

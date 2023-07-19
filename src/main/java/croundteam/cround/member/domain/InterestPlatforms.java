@@ -18,7 +18,8 @@ public class InterestPlatforms {
     @CollectionTable(
             name = "member_interest_platform",
             joinColumns = @JoinColumn(
-                    name = "member_id"))
+                    name = "member_id"),
+            foreignKey = @ForeignKey(name = "fk_interest_platform_to_member"))
     @Enumerated(EnumType.STRING)
     private List<PlatformType> interestPlatforms = new ArrayList<>();
 

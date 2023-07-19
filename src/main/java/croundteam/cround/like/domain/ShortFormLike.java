@@ -12,7 +12,10 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "short_form_like")
+@Table(name = "short_form_like",
+        uniqueConstraints = @UniqueConstraint(
+                name = "short_form_like_short_form_and_member_composite_unique",
+                columnNames = {"shorts_id", "member_id"}))
 @EqualsAndHashCode(of = {"shortForm", "member"})
 public class ShortFormLike {
 
@@ -21,11 +24,11 @@ public class ShortFormLike {
     @Column(name = "like_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "short_form_id", foreignKey = @ForeignKey(name = "fk_short_form_to_board"))
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "shorts_id", foreignKey = @ForeignKey(name = "fk_short_form_to_board"))
     private ShortForm shortForm;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_short_form_like_to_member"))
     private Member member;
 
