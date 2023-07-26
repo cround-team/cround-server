@@ -8,7 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -36,13 +35,19 @@ public class Message extends BaseTime {
         this.text = text;
     }
 
+    public String getFormatUpdatedDate() {
+        return DateConverter.convertToFormat(getUpdatedDate());
+    }
+
     public String getReceiverName() {
         return receiver.getNickname();
     }
 
-    public String getFormatUpdatedDate() {
-        LocalDateTime date = getUpdatedDate();
-        return DateConverter.convertToFormat(date);
+    public String getSenderName() {
+        return sender.getNickname();
     }
 
+    public Long getSenderId() {
+        return sender.getId();
+    }
 }
