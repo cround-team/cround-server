@@ -1,4 +1,7 @@
 spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 20
   jpa:
     hibernate:
       ddl-auto: validate
@@ -20,6 +23,8 @@ spring:
 
 logging:
   level:
+    com.zaxxer.hikari.HikariConfig: DEBUG
+    com.zaxxer.hikari: TRACE
     root: info
 #    org:
 #      apache:
