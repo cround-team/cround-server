@@ -18,6 +18,7 @@ public class LoginSuccessResponse {
     private boolean isSocialLogin;
     private String profileImage;
     private Long creatorId;
+    private Long memberId;
 
     public LoginSuccessResponse(TokenResponse tokenResponse, Member member, Creator creator) {
         this.accessToken = tokenResponse.getAccessToken();
@@ -25,6 +26,7 @@ public class LoginSuccessResponse {
         this.roleName = member.getRoleName();
         this.nickname = getCurrentUserNickname(member, creator);
         this.isSocialLogin = member.isSocial();
+        this.memberId = member.getId();
         if(Objects.nonNull(creator)) {
             this.profileImage = creator.getProfileImage();
             this.creatorId = creator.getId();

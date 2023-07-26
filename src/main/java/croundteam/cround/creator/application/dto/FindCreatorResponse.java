@@ -13,7 +13,7 @@ import java.util.List;
 public class FindCreatorResponse {
 
     private String creatorNickname;
-    private Long creatorMemberId;
+    private Long memberId;
     private String description;
     private String profileImage;
     private String platformHeadTheme;
@@ -29,7 +29,7 @@ public class FindCreatorResponse {
     public FindCreatorResponse(Creator creator, Member member) {
         this.profileImage = creator.getProfileImage();
         this.creatorNickname = creator.getNickname();
-        this.creatorMemberId = creator.getMemberId();
+        this.memberId = creator.getMemberId();
         this.platformHeadTheme = creator.getPlatformTheme();
         this.activityPlatforms = creator.getActivityPlatforms();
         this.avgRating = String.format("%.1f", creator.getAvgRating()); // 리뷰 평점
