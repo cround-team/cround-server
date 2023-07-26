@@ -178,4 +178,8 @@ public class Creator extends BaseTime {
     public List<String> getTags() {
         return creatorTags.castTagsFromCreatorTags();
     }
+
+    public Long getMemberId() {
+        return member.getId();
+    }
 }
