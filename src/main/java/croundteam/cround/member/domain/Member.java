@@ -127,4 +127,11 @@ public class Member extends BaseTime {
         }
         return false;
     }
+
+    public boolean isSender(Long senderId) {
+        if(this.id.equals(senderId)) {
+            return true;
+        }
+        return false;
+    }
 }

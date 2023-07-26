@@ -28,7 +28,6 @@ import java.util.List;
 public class MessageService {
 
     private final MemberRepository memberRepository;
-    private final CreatorRepository creatorRepository;
     private final MessageRepository messageRepository;
 
     /**
@@ -54,7 +53,7 @@ public class MessageService {
          */
         List<Message> messages = messageRepository.findMessageBy(member);
 
-        return new FindMessageResponses(messages);
+        return new FindMessageResponses(member, messages);
     }
 
     public DetailMessageResponses findMessage(Long memberId, LoginMember loginMember) {
@@ -64,13 +63,6 @@ public class MessageService {
         List<Message> messages = messageRepository.findMessageBySenderAndReceiver(sender, receiver);
 
         return new DetailMessageResponses(messages, sender, receiver);
-    }
-
-    private Member findMemberByCreator(Long creatorId) {
-        Creator creator = creatorRepository.findCreatorById(creatorId).orElseThrow(() -> {
-            throw new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR);
-        });
-        return creator.getMember();
     }
 
     private Member findMemberById(Long id) {

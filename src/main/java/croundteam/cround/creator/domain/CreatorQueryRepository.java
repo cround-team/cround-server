@@ -101,7 +101,6 @@ public class CreatorQueryRepository {
     private List<Long> createRandomBy(List<Long> ids, int size) {
         Set<Long> randoms = new HashSet<>();
 
-        // 12 > 5
         if(size > ids.size()) size = ids.size();
 
         while (randoms.size() < size) {
