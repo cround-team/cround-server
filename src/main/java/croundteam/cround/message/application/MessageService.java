@@ -38,22 +38,12 @@ public class MessageService {
     @Transactional
     public Long saveMessage(LoginMember loginMember, MessageSaveRequest messageSaveRequest) {
         Member sender = findMemberByEmail(loginMember.getEmail());
-        Member receiver = findReceiverBy(sender, messageSaveRequest.getReceiver());
+        Member receiver = findMemberById(messageSaveRequest.getReceiver());
 
         Message message = new Message(sender, receiver, messageSaveRequest.getText());
 
         Message saveMessage = messageRepository.save(message);
         return saveMessage.getId();
-    }
-
-    private Member findReceiverBy(Member sender, Long id) {
-        switch (sender.getRoleName()) {
-            case "크리에이터":
-                return findMemberById(id);
-            case "회원":
-                return findMemberByCreator(id);
-        }
-        throw new InvalidRoleException(ErrorCode.INVALID_ROLE);
     }
 
     public FindMessageResponses findMessages(LoginMember loginMember) {
