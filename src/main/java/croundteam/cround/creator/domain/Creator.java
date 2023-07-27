@@ -27,7 +27,6 @@ import static croundteam.cround.creator.domain.tag.Tags.castToTags;
 @Table(uniqueConstraints = @UniqueConstraint(name = "creator_member_unique", columnNames = "member_id"),
         indexes = @Index(name = "idx_creator_nickname", columnList = "nickname", unique = true))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode
 public class Creator extends BaseTime {
 
     @Id
@@ -57,7 +56,7 @@ public class Creator extends BaseTime {
     private ProfileImage profileImage;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id", foreignKey = @ForeignKey(name = "fk_creator_to_member"))
+    @JoinColumn(name = "member_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Member member;
 
     @Embedded
@@ -178,5 +177,9 @@ public class Creator extends BaseTime {
 
     public List<String> getTags() {
         return creatorTags.castTagsFromCreatorTags();
+    }
+
+    public Long getMemberId() {
+        return member.getId();
     }
 }

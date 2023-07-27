@@ -12,7 +12,10 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "short_form_bookmark")
+@Table(name = "short_form_bookmark",
+        uniqueConstraints = @UniqueConstraint(
+                name = "short_form_bookmark_short_form_and_member_composite_unique",
+                columnNames = {"shorts_id", "member_id"}))
 @EqualsAndHashCode(of = {"shortForm", "member"})
 public class ShortFormBookmark {
 

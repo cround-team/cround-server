@@ -1,27 +1,28 @@
 package croundteam.cround.support.search;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-
-import static croundteam.cround.common.fixtures.ConstantFixtures.DEFAULT_PAGE_SIZE;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Getter
 @Setter
 public class SearchCondition extends BaseSearchCondition {
 
     private String keyword;
-    private List<String> filter;
+    private List<String> filter = new ArrayList<>();
     private String sort;
 
     public List<String> getFilter() {
-        if (Objects.isNull(filter) || filter.isEmpty()) {
+        if (CollectionUtils.isEmpty(filter)) {
             return Collections.emptyList();
         }
         return filter;

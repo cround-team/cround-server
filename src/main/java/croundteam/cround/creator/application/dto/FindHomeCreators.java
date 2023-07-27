@@ -15,12 +15,10 @@ public class FindHomeCreators {
 
     List<SearchCreatorResponse> latestCreators = new ArrayList<>();
     List<SearchCreatorResponse> interestCreators = new ArrayList<>();
-    List<SearchCreatorResponse> randomCreators = new ArrayList<>();
 
-    public FindHomeCreators(List<Creator> latestCreators, List<Creator> interestCreators, List<Creator> randomCreators) {
+    public FindHomeCreators(List<Creator> latestCreators, List<Creator> interestCreators) {
         this.latestCreators = convertToSearchCreatorResponse(latestCreators);
         this.interestCreators = convertToSearchCreatorResponse(interestCreators);
-        this.randomCreators = convertToSearchCreatorResponse(randomCreators);
     }
 
     private static List<SearchCreatorResponse> convertToSearchCreatorResponse(List<Creator> creators) {

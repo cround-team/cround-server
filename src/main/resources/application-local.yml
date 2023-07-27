@@ -1,5 +1,7 @@
 spring:
   datasource:
+    hikari:
+#      maximum-pool-size: 1
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/cround?useUnicode=true&characterEncoding=UTF-8
     username: root
@@ -14,6 +16,7 @@ spring:
         default_batch_fetch_size: 100
         show_sql: true
         format_sql: true
+    open-in-view: false
 
   flyway:
     enabled: false

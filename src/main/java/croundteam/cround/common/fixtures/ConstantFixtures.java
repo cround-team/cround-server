@@ -16,4 +16,6 @@ public final class ConstantFixtures {
     public static final int CREATOR_PLATFORM_THEME_LENGTH_MAX_SIZE = 10;
 
     public static final int DEFAULT_PAGE_SIZE = 5;
+
+    public static final String PASSWORD_CHANGE_SUBJECT_MESSAGE = "[크라운드] 비밀번호 찾기 링크입니다.";
 }

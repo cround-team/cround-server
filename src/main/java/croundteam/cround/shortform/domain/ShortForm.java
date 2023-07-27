@@ -46,7 +46,7 @@ public class ShortForm extends BaseTime {
     private long visit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creator_id")
+    @JoinColumn(name = "creator_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Creator creator;
 
     @Embedded
@@ -138,7 +138,7 @@ public class ShortForm extends BaseTime {
         if(StringUtils.hasText(filePath)) {
             return ThumbnailImage.create(filePath);
         }
-        return this.getThumbnailUrl();
+        return this.thumbnailUrl;
     }
 
     public String getTitle() {
@@ -163,5 +163,9 @@ public class ShortForm extends BaseTime {
 
     public String getShortFormUrl() {
         return shortFormUrl.getShortFormUrl();
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl.getThumbnailImage();
     }
 }

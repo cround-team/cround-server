@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.UUID;
 
 @Component
@@ -31,7 +32,7 @@ public class S3Uploader {
     public String uploadImageIfEquals(String filePath, MultipartFile file, String dirPath) {
         String original = extractOriginalFilename(filePath);
 
-        if(original.equals(file.getOriginalFilename())) {
+        if(Objects.isNull(file) || original.equals(file.getOriginalFilename())) {
             return filePath;
         }
         return uploadImage(file, dirPath);

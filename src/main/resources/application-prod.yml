@@ -1,13 +1,14 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
 
     properties:
       hibernate:
         default_batch_fetch_size: 100
-#        show_sql: true
-#        format_sql: true
+        show_sql: true
+        format_sql: true
+    open-in-view: false
 
   flyway:
     enabled: false
@@ -20,6 +21,8 @@ spring:
 logging:
   level:
     root: info
+#    com.zaxxer.hikari.HikariConfig: DEBUG
+#    com.zaxxer.hikari: TRACE
 #    org:
 #      apache:
 #        coyote:

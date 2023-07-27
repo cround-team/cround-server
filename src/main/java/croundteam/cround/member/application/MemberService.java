@@ -10,6 +10,7 @@ import croundteam.cround.creator.domain.CreatorQueryRepository;
 import croundteam.cround.member.application.dto.FindMemberResponse;
 import croundteam.cround.member.application.dto.MemberSaveRequest;
 import croundteam.cround.member.application.dto.MemberUpdateRequest;
+import croundteam.cround.member.application.dto.PasswordChangeRequest;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.DuplicateEmailException;
@@ -27,6 +28,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static croundteam.cround.support.BCryptEncoder.encrypt;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -42,7 +45,7 @@ public class MemberService {
     public Long saveMember(final MemberSaveRequest memberSaveRequest) {
         validateDuplicateEmail(memberSaveRequest.getEmail());
         validateDuplicateNickname(memberSaveRequest.getNickname());
-        validateIsSamePassword(memberSaveRequest);
+        validateSamePassword(memberSaveRequest.getPassword(), memberSaveRequest.getConfirmPassword());
 
         Member member = memberSaveRequest.toEntity();
         Member saveMember = memberRepository.save(member);
@@ -86,16 +89,18 @@ public class MemberService {
         member.updateMember(memberUpdateRequest);
     }
 
-    public FindMemberResponse findMember(LoginMember loginMember) {
-        Member member = findMemberByEmail(loginMember.getEmail());
+    @Transactional
+    public void changePasswordByMailCertification(PasswordChangeRequest passwordChangeRequest) {
+        validateSamePassword(passwordChangeRequest.getPassword(), passwordChangeRequest.getConfirmPassword());
 
-        return new FindMemberResponse(member);
+        Member member = findMemberById(passwordChangeRequest);
+        member.validateAuthorizationCode(passwordChangeRequest.getCode());
+        member.changePassword(encrypt(passwordChangeRequest.getPassword()));
     }
 
-    private Member findMemberByEmail(String email) {
-        return memberRepository.findByEmail(email).orElseThrow(() -> {
-            throw new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER);
-        });
+    public FindMemberResponse findMember(LoginMember loginMember) {
+        Member member = findMemberByEmail(loginMember.getEmail());
+        return new FindMemberResponse(member);
     }
 
     public void validateDuplicateEmail(String email) {
@@ -110,8 +115,20 @@ public class MemberService {
         }
     }
 
-    private void validateIsSamePassword(MemberSaveRequest memberSaveRequest) {
-        if(!memberSaveRequest.getPassword().equals(memberSaveRequest.getConfirmPassword())) {
+    public Member findMemberByEmail(String email) {
+        return memberRepository.findByEmail(email).orElseThrow(() -> {
+            throw new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER);
+        });
+    }
+
+    private Member findMemberById(PasswordChangeRequest passwordChangeRequest) {
+        return memberRepository.findById(passwordChangeRequest.getId()).orElseThrow(() -> {
+            throw new NotExistMemberException(ErrorCode.NOT_EXIST_MEMBER);
+        });
+    }
+
+    private void validateSamePassword(String password, String confirmPassword) {
+        if(!password.equals(confirmPassword)) {
             throw new PasswordMisMatchException(ErrorCode.PASSWORD_MISMATCH);
         }
     }

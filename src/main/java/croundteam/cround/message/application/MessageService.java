@@ -1,18 +1,14 @@
 package croundteam.cround.message.application;
 
 import croundteam.cround.common.exception.ErrorCode;
-import croundteam.cround.creator.domain.Creator;
-import croundteam.cround.creator.domain.CreatorRepository;
-import croundteam.cround.creator.exception.NotExistCreatorException;
 import croundteam.cround.member.domain.Member;
 import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.NotExistMemberException;
+import croundteam.cround.message.application.dto.DetailMessageResponses;
 import croundteam.cround.message.application.dto.FindMessageResponses;
 import croundteam.cround.message.application.dto.MessageSaveRequest;
-import croundteam.cround.message.application.dto.SearchMessageResponse;
 import croundteam.cround.message.domain.Message;
 import croundteam.cround.message.domain.MessageRepository;
-import croundteam.cround.message.exception.InvalidRoleException;
 import croundteam.cround.support.vo.LoginMember;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +24,6 @@ import java.util.List;
 public class MessageService {
 
     private final MemberRepository memberRepository;
-    private final CreatorRepository creatorRepository;
     private final MessageRepository messageRepository;
 
     /**
@@ -38,7 +33,7 @@ public class MessageService {
     @Transactional
     public Long saveMessage(LoginMember loginMember, MessageSaveRequest messageSaveRequest) {
         Member sender = findMemberByEmail(loginMember.getEmail());
-        Member receiver = findReceiverBy(sender, messageSaveRequest.getReceiver());
+        Member receiver = findMemberById(messageSaveRequest.getReceiver());
 
         Message message = new Message(sender, receiver, messageSaveRequest.getText());
 
@@ -46,44 +41,23 @@ public class MessageService {
         return saveMessage.getId();
     }
 
-    private Member findReceiverBy(Member sender, Long id) {
-        switch (sender.getRoleName()) {
-            case "크리에이터":
-                return findMemberById(id);
-            case "회원":
-                return findMemberByCreator(id);
-        }
-        throw new InvalidRoleException(ErrorCode.INVALID_ROLE);
-    }
-
     public FindMessageResponses findMessages(LoginMember loginMember) {
         Member member = findMemberByEmail(loginMember.getEmail());
 
-        /**
-         * TODO: 최신 메시지 기준으로 정렬 필요
-         */
-        List<Message> messages = messageRepository.findMessageBySender(member.getId());
+        List<Message> messages = messageRepository.findMessageByMember(member);
 
-        return new FindMessageResponses(messages);
+        return new FindMessageResponses(member, messages);
     }
 
-    public SearchMessageResponse findMessage(Long memberId, LoginMember loginMember) {
-        Member source = findMemberByEmail(loginMember.getEmail());
-        Member target = findMemberById(memberId);
-
-        Long sender = source.getId();
-        Long receiver = target.getId();
+    @Transactional
+    public DetailMessageResponses findMessage(Long memberId, LoginMember loginMember) {
+        Member sender = findMemberByEmail(loginMember.getEmail());
+        Member receiver = findMemberById(memberId);
 
         List<Message> messages = messageRepository.findMessageBySenderAndReceiver(sender, receiver);
+        messageRepository.updateMessageReadStatusByReceiver(sender, receiver);
 
-        return new SearchMessageResponse(messages, sender, receiver);
-    }
-
-    private Member findMemberByCreator(Long creatorId) {
-        Creator creator = creatorRepository.findCreatorById(creatorId).orElseThrow(() -> {
-            throw new NotExistCreatorException(ErrorCode.NOT_EXIST_CREATOR);
-        });
-        return creator.getMember();
+        return new DetailMessageResponses(messages, sender, receiver);
     }
 
     private Member findMemberById(Long id) {

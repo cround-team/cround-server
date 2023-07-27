@@ -101,8 +101,10 @@ public class CreatorQueryRepository {
     private List<Long> createRandomBy(List<Long> ids, int size) {
         Set<Long> randoms = new HashSet<>();
 
+        if(size > ids.size()) size = ids.size();
+
         while (randoms.size() < size) {
-            int random = (int) (Math.random() * ids.size());
+            int random = (int) (Math.random() * ids.size()); // 0 ~ 11
             Long e = ids.get(random);
 
             randoms.add(e);

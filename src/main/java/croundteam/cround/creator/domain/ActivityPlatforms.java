@@ -17,7 +17,8 @@ public class ActivityPlatforms {
     @CollectionTable(
             name = "creator_activity_platform",
             joinColumns = @JoinColumn(
-                    name = "creator_id"))
+                    name = "creator_id"),
+            foreignKey = @ForeignKey(name = "fk_activity_platform_to_creator"))
     @Enumerated(EnumType.STRING)
     private List<PlatformType> platformTypes = new ArrayList<>();
 

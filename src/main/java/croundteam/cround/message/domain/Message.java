@@ -2,7 +2,7 @@ package croundteam.cround.message.domain;
 
 import croundteam.cround.common.domain.BaseTime;
 import croundteam.cround.member.domain.Member;
-import croundteam.cround.message.application.dto.MessageSaveRequest;
+import croundteam.cround.support.DateConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,24 +18,45 @@ public class Message extends BaseTime {
     @Column(name = "message_id")
     private Long id;
 
-    @Column(nullable = false, updatable = false)
-    private Long sender;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member sender;
 
-    @Column(nullable = false, updatable = false)
-    private Long receiver;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiver", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private Member receiver;
 
     @Column(nullable = false)
     private String text;
 
-    public Message(Long sender, Long receiver, String text) {
+    @Column(nullable = false, length = 10)
+    @Enumerated(EnumType.STRING)
+    private ReadStatus readStatus;
+
+    public Message(Member sender, Member receiver, String text) {
         this.sender = sender;
         this.receiver = receiver;
         this.text = text;
+        this.readStatus = ReadStatus.UNREAD;
     }
 
-    public Message(Member sender, Member receiver, String text) {
-        this.sender = sender.getId();
-        this.receiver = receiver.getId();
-        this.text = text;
+    public String getFormatUpdatedDate() {
+        return DateConverter.convertToFormat(getUpdatedDate());
+    }
+
+    public String getReceiverName() {
+        return receiver.getNickname();
+    }
+
+    public String getSenderName() {
+        return sender.getNickname();
+    }
+
+    public Long getSenderId() {
+        return sender.getId();
+    }
+
+    public String getReadStatus() {
+        return readStatus.getStatus();
     }
 }

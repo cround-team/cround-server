@@ -1,11 +1,9 @@
 package croundteam.cround.message.application.dto;
 
+import croundteam.cround.member.domain.Member;
 import croundteam.cround.message.domain.Message;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -14,18 +12,23 @@ public class FindMessageResponse {
     private Long id;
     private Long sender;
     private Long receiver;
+    private String readStatus;
     private String text;
-    private LocalDateTime updatedDate;
+    private String updatedDate;
+    private String nickname;
 
-    public FindMessageResponse(Message message) {
+    public FindMessageResponse(Member member, Message message) {
         this.id = message.getId();
-        this.sender = message.getSender();
-        this.receiver = message.getReceiver();
+        this.sender = message.getSender().getId();
+        this.receiver = message.getReceiver().getId();
+        this.readStatus = message.getReadStatus();
         this.text = message.getText();
-        this.updatedDate = message.getUpdatedDate();
+        this.updatedDate = message.getFormatUpdatedDate();
+        this.nickname = getReceiverName(member, message);
     }
 
-    public LocalDate convertUpdatedDateToLocalDate() {
-        return updatedDate.toLocalDate();
+    private String getReceiverName(Member member, Message message) {
+        Long senderId = message.getSenderId();
+        return member.isSender(senderId) ? message.getReceiverName() : message.getSenderName();
     }
 }

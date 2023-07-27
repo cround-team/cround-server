@@ -3,6 +3,7 @@ package croundteam.cround.support.vo;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.AuthProvider;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.domain.Nickname;
 import croundteam.cround.security.exception.InvalidProviderTypeException;
 import lombok.Builder;
 import lombok.Getter;
@@ -79,10 +80,10 @@ public class OAuthAttributes {
     public Member toEntity() {
         return Member.builder()
                 .username(name)
+                .nickname(Nickname.create(name))
                 .email(email)
                 .password(null)
                 .authProvider(AuthProvider.KAKAO)
                 .build();
     }
 }
-
