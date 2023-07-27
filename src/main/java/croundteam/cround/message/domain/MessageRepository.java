@@ -2,6 +2,7 @@ package croundteam.cround.message.domain;
 
 import croundteam.cround.member.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -19,5 +20,9 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     @Query("SELECT m FROM Message m WHERE (m.sender = :sender AND m.receiver = :receiver) OR (m.sender = :receiver AND m.receiver = :sender) ORDER BY m.id")
     List<Message> findMessageBySenderAndReceiver(@Param("sender") Member sender, @Param("receiver") Member receiver);
+
+    @Modifying
+    @Query("UPDATE Message m SET m.readStatus = 'READ' WHERE m.receiver = :sender and m.sender = :receiver")
+    void updateMessageReadStatusByReceiver(@Param("sender") Member sender, @Param("receiver") Member receiver);
 
 }

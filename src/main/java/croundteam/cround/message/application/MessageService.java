@@ -56,11 +56,13 @@ public class MessageService {
         return new FindMessageResponses(member, messages);
     }
 
+    @Transactional
     public DetailMessageResponses findMessage(Long memberId, LoginMember loginMember) {
         Member sender = findMemberByEmail(loginMember.getEmail());
         Member receiver = findMemberById(memberId);
 
         List<Message> messages = messageRepository.findMessageBySenderAndReceiver(sender, receiver);
+        messageRepository.updateMessageReadStatusByReceiver(sender, receiver);
 
         return new DetailMessageResponses(messages, sender, receiver);
     }
