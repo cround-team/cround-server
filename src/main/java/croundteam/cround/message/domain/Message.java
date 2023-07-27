@@ -29,10 +29,15 @@ public class Message extends BaseTime {
     @Column(nullable = false)
     private String text;
 
+    @Column(nullable = false, length = 10)
+    @Enumerated(EnumType.STRING)
+    private ReadStatus readStatus;
+
     public Message(Member sender, Member receiver, String text) {
         this.sender = sender;
         this.receiver = receiver;
         this.text = text;
+        this.readStatus = ReadStatus.UNREAD;
     }
 
     public String getFormatUpdatedDate() {
