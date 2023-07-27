@@ -73,6 +73,7 @@ public class Member extends BaseTime {
     public void update(Member member) {
         this.email = member.getEmail();
         this.username = member.getUsername();
+        this.nickname = member.getEmbeddedNickname();
     }
 
     public void updateMember(MemberUpdateRequest memberUpdateRequest) {
@@ -81,10 +82,7 @@ public class Member extends BaseTime {
     }
 
     public boolean isSocial() {
-        if (authProvider.isSocial()) {
-            return true;
-        }
-        return false;
+        return authProvider.isSocial();
     }
 
     public void follow(Creator target) {
@@ -98,6 +96,11 @@ public class Member extends BaseTime {
     public String getNickname() {
         return nickname.getName();
     }
+
+    public Nickname getEmbeddedNickname() {
+        return nickname;
+    }
+
 
     public void updateCreatorType() {
         role = Role.CREATOR;

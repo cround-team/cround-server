@@ -55,4 +55,8 @@ public class Message extends BaseTime {
     public Long getSenderId() {
         return sender.getId();
     }
+
+    public String getReadStatus() {
+        return readStatus.getStatus();
+    }
 }
