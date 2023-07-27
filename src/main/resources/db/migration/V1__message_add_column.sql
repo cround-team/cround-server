@@ -1,0 +1,1 @@
+ALTER TABLE message ADD read_status VARCHAR(10) NOT NULL;
