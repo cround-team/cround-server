@@ -13,6 +13,7 @@ import io.jsonwebtoken.lang.Collections;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -91,11 +92,23 @@ public class CreatorQueryRepository {
                 .groupBy(creator.id)
                 .fetch();
 
+        List<Long> randoms = createRandomBy(ids, size);
+
         return jpaQueryFactory
                 .selectFrom(creator)
                 .join(creator.member, member).fetchJoin()
-                .where(creator.id.in(createRandomBy(ids, size)))
+                .where(creator.id.in(randoms))
                 .fetch();
+    }
+
+    private BooleanBuilder filterByPlatform(List<String> platforms) {
+        if (Collections.isEmpty(platforms)) return null;
+
+        BooleanBuilder booleanBuilder = new BooleanBuilder();
+        for (String platform : platforms) {
+            booleanBuilder.or(creator.platform.platformHeadType.eq(PlatformType.create(platform)));
+        }
+        return booleanBuilder;
     }
 
     private List<Long> createRandomBy(List<Long> ids, int size) {
@@ -110,18 +123,6 @@ public class CreatorQueryRepository {
             randoms.add(e);
         }
         return new ArrayList<>(randoms);
-    }
-
-    private BooleanBuilder filterByPlatform(List<String> platforms) {
-        if (Objects.isNull(platforms) || Collections.isEmpty(platforms)) {
-            return null;
-        }
-
-        BooleanBuilder booleanBuilder = new BooleanBuilder();
-        for (String platform : platforms) {
-            booleanBuilder.or(creator.platform.platformHeadType.eq(PlatformType.create(platform)));
-        }
-        return booleanBuilder;
     }
 
     private BooleanBuilder containsKeyword(String keyword) {
@@ -140,7 +141,7 @@ public class CreatorQueryRepository {
                 .where(tag.tagName.name.contains(keyword))
                 .fetch();
 
-        if(Objects.isNull(tagIds) || tagIds.isEmpty()) {
+        if(CollectionUtils.isEmpty(tagIds)) {
             return null;
         }
         return creator.creatorTags.creatorTags.any().id.in(tagIds);
