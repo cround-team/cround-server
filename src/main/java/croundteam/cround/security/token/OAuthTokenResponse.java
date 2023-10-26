@@ -1,6 +1,5 @@
 package croundteam.cround.security.token;
 
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;

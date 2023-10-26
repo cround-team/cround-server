@@ -1,21 +1,25 @@
 package croundteam.cround.member.application;
 
+import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.CreatorRepository;
+import croundteam.cround.member.application.client.KakaoClient;
+import croundteam.cround.member.application.client.KakaoOAuthClient;
+import croundteam.cround.member.application.client.KakaoOAuthProperties;
+import croundteam.cround.member.application.client.KakaoOAuthRequest;
 import croundteam.cround.member.application.dto.LoginSuccessResponse;
+import croundteam.cround.member.application.dto.MemberLoginRequest;
 import croundteam.cround.member.application.dto.TokenResponse;
-import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.member.domain.Member;
+import croundteam.cround.member.domain.MemberRepository;
 import croundteam.cround.member.exception.NotExistMemberException;
 import croundteam.cround.member.exception.PasswordMisMatchException;
-import croundteam.cround.member.domain.MemberRepository;
-import croundteam.cround.member.application.dto.MemberLoginRequest;
-import croundteam.cround.support.BCryptEncoder;
-import croundteam.cround.support.vo.OAuthAttributes;
 import croundteam.cround.security.token.OAuthTokenResponse;
 import croundteam.cround.security.token.RefreshToken;
 import croundteam.cround.security.token.RefreshTokenRepository;
+import croundteam.cround.support.BCryptEncoder;
 import croundteam.cround.support.TokenProvider;
+import croundteam.cround.support.vo.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -41,6 +45,9 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final InMemoryClientRegistrationRepository inMemoryRepository;
+    private final KakaoOAuthClient kakaoOAuthClient;
+    private final KakaoClient kakaoClient;
+    private final KakaoOAuthProperties kakaoOAuthProperties;
 
     @Transactional
     public LoginSuccessResponse login(final MemberLoginRequest memberLoginRequest) {
@@ -58,6 +65,25 @@ public class AuthService {
 
     private Creator findCreatorByMember(Member member) {
         return creatorRepository.findCreatorByMember(member).orElse(null);
+    }
+
+    @Transactional
+    public LoginSuccessResponse loginByOAuthV2(String provider, String code) {
+        KakaoOAuthRequest request = KakaoOAuthRequest.from(code, kakaoOAuthProperties);
+        OAuthTokenResponse response = kakaoOAuthClient.getToken(request);
+        Map<String, Object> userInfo = kakaoClient.getUserInfo(response.getAccessToken());
+        OAuthAttributes attributes = OAuthAttributes.of(provider, "email", userInfo);
+        log.info("=> {} 님이 인증에 성공하였습니다.", attributes.getName());
+
+        Member member = saveOrUpdate(attributes);
+        log.info("=> social {} 에서 {} 이 로그인 하였습니다.", provider, member.getUsername());
+
+        TokenResponse tokenResponse = issueToken(member);
+        refreshTokenRepository.save(createRefreshToken(tokenResponse, member.getId()));
+
+        Creator creator = findCreatorByMember(member);
+
+        return new LoginSuccessResponse(tokenResponse, member, creator);
     }
 
     @Transactional
@@ -80,7 +106,7 @@ public class AuthService {
     }
 
     private Member saveOrUpdate(OAuthAttributes attributes) {
-        Member member = memberRepository.findByEmail(attributes.getEmail()).orElseGet(() -> attributes.toEntity());
+        Member member = memberRepository.findByEmail(attributes.getEmail()).orElseGet(attributes::toEntity);
         member.update(member);
         return memberRepository.save(member);
     }
