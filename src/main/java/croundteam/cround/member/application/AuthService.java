@@ -3,8 +3,8 @@ package croundteam.cround.member.application;
 import croundteam.cround.common.exception.ErrorCode;
 import croundteam.cround.creator.domain.Creator;
 import croundteam.cround.creator.domain.CreatorRepository;
-import croundteam.cround.member.application.client.KakaoClient;
-import croundteam.cround.member.application.client.KakaoOAuthClient;
+import croundteam.cround.member.application.client.KakaoAuthClient;
+import croundteam.cround.member.application.client.KakaoInfoClient;
 import croundteam.cround.member.application.client.KakaoOAuthProperties;
 import croundteam.cround.member.application.client.KakaoOAuthRequest;
 import croundteam.cround.member.application.dto.LoginSuccessResponse;
@@ -31,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
@@ -45,8 +47,8 @@ public class AuthService {
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
     private final InMemoryClientRegistrationRepository inMemoryRepository;
-    private final KakaoOAuthClient kakaoOAuthClient;
-    private final KakaoClient kakaoClient;
+    private final KakaoAuthClient kakaoOAuthClient;
+    private final KakaoInfoClient kakaoInfoClient;
     private final KakaoOAuthProperties kakaoOAuthProperties;
 
     @Transactional
@@ -70,8 +72,11 @@ public class AuthService {
     @Transactional
     public LoginSuccessResponse loginByOAuthV2(String provider, String code) {
         KakaoOAuthRequest request = KakaoOAuthRequest.from(code, kakaoOAuthProperties);
-        OAuthTokenResponse response = kakaoOAuthClient.getToken(request);
-        Map<String, Object> userInfo = kakaoClient.getUserInfo(response.getAccessToken());
+        log.info("request = {}", request);
+        OAuthTokenResponse response = kakaoOAuthClient.getToken(request.toString());
+        log.info("response = {}", response);
+
+        Map<String, Object> userInfo = kakaoInfoClient.getUserInfo("Bearer " + response.getAccessToken());
         OAuthAttributes attributes = OAuthAttributes.of(provider, "email", userInfo);
         log.info("=> {} 님이 인증에 성공하였습니다.", attributes.getName());
 
@@ -84,6 +89,14 @@ public class AuthService {
         Creator creator = findCreatorByMember(member);
 
         return new LoginSuccessResponse(tokenResponse, member, creator);
+    }
+
+    private URI makeURI(String rootUri) {
+        try {
+            return new URI(rootUri);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Transactional

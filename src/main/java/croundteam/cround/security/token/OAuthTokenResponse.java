@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class OAuthTokenResponse {
     private String scope;
 
@@ -15,6 +17,9 @@ public class OAuthTokenResponse {
 
     @JsonProperty("token_type")
     private String tokenType;
+
+    @JsonProperty("expires_in")
+    private String expiresIn;
 
     @JsonProperty("refresh_token")
     private String refreshToken;
@@ -32,10 +37,13 @@ public class OAuthTokenResponse {
     private String errorUri;
 
     @Builder
-    public OAuthTokenResponse(String scope, String accessToken, String tokenType, String refreshToken, String refreshTokenExpiresIn, String error, String errorDescription, String errorUri) {
+    public OAuthTokenResponse(final String scope, final String accessToken, final String tokenType,
+                              final String expiresIn, final String refreshToken, final String refreshTokenExpiresIn,
+                              final String error, final String errorDescription, final String errorUri) {
         this.scope = scope;
         this.accessToken = accessToken;
         this.tokenType = tokenType;
+        this.expiresIn = expiresIn;
         this.refreshToken = refreshToken;
         this.refreshTokenExpiresIn = refreshTokenExpiresIn;
         this.error = error;

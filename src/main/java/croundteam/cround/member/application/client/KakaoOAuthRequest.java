@@ -1,14 +1,13 @@
 package croundteam.cround.member.application.client;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import feign.form.FormProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
-@ToString
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class KakaoOAuthRequest {
 
     private String code;
@@ -32,10 +31,18 @@ public class KakaoOAuthRequest {
 
     public static KakaoOAuthRequest from(final String code, final KakaoOAuthProperties googleOAuthProperties) {
         return KakaoOAuthRequest.builder()
-                .code("Bearer " + code)
+                .code(code)
                 .grantType(googleOAuthProperties.getGrantType())
                 .clientId(googleOAuthProperties.getClientId())
                 .redirectUri(googleOAuthProperties.getRedirectUri())
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return "code=" + code + '&' +
+                "client_id=" + clientId + '&' +
+                "redirect_uri=" + redirectUri + '&' +
+                "grant_type=" + grantType;
     }
 }

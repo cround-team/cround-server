@@ -11,29 +11,30 @@ import org.springframework.cloud.openfeign.support.SpringDecoder;
 import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 @Configuration
 public class KakaoClientConfig {
 
     @Bean
-    Logger.Level kakaoLoggerLevel() {
+    Logger.Level kakaoOAuthLoggerLevel() {
         return Logger.Level.FULL;
     }
 
     @Bean
-    public RequestInterceptor kakaoRequestInterceptor() {
-        return requestInterceptor -> requestInterceptor.header("Accept", MediaType.APPLICATION_JSON_VALUE);
+    public RequestInterceptor kakaoOAuthRequestInterceptor() {
+        return requestTemplate -> {
+            requestTemplate.header("Content-Type", "application/x-www-form-urlencoded");
+        };
     }
 
     @Bean
-    public feign.codec.Encoder kakaoEncoder() {
+    public feign.codec.Encoder kakaoOAuthEncoder() {
         return new SpringEncoder(() -> new HttpMessageConverters(camelCaseMessageConverter()));
     }
 
     @Bean
-    public feign.codec.Decoder kakaoDecoder() {
+    public feign.codec.Decoder kakaoOAuthDecoder() {
         return new ResponseEntityDecoder(new SpringDecoder(() -> new HttpMessageConverters(camelCaseMessageConverter())));
     }
 
@@ -45,4 +46,5 @@ public class KakaoClientConfig {
         converter.setObjectMapper(objectMapper);
         return converter;
     }
+
 }
