@@ -1,5 +1,6 @@
 package croundteam.cround.member.application.client;
 
+import croundteam.cround.config.feign.KakaoClientConfig;
 import croundteam.cround.security.token.OAuthTokenResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

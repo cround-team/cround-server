@@ -1,4 +1,4 @@
-package croundteam.cround.member.application.client;
+package croundteam.cround.config.feign;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;

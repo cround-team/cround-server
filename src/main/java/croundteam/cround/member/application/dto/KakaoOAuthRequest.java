@@ -1,11 +1,14 @@
-package croundteam.cround.member.application.client;
+package croundteam.cround.member.application.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import croundteam.cround.config.properties.KakaoOAuthProperties;
 import feign.form.FormProperty;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class KakaoOAuthRequest {

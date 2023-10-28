@@ -1,10 +1,10 @@
 package croundteam.cround.member.application.client;
 
+import croundteam.cround.config.feign.KakaoClientConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-import java.net.URI;
 import java.util.Map;
 
 @FeignClient(name = "kakaoInfoClient", url = "${oauth2.client.provider.kakao.info-root-url}", configuration = KakaoClientConfig.class)

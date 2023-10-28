@@ -1,10 +1,10 @@
 package croundteam.cround.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.common.contenttype.ContentType;
 import croundteam.cround.common.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.entity.ContentType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package croundteam.cround.member.application.client;
+package croundteam.cround.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;
