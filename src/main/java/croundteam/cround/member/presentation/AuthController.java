@@ -36,7 +36,7 @@ public class AuthController {
     public ResponseEntity<LoginResponse> loginByOAuth(
             @PathVariable final String provider,
             @RequestParam final String code) {
-        LoginSuccessResponse successResponse = authService.loginByOAuth(provider, code);
+        LoginSuccessResponse successResponse = authService.loginByOAuthV2(provider, code);
         ResponseCookie responseCookie = createResponseCookie(successResponse);
 
         return ResponseEntity.ok()
